@@ -8,6 +8,8 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
@@ -18,6 +20,9 @@ public class Enemy extends ApplicationAdapter{
 	private Texture enemyTexture;
 	private Rectangle bounds;
 	private Player player;
+	private Rectangle screenBounds;
+	private SpriteBatch batch;
+	private Sprite mafia;
 	
 	
 	public Enemy (Vector2 position, Player player) {
@@ -27,6 +32,38 @@ public class Enemy extends ApplicationAdapter{
 		this.player = player;
 	}
 
+	@Override
+	public void render() {
+		update();
+
+		final Rectangle bounds = mafia.getBoundingRectangle();
+		//TODO:: Viewport if using camera? Check for screen resizing issues?
+
+		float left = bounds.getX();
+		float bottom = bounds.getY();
+		float top = bottom + bounds.getHeight();
+		float right = left + bounds.getWidth();
+
+		// Screen
+		float screenLeft = screenBounds.getX();
+		float screenBottom = screenBounds.getY();
+		float screenTop = screenBottom + screenBounds.getHeight();
+		float screenRight = screenLeft + screenBounds.getWidth();
+/*
+		int xMove = controller.resultingMovementX();
+		int yMove = controller.resultingMovementY();
+
+		if (xMove != 0) {
+			mafia.translateX(xMove);
+		} else if (yMove != 0) {
+			mafia.translateY(yMove);
+		}
+*/
+
+		batch.begin();
+		mafia.draw(batch);
+		batch.end();
+	}
 	
 	public void update() {
 		bounds = new Rectangle(position.x, position.y, 25, 25);

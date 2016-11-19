@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
@@ -27,10 +28,12 @@ public class GameScreen implements Screen {
     public Texture img;
 
     private Player player;
+    Vector2 enemyPos = new Vector2(1,1);
 
     public GameScreen(RogueLite game) {
         this.game = game;
         this.player = new Player(game.batch);
+        this.enemy = new Enemy(enemyPos, player);
 
         img = new Texture("badlogic.jpg");
         //this.enemy = new Enemy(2, player);
@@ -41,6 +44,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         player.render();
+
     }
 
     @Override
