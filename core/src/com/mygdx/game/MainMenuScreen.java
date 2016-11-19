@@ -33,8 +33,8 @@ public class MainMenuScreen implements Screen {
 
     public MainMenuScreen(final RogueLite gam) {
         game = gam;
-        this.atlas = new TextureAtlas("D:\\CompSocGameJam\\!ShefGameJam\\ShefGameJam\\core\\assets\\skins\\glassy\\skin\\glassy-ui.atlas");
-        this.skin = new Skin(Gdx.files.internal("D:\\CompSocGameJam\\!ShefGameJam\\ShefGameJam\\core\\assets\\skins\\glassy\\skin\\glassy-ui.json"), atlas);
+        this.atlas = new TextureAtlas("skins/glassy/skin/glassy-ui.atlas");
+        this.skin = new Skin(Gdx.files.internal("skins/glassy/skin/glassy-ui.json"), atlas);
         //backgroundTexture = new TextureRegion(new Texture("back.jpg"), 0, 0, 1920, 1080);
 
         camera = new OrthographicCamera();
