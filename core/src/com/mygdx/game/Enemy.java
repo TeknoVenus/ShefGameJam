@@ -6,30 +6,30 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 
 
 public class Enemy {
-	private Vector position;
+	private Vector2 position;
 	private Texture enemyTexture;
 	private Rectangle bounds;
 	private Player player;
 	
 	
-	public Enemy (Vector position, Player player) {
-		enemyTexture = new Texture
+	public Enemy (Vector2 position, Player player) {
+		enemyTexture = new Texture(Gdx.files.internal("textures/enemy.png"));
 		this.position = position;
 		bounds = new Rectangle(position.x, position.y, 25,25);
 		this.player = player;
 	}
-	
+
 	
 	public void update() {
 		bounds = new Rectangle(position.x, position.y, 25, 25);
-		if (player.getPosition().x > position.x) {
+		if (player.getX() > position.x) {
 			position.x++;
 		}
 		
@@ -37,7 +37,7 @@ public class Enemy {
 			position.x--;
 		}
 		
-		if (player.getPosition().y > position.y) {
+		if (player.getY() > position.y) {
 			position.y++;
 		}
 		else {
@@ -45,11 +45,11 @@ public class Enemy {
 		}
 	}
 	
-	public Vector getPosition() {
+	public Vector2 getPosition() {
 		return position;
 	}
 	
-	public void setPosition(Vector position) {
+	public void setPosition(Vector2 position) {
 		this.position = position;
 	}
 	
@@ -62,7 +62,7 @@ public class Enemy {
 	}
 	
 	public Rectangle getBounds() {
-		return bounds
+		return bounds;
 	}
 	
 	public void setBounds(Rectangle bounds) {
