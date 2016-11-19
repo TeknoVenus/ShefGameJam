@@ -4,21 +4,45 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
 public class InputReciever {
-	public static boolean isMoveUp() {
+	public boolean isMoveUp() {
 		return Gdx.input.isKeyPressed(Input.Keys.UP) || 
 				Gdx.input.isKeyPressed(Input.Keys.W);
 	}
 
-	public static boolean isMoveLeft() {
+	public boolean isMoveLeft() {
 		return Gdx.input.isKeyPressed(Input.Keys.LEFT) || 
 				Gdx.input.isKeyPressed(Input.Keys.A);
 	}
 
-	public static boolean isMoveRight() {
+	public boolean isMoveRight() {
 		return Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.R);
 	}
 
-	public static boolean isMoveDown() {
+	public boolean isMoveDown() {
 		return Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S);
+	}
+	
+	// these methods return -1 to 1 for extent of movement each frame
+	
+	public int resultingMovementX() {
+		int x = 0;
+		if (isMoveRight()) {
+			x+= 1;
+		}
+		if (isMoveLeft()) {
+			x-= 1;
+		}
+		return x;
+	}
+	
+	public int resultingMovementY() {
+		int y = 0;
+		if (isMoveRight()) {
+			y+= 1;
+		}
+		if (isMoveLeft()) {
+			y-= 1;
+		}
+		return y;
 	}
 }
