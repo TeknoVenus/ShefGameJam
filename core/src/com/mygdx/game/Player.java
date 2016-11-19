@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Player extends ApplicationAdapter {
 	private int x = 50;
 	private int y = 50;
+	private boolean shoot;
 	private SpriteBatch batch;
 	private Texture img;
 	private InputReciever controller = new InputReciever();
@@ -22,8 +23,9 @@ public class Player extends ApplicationAdapter {
 	}
 
 	public void update() {
-		this.x += controller.resultingMovementX();
-		this.y += controller.resultingMovementY();
+		x += controller.resultingMovementX();
+		y += controller.resultingMovementY();
+		shoot = controller.isShoot();
 	}
 	
 	@Override
@@ -38,5 +40,9 @@ public class Player extends ApplicationAdapter {
 	public void dispose() {
 		batch.dispose();
 		img.dispose();
+	}
+
+	public boolean isShoot() {
+		return shoot;
 	}
 }

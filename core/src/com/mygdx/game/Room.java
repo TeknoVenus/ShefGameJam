@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 
+=======
+package com.mygdx.game;
+>>>>>>> origin/master
 
 public class Room{
 
