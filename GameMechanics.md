@@ -6,7 +6,9 @@ A document for outlining the structure and mechanics of the game, so we're all o
 * Killing enemies enables you to absorb them, giving you points
 * Points can then be exchanged for abilities through 'Evolution' at the end of each level
 * Certain 'Mutations' cost more or less, and are intended to be obtained at different points in the game
+
 ## Controls
+
 ### Movement
 WASD or Arrows for Up/Down/Left/Right
 
