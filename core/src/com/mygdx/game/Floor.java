@@ -1,25 +1,25 @@
 package com.mygdx.game;
 
 public class Floor {
-
-	private static final int FLOOR_SIZE = 6;
-	private static int[][] floor = new int[FLOOR_SIZE][FLOOR_SIZE];
+	private static final int FLOOR_SIZE = 20;
+	private static int[][] floorArray = new int[FLOOR_SIZE][FLOOR_SIZE];
+	public static final int ENTIRE_FLOOR_GEN_ATTEMPTS = 250;
 
 	public static int getFloorInt(int x, int y){
-		return floor[y][x];
+		return floorArray[y][x];
 	}
 	public static void setFloorInt(int x, int y, int z){
-		floor[y][x] = z;
+		floorArray[y][x] = z;
 	}
 
 	public static int[][] getFloor() {
-		return floor;
+		return floorArray;
 	}
 
 	public static double random(int x) {
 		return (double) x * Math.random();
 	}
-	public static boolean isValidUp(int below, int above){
+	public static boolean isValidBelowUp(int below, int above){
 		switch(below){
 		case 1:
 		case 3:
@@ -40,49 +40,8 @@ public class Floor {
 			return false;
 		}
 	}
-	/*public static boolean isValidDown(int x, int y){
-		switch(x){
-		case 4:
-		case 5:
-		case 6:
-		case 7:
-		case 12:
-		case 13:
-		case 14:
-		case 15:
-			int[] container = {2,4,6,8,10,12,14};
-			for (int i : container){
-				if (y == i)
-					return false;
-
-			}
-			return true;
-		default:
-			return false;
-		}
-	}
-	public static boolean isValidLeft(int x, int y){
-		switch(x){
-		case 8:
-		case 9:
-		case 10:
-		case 11:
-		case 12:
-		case 13:
-		case 14:
-		case 15:
-			int[] container = {1,4,5,8,9,12,13};
-			for (int i : container){
-				if (y == i)
-					return false;
-
-			}
-			return true;
-		default:
-			return false;
-		}
-	}*/
-	public static boolean isValidRight(int left, int right) {
+	
+	public static boolean isValidLeftRight(int left, int right) {
 		switch(left) {
 		case 2:
 		case 3:
@@ -96,23 +55,22 @@ public class Floor {
 			for (int i : container){
 				if (right == i)
 					return true;
-
 			}
 			return false;
 		default:
 			return false;
-
 		}
 	}
 
 	public static void generate(){
-		floor = new int[FLOOR_SIZE][FLOOR_SIZE];
+		floorArray = new int[FLOOR_SIZE][FLOOR_SIZE];
 		int centre = FLOOR_SIZE/2;
 		System.out.println(centre);
 		int targetX = centre;
 		int targetY = centre;
 		// look at the centre of the floors
-		for (int i = 0; i<FLOOR_SIZE*FLOOR_SIZE*5; i++) {
+		for (int i = 0; 
+				i<FLOOR_SIZE*FLOOR_SIZE*ENTIRE_FLOOR_GEN_ATTEMPTS; i++) {
 			int possibleFloor = (int)(random(14)+1);
 			if (i==0) {
 				possibleFloor = 15;
@@ -128,7 +86,7 @@ public class Floor {
 						int targetConnectY = targetY-1;
 						if (targetConnectY >= 0) {
 							// if target is in the array
-							if (isValidUp(possibleFloor,
+							if (isValidBelowUp(possibleFloor,
 									getFloorInt(targetConnectX,
 									targetConnectY))) {
 								// there's actually a way to connect 
@@ -142,7 +100,7 @@ public class Floor {
 						targetConnectY = targetY+1;
 						if (targetConnectY < FLOOR_SIZE) {
 							// if target is in the array
-							if (isValidUp(getFloorInt(targetConnectX,
+							if (isValidBelowUp(getFloorInt(targetConnectX,
 									targetConnectY),
 									possibleFloor)) {
 								// there's actually a way to connect 
@@ -156,7 +114,7 @@ public class Floor {
 						targetConnectY = targetY;
 						if (targetConnectX >= 0) {
 							// if target is in the array
-							if (isValidRight(getFloorInt(targetConnectX,
+							if (isValidLeftRight(getFloorInt(targetConnectX,
 									targetConnectY),
 									possibleFloor)) {
 								// there's actually a way to connect 
@@ -171,7 +129,7 @@ public class Floor {
 						targetConnectY = targetY;
 						if (targetConnectX < FLOOR_SIZE) {
 							// if target is in the array
-							if (isValidRight(possibleFloor,
+							if (isValidLeftRight(possibleFloor,
 									getFloorInt(targetConnectX,
 									targetConnectY))) {
 								// there's actually a way to connect 
@@ -184,7 +142,7 @@ public class Floor {
 				} 
 			}
 		}
-		for (int[] row : floor) {
+		for (int[] row : floorArray) {
 			for (int individualFloor : row) {
 				String s = "";
 				switch (individualFloor) {
