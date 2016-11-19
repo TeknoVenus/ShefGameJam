@@ -11,7 +11,7 @@ public class Player extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private Texture img;
 	private InputReciever controller = new InputReciever();
-	
+
 	public Player() {
 
 	}
