@@ -5,6 +5,7 @@
 
 package com.mygdx.game;
 
+import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
@@ -12,7 +13,7 @@ import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 
 
-public class Enemy {
+public class Enemy extends ApplicationAdapter{
 	private Vector2 position;
 	private Texture enemyTexture;
 	private Rectangle bounds;
@@ -44,10 +45,13 @@ public class Enemy {
 			position.y--;
 		}
 	}
-	@Override
+
+
+
 	public void dispose(){
-		
+		player.setKillCount(player.getKillCount() + 1);
 	}
+
 
 	public Vector2 getPosition() {
 		return position;

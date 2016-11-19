@@ -11,12 +11,13 @@ import com.badlogic.gdx.graphics.Texture;
 public class GameScreen implements Screen {
 
     final RogueLite game;
-
+    private Enemy enemy;
     public Texture img;
 
     public GameScreen(RogueLite game) {
         this.game = game;
         img = new Texture("badlogic.jpg");
+        this.enemy = new Enemy(2, player);
     }
 
     public void render(float deltaTime) {
