@@ -1,8 +1,32 @@
-import java.util.Arrays;
+
 
 public class Room{
+
 	private static final int ROOM_SIZE = 10;
-	
+	private static int[][] room = new int[ROOM_SIZE][ROOM_SIZE];
+	private static int[] axis = {ROOM_SIZE/2, ROOM_SIZE/2};
+
+	public int getRoomInt(int x, int y){
+		return room[x][y];
+	}
+	public static void setRoomInt(int x, int y, int z){
+		room[x][y] = z;
+	}
+
+	public static int getAxisX(){
+		return axis[0];
+	}
+	public static int getAxisY(){
+		return axis[1];
+	}
+
+	public void setAxisX(int x){
+		axis[0] = x;
+	}
+	public void setAxisY(int y){
+		axis[1] = y;
+	}
+
 	public static double random(int x) {
 		return (double) x * Math.random();
 	}
@@ -27,7 +51,7 @@ public class Room{
 				return false;
 		}
 	}
-	public boolean isValidDown(int x, int y){
+	public static boolean isValidDown(int x, int y){
 		switch(x){
 		case 4:
 		case 5:
@@ -91,29 +115,40 @@ public class Room{
 
 		}
 	}
-		
-	
-	public static void generate(){
+
+	public static void populate(int axisX, int axisY){
 		int[][] room = new int[ROOM_SIZE][ROOM_SIZE];
 		int centre = ROOM_SIZE/2;
-		room[centre][centre] = 15;
-		int curRoom = 15;
-		int[] axis = {centre, centre};
-		for (int i=0; i<4; i++) {
+		while(true){
+		int possibleRoom = (int)random(15);
+		if (isValidUp(possibleRoom, room[axisY][axisX])){
+			setRoomInt(getAxisY()-1,getAxisX(), possibleRoom);
+
+	}
+		possibleRoom = (int)random(15);
+		if (isValidRight(possibleRoom, room[axisY][axisX])){
+			setRoomInt(getAxisY(),getAxisX()+1, possibleRoom);
+	}
+		possibleRoom = (int)random(15);
+		if (isValidDown(possibleRoom, room[axisY][axisX])){
+			setRoomInt(getAxisY()+1,getAxisX(), possibleRoom);
+	}
+		possibleRoom = (int)random(15);
+		if (isValidLeft(possibleRoom, room[axisY][axisX])){
+			setRoomInt(getAxisY(),getAxisX()-1, possibleRoom);
+		int dice = (int)random(40);
+			if (dice == 20)
+				break;
 		}
-		if (room[centre-1][centre] == 0){
-			//GEN ROOM BASED ON DOOR LOCATION
-			int possibleRoom = (int)random(15);
-			if (isValidUp(possibleRoom, curRoom)){
-				room[centre-1][centre] = possibleRoom;
+	}}
 
-			}
-			else{
+	public static void generate(){
+		int centre = ROOM_SIZE/2;
+		setRoomInt(centre, centre, 15);
+		int curRoom = 15;
 
 
-
-			}
-			}
+		populate(axis[0], axis[1]);
 		for (int i=0;i<room.length;i++){
 			for (int j=0;j<room[i].length; j++){
 				System.out.print(room[i][j]);
