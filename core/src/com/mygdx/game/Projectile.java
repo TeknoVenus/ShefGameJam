@@ -1,36 +1,41 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Vector3;
 
 /**
- * Created by Matt
+ * Created by Matt, 19/11/2016
  */
 public class Projectile {
-    private Vector2 position;
-    private float velocity;
+    private Vector3 position;
+    private float speed;
+    private Vector3 target;
 
-    public Projectile(int xToward, int yToward){
-        position = new Vector2();
+    //Constructor: needs the position of the player, a target, & projectile speed
+    public Projectile(Vector3 currentPos,Vector3 targetPos, float s){
+        position = currentPos;
+        target = targetPos;
+        speed = s;
     }
 
     public void update(){
-        position +=
+        position = position.interpolate(target, speed, Interpolation.linear);
     }
 
-    public void setPosition (Vector2 pos){
+    public void setPosition (Vector3 pos){
         position = pos;
     }
 
-    public Vector2 getPosition(){
+    public Vector3 getPosition(){
         return position;
     }
 
-    public void setVelocity(float vel){
-        velocity = vel;
+    public void setSpeed(float vel){
+        speed = vel;
     }
 
-    public float getVelocity(){
-        return velocity;
+    public float getSpeed(){
+        return speed;
     }
 
 }
