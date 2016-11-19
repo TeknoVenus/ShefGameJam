@@ -4,13 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -24,17 +27,19 @@ public class MainMenuScreen implements Screen {
     private Skin skin;
     private TextureAtlas atlas;
     private Viewport viewport;
+    private TextureRegion backgroundTexture;
 
     OrthographicCamera camera;
 
     public MainMenuScreen(final RogueLite gam) {
         game = gam;
-        this.atlas = new TextureAtlas("D:\\CompSocGameJam\\!ShefGameJam\\ShefGameJam\\core\\assets\\skins\\kenney-pixel\\skin\\skin.atlas");
-        this.skin = new Skin(Gdx.files.internal("D:\\CompSocGameJam\\!ShefGameJam\\ShefGameJam\\core\\assets\\skins\\kenney-pixel\\skin\\skin.json"), atlas);
+        this.atlas = new TextureAtlas("D:\\CompSocGameJam\\!ShefGameJam\\ShefGameJam\\core\\assets\\skins\\glassy\\skin\\glassy-ui.atlas");
+        this.skin = new Skin(Gdx.files.internal("D:\\CompSocGameJam\\!ShefGameJam\\ShefGameJam\\core\\assets\\skins\\glassy\\skin\\glassy-ui.json"), atlas);
+        backgroundTexture = new TextureRegion(new Texture("back.jpg"), 0, 0, 1920, 1080);
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
-        viewport = new FitViewport(800, 400, camera);
+        camera.setToOrtho(false, 1920, 1080);
+        viewport = new FitViewport(1920, 1000, camera);
         viewport.apply();
         stage = new Stage(viewport, game.batch);
     }
@@ -67,10 +72,14 @@ public class MainMenuScreen implements Screen {
             }
         });
 
+        playButton.getLabel().setFontScale(2, 2);
+        exitButton.getLabel().setFontScale(2, 2);
+
         //Add buttons to table
-        mainTable.add(playButton).size((Gdx.graphics.getWidth()) - (Gdx.graphics.getWidth() / 4), Gdx.graphics.getHeight() / 8).row();
+        mainTable.add(playButton).size((Gdx.graphics.getWidth()) - (Gdx.graphics.getWidth() / 4), Gdx.graphics.getHeight() / 6).pad(40).row();
+
         mainTable.row();
-        mainTable.add(exitButton).size((Gdx.graphics.getWidth()) - (Gdx.graphics.getWidth() / 4), Gdx.graphics.getHeight() / 8).row();
+        mainTable.add(exitButton).size((Gdx.graphics.getWidth()) - (Gdx.graphics.getWidth() / 4), Gdx.graphics.getHeight() / 6).pad(40).row();
 
         //Add table to stage
         stage.addActor(mainTable);
@@ -81,12 +90,17 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClearColor(.1f, .12f, .16f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.input.setInputProcessor(stage);
+        //game.batch.begin();
+       // game.batch.draw(backgroundTexture, 0, Gdx.graphics.getHeight());
+        //game.batch.end();
         stage.act();
         stage.draw();
+
     }
 
     @Override
     public void resize(int width, int height) {
+        viewport.update(width, height);
     }
 
     @Override
