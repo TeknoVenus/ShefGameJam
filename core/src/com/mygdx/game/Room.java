@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-
-=======
-package com.mygdx.game;
->>>>>>> origin/master
 
 public class Room{
 
@@ -24,10 +19,10 @@ public class Room{
 		return axis[1];
 	}
 
-	public void setAxisX(int x){
+	public static void setAxisX(int x){
 		axis[0] = x;
 	}
-	public void setAxisY(int y){
+	public static void setAxisY(int y){
 		axis[1] = y;
 	}
 
@@ -138,18 +133,21 @@ public class Room{
 			setRoomInt(getAxisY()+1,getAxisX(), possibleRoom);
 	}
 		possibleRoom = (int)random(15);
-		if (isValidLeft(possibleRoom, room[axisY][axisX])){
-			setRoomInt(getAxisY(),getAxisX()-1, possibleRoom);
-		int dice = (int)random(40);
+		if (isValidLeft(possibleRoom, room[axisY][axisX])) {
+			setRoomInt(getAxisY(), getAxisX() - 1, possibleRoom);
+
+		}
+			int dice = (int) random(40);
 			if (dice == 20)
 				break;
+			setAxisX(getAxisY());
+			setAxisY(getAxisX());
 		}
-	}}
+	}
 
 	public static void generate(){
 		int centre = ROOM_SIZE/2;
 		setRoomInt(centre, centre, 15);
-		int curRoom = 15;
 
 
 		populate(axis[0], axis[1]);
