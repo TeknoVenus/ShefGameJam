@@ -19,8 +19,8 @@ public class Floor {
 	public static double random(int x) {
 		return (double) x * Math.random();
 	}
-	public static boolean isValidUp(int x, int y){
-		switch(x){
+	public static boolean isValidUp(int below, int above){
+		switch(below){
 		case 1:
 		case 3:
 		case 5:
@@ -31,16 +31,16 @@ public class Floor {
 		case 15:
 			int[] container = {4,5,6,7,12,13,14,15};
 			for (int i : container){
-				if (y == i)
-					return false;
+				if (above == i)
+					return true;
 
 			}
-			return true;
+			return false;
 		default:
 			return false;
 		}
 	}
-	public static boolean isValidDown(int x, int y){
+	/*public static boolean isValidDown(int x, int y){
 		switch(x){
 		case 4:
 		case 5:
@@ -81,9 +81,9 @@ public class Floor {
 		default:
 			return false;
 		}
-	}
-	public static boolean isValidRight(int x, int y) {
-		switch(x) {
+	}*/
+	public static boolean isValidRight(int left, int right) {
+		switch(left) {
 		case 2:
 		case 3:
 		case 6:
@@ -94,11 +94,11 @@ public class Floor {
 		case 15:
 			int[] container = {8,9,10,11,12,13,14,15};
 			for (int i : container){
-				if (y == i)
-					return false;
+				if (right == i)
+					return true;
 
 			}
-			return true;
+			return false;
 		default:
 			return false;
 
@@ -128,9 +128,9 @@ public class Floor {
 						int targetConnectY = targetY-1;
 						if (targetConnectY >= 0) {
 							// if target is in the array
-							if (isValidDown(getFloorInt(targetConnectX,
-									targetConnectY),
-									possibleFloor)) {
+							if (isValidUp(possibleFloor,
+									getFloorInt(targetConnectX,
+									targetConnectY))) {
 								// there's actually a way to connect 
 								// these floors!
 								setFloorInt(targetX,targetY,possibleFloor);
@@ -171,9 +171,9 @@ public class Floor {
 						targetConnectY = targetY;
 						if (targetConnectX < FLOOR_SIZE) {
 							// if target is in the array
-							if (isValidLeft(getFloorInt(targetConnectX,
-									targetConnectY),
-									possibleFloor)) {
+							if (isValidRight(possibleFloor,
+									getFloorInt(targetConnectX,
+									targetConnectY))) {
 								// there's actually a way to connect 
 								// these floors!
 								setFloorInt(targetX,targetY,possibleFloor);
@@ -201,13 +201,13 @@ public class Floor {
 					s = "  [^]--";
 					break;
 				case 4:
-					s = "  [/]  ";
+					s = "  [˅]  ";
 					break;
 				case 5:
 					s = "  [|]  ";
 					break;
 				case 6:
-					s = "  [/]--";
+					s = "  [˅]--";
 					break;
 				case 7:
 					s = "  [|]--";
@@ -225,13 +225,13 @@ public class Floor {
 					s = "--[^]--";
 					break;
 				case 12:
-					s = "--[/]  ";
+					s = "--[˅]  ";
 					break;
 				case 13:
 					s = "--[|]  ";
 					break;
 				case 14:
-					s = "--[/]--";
+					s = "--[˅]--";
 					break;
 				case 15:
 					s = "--[|]--";
