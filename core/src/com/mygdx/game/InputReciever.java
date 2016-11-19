@@ -4,6 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
 public class InputReciever {
+	
+	private float shotSecondsAgo = 0L;
+	private float shootDelay = 5L;
+	
 	public boolean isMoveUp() {
 		return Gdx.input.isKeyPressed(Input.Keys.UP) || 
 				Gdx.input.isKeyPressed(Input.Keys.W);
@@ -44,5 +48,20 @@ public class InputReciever {
 			y-= 1;
 		}
 		return y;
+	}
+	
+	// triggers on frames when player can re/shoot
+	public boolean isShoot() {
+		shotSecondsAgo += Gdx.graphics.getDeltaTime();
+		if (Gdx.input.isKeyPressed(Input.Buttons.LEFT)) {
+			if (shotSecondsAgo >= shootDelay) {
+				shotSecondsAgo = 0L;
+				return true;
+			}
+		}
+		if (shotSecondsAgo > shootDelay) {
+			shotSecondsAgo = shootDelay;
+		}
+		return false;
 	}
 }
