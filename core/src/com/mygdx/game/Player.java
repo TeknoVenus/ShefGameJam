@@ -105,7 +105,7 @@ public class Player extends ApplicationAdapter {
 		return killCount;
 	}
 
-	private void manageProjectiles(){
+	/*private void manageProjectiles(){
 		Iterator<Projectile> itr = projectiles.iterator();
 		while(itr.hasNext()){
 			Projectile p = itr.next();
@@ -115,5 +115,5 @@ public class Player extends ApplicationAdapter {
 				itr.remove();
 			}
 		}
-	}
+	}*/
 }
