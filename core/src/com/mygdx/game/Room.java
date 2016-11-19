@@ -1,4 +1,4 @@
-import java.util.Arrays;
+package com.mygdx.game;
 
 public class Room{
 	private static final int ROOM_SIZE = 10;
