@@ -4,7 +4,16 @@ public class Floor {
 	private static final int FLOOR_SIZE = 20;
 	private static int[][] floorArray = new int[FLOOR_SIZE][FLOOR_SIZE];
 	public static final int ENTIRE_FLOOR_GEN_ATTEMPTS = 250;
+	public static RoomRepresentation activeRoom;
+	
+	public static void setRoom(RoomRepresentation newRoom) {
+		activeRoom = newRoom;
+	}
 
+	public static RoomRepresentation getRoom() {
+		return activeRoom;
+	}
+	
 	public static int getFloorInt(int x, int y){
 		return floorArray[y][x];
 	}
@@ -12,6 +21,10 @@ public class Floor {
 		floorArray[y][x] = z;
 	}
 
+	public static int getStartFloorInt() {
+		return floorArray[FLOOR_SIZE/2][FLOOR_SIZE/2];
+	}
+	
 	public static int[][] getFloor() {
 		return floorArray;
 	}
@@ -142,7 +155,7 @@ public class Floor {
 				} 
 			}
 		}
-		for (int[] row : floorArray) {
+		/*for (int[] row : floorArray) {
 			for (int individualFloor : row) {
 				String s = "";
 				switch (individualFloor) {
@@ -198,7 +211,7 @@ public class Floor {
 				System.out.print(s);
 			}
 			System.out.println();
-		}
+		}*/
 	}
 
 	public static void main(String[] args) {

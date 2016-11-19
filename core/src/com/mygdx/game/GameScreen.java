@@ -32,6 +32,9 @@ public class GameScreen implements Screen {
 
     public GameScreen(RogueLite game) {
         this.game = game;
+        Floor.generate();
+        Floor.setRoom(new 
+        		RoomRepresentation(Floor.getStartFloorInt()));
         this.player = new Player(game.batch);
         this.enemy = new Enemy(enemyPos, player);
 

@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
@@ -20,7 +22,9 @@ public class Player extends ApplicationAdapter {
 	private Sprite cell;
 	private Texture cellTexture;
 	private Array<Projectile> projectiles;
-
+	// debug only
+	private ShapeRenderer box = new ShapeRenderer();
+	
 	public Player(SpriteBatch batch) {
 		this.batch = batch;
 		cellTexture = new Texture("textures/cell1.png");
@@ -41,16 +45,9 @@ public class Player extends ApplicationAdapter {
 	}
 
 	public void update() {
-/*		x += controller.resultingMovementX();
-		y += controller.resultingMovementY();*/
 		shoot = controller.isShoot();
 		//manageProjectiles();
-	}
-	
-	@Override
-	public void render() {
-		update();
-
+		
 		final Rectangle bounds = cell.getBoundingRectangle();
 		//TODO:: Viewport if using camera? Check for screen resizing issues?
 
@@ -58,26 +55,58 @@ public class Player extends ApplicationAdapter {
 		float bottom = bounds.getY();
 		float top = bottom + bounds.getHeight();
 		float right = left + bounds.getWidth();
-
+		
 		// Screen
 		float screenLeft = screenBounds.getX();
 		float screenBottom = screenBounds.getY();
 		float screenTop = screenBottom + screenBounds.getHeight();
 		float screenRight = screenLeft + screenBounds.getWidth();
 
-		int xMove = controller.resultingMovementX();
-		int yMove = controller.resultingMovementY();
+		// Room
+		int roomLeft = 0;
+		int roomRight = Floor.getRoom().getRoomXSize();
+		int roomTop = 0;
+		int roomBottom = Floor.getRoom().getRoomYSize();
 
-		if (xMove != 0) {
-			cell.translateX(xMove);
-		} else if (yMove != 0) {
-			cell.translateY(yMove);
-		}
+		x += controller.resultingMovementX();
+		y += controller.resultingMovementY();
 
-
+		int xBoundOffset = (int) (cell.getWidth()*cell.getScaleX());
+		x = Math.min(roomRight, Math.max(x-xBoundOffset,roomLeft)
+				+2*xBoundOffset)-xBoundOffset;
+		int yBoundOffset = (int) (cell.getHeight()*cell.getScaleY());
+		y = Math.min(roomBottom, Math.max(y-yBoundOffset,roomTop)
+				+2*yBoundOffset)-yBoundOffset;
+	
+		// debug only
+		box.begin(ShapeType.Filled);
+		box.setColor(1, 1, 0, 1);
+		box.rect(roomLeft, roomTop, 
+				 roomRight-roomLeft, roomBottom-roomTop);
+		box.end();
+		box.begin(ShapeType.Filled);
+		box.setColor(1, 0, 0, 1);
+		box.rect(x, y, 
+				 60, 60);
+		box.end();
+	}
+	
+	@Override
+	public void render() {
+		
+		update();
+		cell.setX(this.x);
+		cell.setY(this.y);
 		batch.begin();
 		cell.draw(batch);
+		
+		 
 		batch.end();
+		// debug only
+		box.begin(ShapeType.Filled);
+		box.setColor(1, 0, 1, 1);
+		box.rect(0, 0, 4, 4);
+		box.end();
 	}
 	
 	@Override

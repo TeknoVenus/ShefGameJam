@@ -1,15 +1,22 @@
 package com.mygdx.game;
 
 public class RoomRepresentation {
+	private static int[][] floorArray;
 	private int xRoomSize;
 	private int yRoomSize;
 	private int leftDoorLocation; // -1 for no door, must be no more than size
 	private int rightDoorLocation; // same as above
 	private int topDoorLocation; // ^
 	private int bottomDoorLocation; // ^
-	public static final int TILE_SIZE = 16;
-	private static final int DEFAULT_ROOM_SIZE = 5;
-	private Integer[][] roomRepresentation; 
+	public static final int TILE_SIZE = 1;
+	private static final int DEFAULT_ROOM_SIZE = 480;
+	private Integer[][] roomRepresentation;
+	public int getRoomXSize() {
+		return xRoomSize;
+	}
+	public int getRoomYSize() {
+		return yRoomSize;
+	}
 	public boolean leftDoor() {
 		return leftDoorLocation==-1 ? false : true;
 	}
