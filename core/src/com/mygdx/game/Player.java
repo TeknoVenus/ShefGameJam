@@ -45,4 +45,11 @@ public class Player extends ApplicationAdapter {
 	public boolean isShoot() {
 		return shoot;
 	}
+
+	public int getX(){
+		return x;
+	}
+	public int getY(){
+		return y;
+	}
 }
