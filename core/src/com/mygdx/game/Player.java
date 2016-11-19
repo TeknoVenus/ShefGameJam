@@ -29,7 +29,6 @@ public class Player extends ApplicationAdapter {
 	@Override
 	public void render() {
 		update();
-		
 		batch.begin();
 		batch.draw(img, x, y);
 		batch.end();

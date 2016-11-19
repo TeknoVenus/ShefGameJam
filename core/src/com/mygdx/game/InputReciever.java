@@ -37,10 +37,10 @@ public class InputReciever {
 	
 	public int resultingMovementY() {
 		int y = 0;
-		if (isMoveRight()) {
+		if (isMoveUp()) {
 			y+= 1;
 		}
-		if (isMoveLeft()) {
+		if (isMoveDown()) {
 			y-= 1;
 		}
 		return y;
