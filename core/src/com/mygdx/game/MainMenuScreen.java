@@ -35,11 +35,11 @@ public class MainMenuScreen implements Screen {
         game = gam;
         this.atlas = new TextureAtlas("D:\\CompSocGameJam\\!ShefGameJam\\ShefGameJam\\core\\assets\\skins\\glassy\\skin\\glassy-ui.atlas");
         this.skin = new Skin(Gdx.files.internal("D:\\CompSocGameJam\\!ShefGameJam\\ShefGameJam\\core\\assets\\skins\\glassy\\skin\\glassy-ui.json"), atlas);
-        backgroundTexture = new TextureRegion(new Texture("back.jpg"), 0, 0, 1920, 1080);
+        //backgroundTexture = new TextureRegion(new Texture("back.jpg"), 0, 0, 1920, 1080);
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 1920, 1080);
-        viewport = new FitViewport(1920, 1000, camera);
+        camera.setToOrtho(false, 800, 400);
+        viewport = new FitViewport(800, 400, camera);
         viewport.apply();
         stage = new Stage(viewport, game.batch);
     }
@@ -90,9 +90,6 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClearColor(.1f, .12f, .16f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.input.setInputProcessor(stage);
-        //game.batch.begin();
-       // game.batch.draw(backgroundTexture, 0, Gdx.graphics.getHeight());
-        //game.batch.end();
         stage.act();
         stage.draw();
 
