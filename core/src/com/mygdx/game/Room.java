@@ -1,31 +1,21 @@
+package com.mygdx.game;
 
-public class Room{
+public class Room {
 
 	private static final int ROOM_SIZE = 10;
 	private static int[][] room = new int[ROOM_SIZE][ROOM_SIZE];
-	private static int[] axis = {ROOM_SIZE/2, ROOM_SIZE/2};
 
-	public int getRoomInt(int x, int y){
-		return room[x][y];
+	public static int getRoomInt(int x, int y){
+		return room[y][x];
 	}
 	public static void setRoomInt(int x, int y, int z){
-		room[x][y] = z;
+		room[y][x] = z;
 	}
 
-	public static int getAxisX(){
-		return axis[0];
+	public static int[][] getRoom() {
+		return room;
 	}
-	public static int getAxisY(){
-		return axis[1];
-	}
-
-	public static void setAxisX(int x){
-		axis[0] = x;
-	}
-	public static void setAxisY(int y){
-		axis[1] = y;
-	}
-
+	
 	public static double random(int x) {
 		return (double) x * Math.random();
 	}
@@ -115,55 +105,90 @@ public class Room{
 		}
 	}
 
-	public static void populate(int axisX, int axisY){
-		int[][] room = new int[ROOM_SIZE][ROOM_SIZE];
-		int centre = ROOM_SIZE/2;
-		while(true){
-		int possibleRoom = (int)random(15);
-		if (isValidUp(possibleRoom, room[axisY][axisX])){
-			setRoomInt(getAxisY()-1,getAxisX(), possibleRoom);
-
-	}
-		possibleRoom = (int)random(15);
-		if (isValidRight(possibleRoom, room[axisY][axisX])){
-			setRoomInt(getAxisY(),getAxisX()+1, possibleRoom);
-	}
-		possibleRoom = (int)random(15);
-		if (isValidDown(possibleRoom, room[axisY][axisX])){
-			setRoomInt(getAxisY()+1,getAxisX(), possibleRoom);
-	}
-		possibleRoom = (int)random(15);
-		if (isValidLeft(possibleRoom, room[axisY][axisX])) {
-			setRoomInt(getAxisY(), getAxisX() - 1, possibleRoom);
-
-		}
-			int dice = (int) random(40);
-			if (dice == 20)
-				break;
-			setAxisX(getAxisY());
-			setAxisY(getAxisX());
-		}
-	}
-
 	public static void generate(){
+		room = new int[ROOM_SIZE][ROOM_SIZE];
 		int centre = ROOM_SIZE/2;
-		setRoomInt(centre, centre, 15);
-
-
-		populate(axis[0], axis[1]);
-		for (int i=0;i<room.length;i++){
-			for (int j=0;j<room[i].length; j++){
-				System.out.print(room[i][j]);
-				System.out.print(" ");
-		}
-		System.out.println();
+		int targetX = centre;
+		int targetY = centre;
+		// look at the centre of the rooms
+		for (int i = 0; i<ROOM_SIZE*ROOM_SIZE*5; i++) {
+			int possibleRoom = (int)(random(14)+1);
+			if (i==0) {
+				setRoomInt(targetX,targetY,possibleRoom);
+			} else {
+				targetX = (int)random(ROOM_SIZE-1);
+				targetY = (int)random(ROOM_SIZE-1);
+				int upDownLeftRight = (int)random(4);
+				switch (upDownLeftRight) {
+					case 0:
+						int targetConnectX = targetX;
+						int targetConnectY = targetY-1;
+						if (targetConnectY >= 0) {
+							// if target is in the array
+							if (isValidUp(getRoomInt(targetConnectX,
+									targetConnectY),
+									possibleRoom)) {
+								// there's actually a way to connect 
+								// these rooms!
+								setRoomInt(targetX,targetY,possibleRoom);
+							}
+						}
+						break;
+					case 1:
+						targetConnectX = targetX;
+						targetConnectY = targetY+1;
+						if (targetConnectY < ROOM_SIZE) {
+							// if target is in the array
+							if (isValidDown(getRoomInt(targetConnectX,
+									targetConnectY),
+									possibleRoom)) {
+								// there's actually a way to connect 
+								// these rooms!
+								setRoomInt(targetX,targetY,possibleRoom);
+							}
+							}
+						break;
+					case 2:
+						targetConnectX = targetX-1;
+						targetConnectY = targetY;
+						if (targetConnectX >= 0) {
+							// if target is in the array
+								if (isValidLeft(getRoomInt(targetConnectX,
+										targetConnectY),
+										possibleRoom)) {
+									// there's actually a way to connect 
+									// these rooms!
+									setRoomInt(targetX,targetY,possibleRoom);
+								}
+							}
+						break;
+					case 3:
+					default:
+						targetConnectX = targetX+1;
+						targetConnectY = targetY;
+						if (targetConnectX < ROOM_SIZE) {
+							// if target is in the array
+							if (isValidUp(getRoomInt(targetConnectX,
+										targetConnectY),
+										possibleRoom)) {
+									// there's actually a way to connect 
+									// these rooms!
+									setRoomInt(targetX,targetY,possibleRoom);
+								}
+							}
+						break;
+				}
+			}
+			for (int[] row : room) {
+				for (int individualRoom : row) {
+					System.out.print(individualRoom);
+				}
+				System.out.println();
+			}
 		}
 	}
+
 	public static void main(String[] args) {
 		generate();
 	}
-		
-		
-	
-	
-	}
+}
