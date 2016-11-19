@@ -7,11 +7,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Player extends ApplicationAdapter {
 	private int x = 50;
 	private int y = 50;
+	private int killCount = 0;
 	private boolean shoot;
 	private SpriteBatch batch;
 	private Texture img;
 	private InputReciever controller = new InputReciever();
-	
+
 	public Player() {
 
 	}
@@ -19,7 +20,7 @@ public class Player extends ApplicationAdapter {
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		img = new Texture("texture/cell1.png");
 	}
 
 	public void update() {
@@ -41,7 +42,6 @@ public class Player extends ApplicationAdapter {
 		batch.dispose();
 		img.dispose();
 	}
-
 	public boolean isShoot() {
 		return shoot;
 	}
@@ -51,5 +51,13 @@ public class Player extends ApplicationAdapter {
 	}
 	public int getY(){
 		return y;
+	}
+
+	public void setKillCount(int killCount) {
+		this.killCount = killCount;
+	}
+
+	public int getKillCount() {
+		return killCount;
 	}
 }
