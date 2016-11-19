@@ -105,8 +105,9 @@ public class Player extends ApplicationAdapter {
 		return killCount;
 	}
 
-/*	private void manageProjectiles(){
-		for(Iterator<Projectile> itr = projectiles.iterator(); itr.hasNext();){
+	private void manageProjectiles(){
+		Iterator<Projectile> itr = projectiles.iterator();
+		while(itr.hasNext()){
 			Projectile p = itr.next();
 			p.update();
 			if (p.getPosition().y > Gdx.graphics.getHeight() || p.getPosition().x > Gdx.graphics.getWidth()
@@ -114,5 +115,5 @@ public class Player extends ApplicationAdapter {
 				itr.remove();
 			}
 		}
-	}*/
+	}
 }
