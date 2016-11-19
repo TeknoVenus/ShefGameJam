@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
+import java.util.Iterator;
 
 public class Player extends ApplicationAdapter {
 	private int x = 50;
@@ -18,17 +20,15 @@ public class Player extends ApplicationAdapter {
 	private Rectangle screenBounds;
 	private Sprite cell;
 	private Texture cellTexture;
+	private Array<Projectile> projectiles;
 
 	public Player(SpriteBatch batch) {
 		this.batch = batch;
-
-		batch = new SpriteBatch();
 		cellTexture = new Texture("textures/cell1.png");
 
 		screenBounds = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
-		batch = new SpriteBatch();
 
 		cell = new Sprite(cellTexture, 0,0, 32, 32);
 		cell.scale(5.0f);
@@ -45,6 +45,7 @@ public class Player extends ApplicationAdapter {
 /*		x += controller.resultingMovementX();
 		y += controller.resultingMovementY();*/
 		shoot = controller.isShoot();
+		//manageProjectiles();
 	}
 	
 	@Override
@@ -103,4 +104,15 @@ public class Player extends ApplicationAdapter {
 	public int getKillCount() {
 		return killCount;
 	}
+
+/*	private void manageProjectiles(){
+		for(Iterator<Projectile> itr = projectiles.iterator(); itr.hasNext();){
+			Projectile p = itr.next();
+			p.update();
+			if (p.getPosition().y > Gdx.graphics.getHeight() || p.getPosition().x > Gdx.graphics.getWidth()
+					|| p.getPosition().x < 0 || p.getPosition().y < 0){
+				itr.remove();
+			}
+		}
+	}*/
 }
