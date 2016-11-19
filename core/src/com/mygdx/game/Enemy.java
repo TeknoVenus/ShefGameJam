@@ -44,7 +44,11 @@ public class Enemy {
 			position.y--;
 		}
 	}
-	
+	@Override
+	public void dispose(){
+		
+	}
+
 	public Vector2 getPosition() {
 		return position;
 	}
