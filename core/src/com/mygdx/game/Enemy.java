@@ -26,6 +26,9 @@ public class Enemy extends ApplicationAdapter{
 	private Rectangle screenBounds;
 	private SpriteBatch batch;
 	private Sprite mafia;
+	private int targetX = 100;
+	private int targetY = 100;
+	
 	private OrthographicCamera camera;
 	private ArrayList<NewProjectile> newProjectileArrayList;
 	private Sprite projectileSprite;
@@ -47,6 +50,7 @@ public class Enemy extends ApplicationAdapter{
 		bounds = new Rectangle(x, y, enemyTexture.getWidth(),enemyTexture.getHeight());
 		this.player = player;
 		this.batch = batch;
+		newTarget();
 		newProjectileArrayList = new ArrayList<NewProjectile>();
 		count = 0;
 
@@ -60,10 +64,6 @@ public class Enemy extends ApplicationAdapter{
 
 		//final Rectangle bounds = mafia.getBoundingRectangle();
 		//TODO:: Viewport if using camera? Check for screen resizing issues?
-
-
-
-
 /*
 		int xMove = controller.resultingMovementX();
 		int yMove = controller.resultingMovementY();
@@ -76,7 +76,6 @@ public class Enemy extends ApplicationAdapter{
 
 		mafia.translate(Floor.getRoom().getPadding(), 
 				Floor.getRoom().getPadding());
-
 		batch.begin();
 		mafia.draw(batch);
 		batch.end();
@@ -85,10 +84,26 @@ public class Enemy extends ApplicationAdapter{
 				-Floor.getRoom().getPadding());
 	}
 	
+	private void newTarget() {
+		if (Math.random() < 0.2) {
+			targetX = player.getX();
+			targetY = player.getY();
+		} else {
+			targetX = (int) (Math.random()*480);
+			targetY = (int) (Math.random()*300);
+		}
+	}
+
 	public void update() {
 		//System.out.println(player.getX());
 		//System.out.println(player.getY());
-		if (player.getX() > mafia.getX()) {
+
+		if (mafia.getX()-5 < targetX && mafia.getX()+5 > targetX
+				&& mafia.getY()-5 < targetY && mafia.getY()+5 > targetY) {
+			newTarget();
+		}
+
+		if (targetX > mafia.getX()) {
 			this.x += 1;
 			//Gdx.app.log("Enemy", "RIGHT");
 		}
@@ -99,7 +114,7 @@ public class Enemy extends ApplicationAdapter{
 
 		}
 
-		if (player.getY() > mafia.getY()) {
+		if (targetY > mafia.getY()) {
 			this.y += 1;
 			//Gdx.app.log("Enemy", "UP");
 		}
