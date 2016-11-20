@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
@@ -42,12 +41,12 @@ public class Player extends ApplicationAdapter {
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 
-		cell = new Sprite(cellTexture, 0, 0, 32, 32);
-		cell.scale(5.0f);
-		cell.setOriginCenter();
-		cell.setPosition(w / 2 - cell.getWidth() / 2, h / 2 - cell.getHeight() / 2);
-
 		doorLayout = new DoorLayout(Floor.getRoom());
+
+		cell = new Sprite(cellTexture, 0,0, 32, 32);
+		cell.scale(2.0f);
+		cell.setOriginCenter();
+		// enemy and player translation updates -offset issue
 	}
 
 	@Override
@@ -88,7 +87,7 @@ public class Player extends ApplicationAdapter {
 		if (y < 0) {
 			y = 0;
 		}
-		// TODO un hard code later
+
 		if (x > Floor.getRoom().getRoomXSize()) {
 			x = Floor.getRoom().getRoomXSize();
 		}
