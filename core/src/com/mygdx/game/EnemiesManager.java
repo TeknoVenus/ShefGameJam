@@ -31,4 +31,8 @@ public class EnemiesManager {
 	public static Player getPlayer() {
 		return player;
 	}
+	
+	public static void removeEnemy(int i) {
+		enemies.remove(i);
+	}
 }
