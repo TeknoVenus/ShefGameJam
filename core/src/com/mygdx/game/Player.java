@@ -206,8 +206,13 @@ public class Player extends ApplicationAdapter {
 			y = Floor.getRoom().getRoomYSize();
 		}
 
-		if ((evolveCounter == 10 )|| (evolveCounter == 20)){
-			evolve();
+		if (evolveCounter == 10 ){
+            evolve();
+        }
+        if (evolveCounter == 20){
+
+
+			evolve2();
 		}
 
 	}
@@ -234,20 +239,18 @@ public class Player extends ApplicationAdapter {
 		if (health > 0 && health < 1 )
 			health += 0.0001f;
 	}
-
+    public void evolve2() {
+        health = 1;
+        evolveSound.play();
+        cell.setTexture(new Texture("textures/fish.png"));
+        }
 	public void evolve() {
 		health = 1;
-		evolveStage++;
 		evolveSound.play();
-		switch(evolveStage){
-			case 1:
-				cell.setTexture(new Texture("textures/microbe.png"));
-				break;
-			case 2:
-				cell.setTexture(new Texture("textures/fish.png"));
-				break;
+        cell.setTexture(new Texture("textures/microbe.png"));
 
-	}}
+
+	}
 
 
 	public void checkCollision(Sprite sprite) {
