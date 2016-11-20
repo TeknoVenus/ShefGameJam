@@ -1,8 +1,5 @@
 package com.mygdx.game;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -29,17 +26,14 @@ public class GameScreen implements Screen {
     public Texture img;
 
     private Player player;
-
-    private List<Enemy> enemies = new ArrayList<Enemy>(5);
     
     public GameScreen(RogueLite game) {
         this.game = game;
+        this.player = new Player(game.batch);
+        EnemiesManager.setPlayer(this.player);
         Floor.generate();
         Floor.setRoom(new 
         		RoomRepresentation(Floor.getStartFloorInt()));
-        this.player = new Player(game.batch);
-        enemies.add(new Enemy(400, 20, player, game.batch));
-        enemies.add(new Enemy(400, 400, player, game.batch));
         img = new Texture("badlogic.jpg");
     }
 
@@ -48,7 +42,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         player.render();
-        for (Enemy enemy : enemies) {
+        for (Enemy enemy : EnemiesManager.getEnemies()) {
         	enemy.render();	
         }
     }
@@ -79,5 +73,11 @@ public class GameScreen implements Screen {
     public void dispose() {
 
     }
+
+
+	public static void spawnEnemies() {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
