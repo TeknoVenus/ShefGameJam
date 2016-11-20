@@ -36,7 +36,7 @@ public class Player extends ApplicationAdapter {
 	private DoorLayout doorLayout;
 	private Rectangle spriteBounds;
 	private Rectangle projectileBounds;
-	private ArrayList<NewProjectile> NewProjectileArrayList = new ArrayList<NewProjectile>();
+	private ArrayList<NewProjectile> newProjectileArrayList = new ArrayList<NewProjectile>();
 	private int evolveStage = 0;
 	private int evolveCounter = 0;
 	private Sound evolveSound;
