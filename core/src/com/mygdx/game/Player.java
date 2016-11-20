@@ -229,6 +229,7 @@ public class Player extends ApplicationAdapter {
 	}
 
 	public void evolve() {
+		health = 1;
 		evolveStage++;
 		evolveCounter = 0;
 		evolveSound.play();

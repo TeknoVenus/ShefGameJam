@@ -128,7 +128,10 @@ public class Enemy extends ApplicationAdapter{
 
 		Random random = new Random();
 
-		if (Math.random() > 0.5 && count > random.nextInt((1000 - 100) + 1) + 100) {
+		int max = 1500;
+		int min = 200;
+
+		if (Math.random() > 0.5 && count > random.nextInt((max - min) + 1) + min) {
 			shoot();
 			count = 0;
 		}
@@ -152,7 +155,7 @@ public class Enemy extends ApplicationAdapter{
 
 				if (projectileSprite.getBoundingRectangle().overlaps(player.getBoundingBox())) {
 					Gdx.app.log("SAD TIMES", "YOU GOT SHOT BY THE ENEMY");
-					player.setHealth(player.getHealth() - 0.05f);
+					player.setHealth(player.getHealth() - 0.02f);
 				}
 
 
@@ -165,8 +168,8 @@ public class Enemy extends ApplicationAdapter{
 	public void shoot() {
 		Random random = new Random();
 		NewProjectile proj = new NewProjectile(Math.round(mafia.getX()) + 10, Math.round(mafia.getY() + 10));
-		int x1 = player.getX() + random.nextInt(200 + 1 + 200) - 200;
-		int y1 = player.getY() + random.nextInt(200 + 1 + 200) - 200;;
+		int x1 = player.getX() + random.nextInt(100 + 1 + 100) - 100;
+		int y1 = player.getY() + random.nextInt(100 + 1 + 100) - 100;
 
 		float dX = x1 - x;
 		float dY = y1 - y;
