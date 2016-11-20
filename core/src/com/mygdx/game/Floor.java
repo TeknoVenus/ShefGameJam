@@ -216,7 +216,7 @@ public class Floor {
 				} 
 			}
 		}
-		for (int[] row : floorArray) {
+		/*for (int[] row : floorArray) {
 			for (int individualFloor : row) {
 				String s = "";
 				switch (individualFloor) {
@@ -272,7 +272,7 @@ public class Floor {
 				System.out.print(s);
 			}
 			System.out.println();
-		}
+		}*/
 	}
 
 	public static void main(String[] args) {
