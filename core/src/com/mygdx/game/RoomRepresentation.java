@@ -13,6 +13,10 @@ public class RoomRepresentation {
 	private static final int PADDING_WINDOW_EDGE = 50;
 	private static final int WINDOW_SIZING = DEFAULT_ROOM_SIZE+PADDING_WINDOW_EDGE*2;
 	private Integer[][] roomRepresentation;
+	private int id;
+	public int getID() {
+		return this.id;
+	}
 	public static int getWindowSize() {
 		return WINDOW_SIZING;
 	}
@@ -106,6 +110,7 @@ public class RoomRepresentation {
 			roomRepresentation[yRoomSize-1][bottomDoorLocation] = 1;
 			break;
 		}
+		this.id = id;
 	}
 	public String toString() {
 		String s = "";

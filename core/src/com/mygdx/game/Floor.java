@@ -5,6 +5,9 @@ public class Floor {
 	private static int[][] floorArray = new int[FLOOR_SIZE][FLOOR_SIZE];
 	public static final int ENTIRE_FLOOR_GEN_ATTEMPTS = 250;
 	public static RoomRepresentation activeRoom;
+	// location in the array the active room is in
+	private static int activeX;
+	private static int activeY;
 	
 	public static void setRoom(RoomRepresentation newRoom) {
 		activeRoom = newRoom;
@@ -14,6 +17,56 @@ public class Floor {
 		return activeRoom;
 	}
 	
+	public static int getActiveRoomX() {
+		return activeX;
+	}
+	
+	public static int getActiveRoomY() {
+		return activeY;
+	}
+	
+	//TODO Make RoomRepresentation use these
+	// methods to move between rooms and then
+	// use the returned int to create a new Room,
+	// update this Floor's active room and
+	// essentially over write itself
+	public static int moveRoomRight() {
+		if (activeX < FLOOR_SIZE-1) {
+			if (isValidLeftRight(activeRoom.getID(),
+					floorArray[activeX+1][activeY])) {
+				return floorArray[activeX+1][activeY];
+			}
+		}
+		return -1;
+	}
+	public static int moveRoomLeft() {
+		if (activeX > 0) {
+			if (isValidLeftRight(floorArray[activeX+1][activeY],
+					activeRoom.getID())) {
+				return floorArray[activeX+1][activeY];
+			}
+		}
+		return -1;
+	}	
+	public static int moveRoomUp() {
+		if (activeY < FLOOR_SIZE-1) {
+			if (isValidBelowUp(activeRoom.getID(),
+					floorArray[activeX][activeY+1])) {
+				return floorArray[activeX][activeY+1];
+			}
+		}
+		return -1;
+	}
+	public static int moveRoomDown() {
+		if (activeY > 0) {
+			if (isValidBelowUp(floorArray[activeX][activeY-1],
+					activeRoom.getID())) {
+				return floorArray[activeX][activeY-1];
+			}
+		}
+		return -1;
+	}	
+	
 	public static int getFloorInt(int x, int y){
 		return floorArray[y][x];
 	}
@@ -22,6 +75,8 @@ public class Floor {
 	}
 
 	public static int getStartFloorInt() {
+		activeX = FLOOR_SIZE/2;
+		activeY = FLOOR_SIZE/2;
 		return floorArray[FLOOR_SIZE/2][FLOOR_SIZE/2];
 	}
 	
