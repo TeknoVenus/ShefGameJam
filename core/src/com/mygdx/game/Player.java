@@ -21,6 +21,8 @@ import java.util.Iterator;
 public class Player extends ApplicationAdapter {
 	private int x = 50;
 	private int y = 50;
+
+	private int health = 100;
 	private int killCount = 0;
 	private boolean shoot;
 	private SpriteBatch batch;
@@ -33,6 +35,7 @@ public class Player extends ApplicationAdapter {
 	private Texture projectileTexture;
 	private ArrayList<Rectangle> projectiles = new ArrayList<Rectangle>();
 	private OrthographicCamera camera;
+	private Door doorLayout;
 	// debug only
 	private ShapeRenderer box = new ShapeRenderer();
 	
@@ -195,17 +198,30 @@ public class Player extends ApplicationAdapter {
 		controller.setLastShotTime(TimeUtils.nanoTime());
 		System.out.println("Spawned Projectile");
 	}
-	private void manageProjectiles(){
+	private void manageProjectiles() {
 		Iterator<Rectangle> iter = projectiles.iterator();
-		while(iter.hasNext()){
+		while (iter.hasNext()) {
 			Rectangle p = iter.next();
-			p.setPosition(getNewProjectilePos(p.x,p.y));
+			p.setPosition(getNewProjectilePos(p.x, p.y));
 			if (p.y > Gdx.graphics.getHeight() || p.x > Gdx.graphics.getWidth()
-					|| p.x < 0 || p.y < 0){
+					|| p.x < 0 || p.y < 0) {
 				iter.remove();
 				System.out.println("Removed Projectile");
 			}
 		}
+	}
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
+	}
+	private void drawDoors() {
+		doorLayout.draw(doorLayout.getBottom());
+		doorLayout.draw(doorLayout.getTop());
+		doorLayout.draw(doorLayout.getLeft());
+		doorLayout.draw(doorLayout.getRight());
 	}
 	private Vector2 getNewProjectilePos(float positionX, float positionY){
 		Vector2 position = new Vector2(positionX,positionY);
