@@ -18,7 +18,7 @@ public class Player extends ApplicationAdapter {
 	private final int BULLET_WIDTH = 8;
 	private int x = 50;
 	private int y = 50;
-	private int health = 100;
+	private int health = 1;
 	private int killCount = 0;
 	private boolean shoot;
 	private boolean facingLeft = true;

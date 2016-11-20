@@ -29,12 +29,14 @@ public class GameScreen implements Screen {
     private Texture backTexture;
     private Sprite backSprite;
 
+    private Health health;
     private Player player;
     
     public GameScreen(RogueLite game) {
         this.game = game;
         backTexture = new Texture(Gdx.files.internal("textures/bg.png"));
         backSprite = new Sprite(backTexture);
+        this.health = new Health(1, game.batch);
         this.player = new Player(game.batch);
         EnemiesManager.setPlayer(this.player);
         Floor.generate();
@@ -64,6 +66,7 @@ public class GameScreen implements Screen {
         for (Enemy enemy : EnemiesManager.getEnemies()) {
         	enemy.render();	
         }
+        health.draw(player.getHealth());
     }
 
     @Override
