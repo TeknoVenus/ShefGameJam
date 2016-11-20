@@ -24,7 +24,12 @@ public class Enemy extends ApplicationAdapter{
 	
 	
 	public Enemy (int x, int y, Player player, SpriteBatch batch) {
-		enemyTexture = new Texture(Gdx.files.internal("textures/enemy.png"));
+		//Randomly selects file from array.
+		int texChance = (int)(Math.random());
+		String[] texArray = {"textures/enemy.png", "textures/enemy2.png"};
+		String texCurrent = texArray[texChance];
+
+		enemyTexture = new Texture(Gdx.files.internal(texCurrent));
 		mafia = new Sprite(enemyTexture, 0,0, 32, 32);
 		mafia.scale(2);
 		this.x = x;
