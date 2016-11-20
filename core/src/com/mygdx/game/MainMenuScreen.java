@@ -74,6 +74,8 @@ public class MainMenuScreen implements Screen {
 
         playButton.getLabel().setFontScale(2, 2);
         exitButton.getLabel().setFontScale(2, 2);
+        playButton.getLabel().setFontScale(1.3f, 1.3f);
+        exitButton.getLabel().setFontScale(1.3f, 1.3f);
 
         //Add buttons to table
         mainTable.add(playButton).size((Gdx.graphics.getWidth()) - (Gdx.graphics.getWidth() / 4), Gdx.graphics.getHeight() / 6).pad(40).row();
