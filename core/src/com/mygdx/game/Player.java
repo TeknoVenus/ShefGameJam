@@ -1,22 +1,20 @@
 package com.mygdx.game;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Player extends ApplicationAdapter {
 	private int x = 50;
@@ -207,12 +205,22 @@ public class Player extends ApplicationAdapter {
 	public void setHealth(int health) {
 		this.health = health;
 	}
+	
 	private void drawDoors() {
-		doorLayout.draw(doorLayout.getBottom(),false);
+		if (Floor.getRoom().bottomDoor()) {
+			doorLayout.draw(doorLayout.getBottom(),false);
+		}
+		if (Floor.getRoom().topDoor()) {
 		doorLayout.draw(doorLayout.getTop(),false);
+		}
+		if (Floor.getRoom().leftDoor()) {
 		doorLayout.draw(doorLayout.getLeft(),true);
-		doorLayout.draw(doorLayout.getRight(),true);
+		}
+		if (Floor.getRoom().rightDoor()) {
+			doorLayout.draw(doorLayout.getRight(),true);
+		}
 	}
+	
 	private Vector2 getNewProjectilePos(float positionX, float positionY){
 		Vector2 position = new Vector2(positionX,positionY);
 		Vector3 mousePos = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
@@ -223,5 +231,18 @@ public class Player extends ApplicationAdapter {
 		float newY = positionY + (float)(Math.cos(angle)* 5f);
 		Vector2 output = new Vector2(newX, newY);
 		return output;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+	
+	public void setY(int y) {
+		this.y = y;
+	}
+	
+	public void setXY(int x, int y) {
+		setX(x);
+		setY(y);
 	}
 }
