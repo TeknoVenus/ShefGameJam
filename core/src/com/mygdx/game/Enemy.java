@@ -96,6 +96,7 @@ public class Enemy extends ApplicationAdapter{
 @Override
 	public void dispose(){
 		player.setKillCount(player.getKillCount() + 1);
+        player.setEvolveCounter(player.getEvolveCounter() + 1);
 	}
 
 	public int getX() {

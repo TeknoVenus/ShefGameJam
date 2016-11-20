@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -36,6 +37,9 @@ public class Player extends ApplicationAdapter {
 	private Rectangle spriteBounds;
 	private Rectangle projectileBounds;
 	private ArrayList<NewProjectile> NewProjectileArrayList = new ArrayList<NewProjectile>();
+	private int evolveStage = 0;
+	private int evolveCounter = 0;
+	private Sound evolveSound;
 
 
 
@@ -48,6 +52,7 @@ public class Player extends ApplicationAdapter {
 
 
 	public Player(SpriteBatch batch) {
+		evolveSound = Gdx.audio.newSound((Gdx.files.internal("sound/evolve.wav")));
 		this.batch = batch;
 		cellTexture = new Texture("textures/cell.png");
 		projectileTexture = new Texture("textures/bullet.png");
@@ -123,11 +128,29 @@ public class Player extends ApplicationAdapter {
 					Gdx.app.log("SUCCESS", "YOU HAVE SHOT " + enemy.toString());
 					enemy.dispose();
 					EnemiesManager.getEnemies().remove(i);
+					System.out.println(killCount);
+					System.out.println(evolveCounter);
 				}
 
 			}
 		}
 
+	}
+
+	public int getEvolveStage() {
+		return evolveStage;
+	}
+
+	public void setEvolveStage(int evolveStage) {
+		this.evolveStage = evolveStage;
+	}
+
+	public int getEvolveCounter() {
+		return evolveCounter;
+	}
+
+	public void setEvolveCounter(int evolveCounter) {
+		this.evolveCounter = evolveCounter;
 	}
 
 	public void update() {
@@ -183,8 +206,10 @@ public class Player extends ApplicationAdapter {
 			y = Floor.getRoom().getRoomYSize();
 		}
 
-		if (killCount >= 10){
+		if (evolveCounter >= 10){
 			System.out.println("You win.");
+			evolveCounter = 0;
+			evolve();
 		}
 
 	}
@@ -213,10 +238,19 @@ public class Player extends ApplicationAdapter {
 		doorLayout.checkCollision(cell);
 	}
 
+	public void evolve() {
+		evolveStage++;
+		evolveSound.play();
+
+
+	}
+
+
 	public void checkCollision(Sprite sprite) {
 
 		if (spriteBounds.overlaps(projectileBounds)) {
 			Gdx.app.log("Player", "COLLISION");
+
 
 		}
 	}
