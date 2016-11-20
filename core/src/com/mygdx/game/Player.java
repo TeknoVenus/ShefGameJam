@@ -53,9 +53,7 @@ public class Player extends ApplicationAdapter {
 		cell.setPosition(w/2 -cell.getWidth()/2, h/2 - cell.getHeight()/2);
 
 		projectileTexture = new Texture(Gdx.files.internal("textures/bullet.png"));
-		projectileSprite = new Sprite(projectileTexture,0,0, 8,8);
-		projectileSprite.scale(0f);
-		projectileSprite.setOriginCenter();
+
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, RoomRepresentation.getWindowSize(),
@@ -229,7 +227,6 @@ public class Player extends ApplicationAdapter {
 		camera.unproject(mousePos);
 		Vector2 mousePos2 = new Vector2(mousePos.x,mousePos.y);
 		float angle = position.angle();
-		float delta = Gdx.graphics.getDeltaTime();
 		float newX = positionX + (float)(Math.sin(angle)* 5f);
 		float newY = positionY + (float)(Math.cos(angle)* 5f);
 		Vector2 output = new Vector2(newX, newY);
