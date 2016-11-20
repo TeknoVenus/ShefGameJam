@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.audio.Music;
 
 /**
  * Created by Stephen on 19/11/2016
@@ -26,6 +27,7 @@ public class MainMenuScreen implements Screen {
     private TextureAtlas atlas;
     private Viewport viewport;
     private TextureRegion backgroundTexture;
+    private Music music;
 
     OrthographicCamera camera;
 
@@ -43,6 +45,11 @@ public class MainMenuScreen implements Screen {
         viewport.apply();
         stage = new Stage(viewport, game.batch);
     }
+
+    public void create(){
+        Music music = Gdx.audio.newMusic(Gdx.files.internal("music/mainmenumusic.mp3"));
+    }
+
 
     @Override
     public void show() {
@@ -83,6 +90,9 @@ public class MainMenuScreen implements Screen {
 
         //Add table to stage
         stage.addActor(mainTable);
+
+        //Add menu music
+        music = Gdx.audio.newMusic(Gdx.files.internal("music/mainmenumusic.mp3"));
     }
 
     @Override
@@ -92,6 +102,8 @@ public class MainMenuScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         stage.act();
         stage.draw();
+        music.play();
+        music.setLooping(true);
 
     }
 
@@ -114,5 +126,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
+        music.dispose();
     }
 }
