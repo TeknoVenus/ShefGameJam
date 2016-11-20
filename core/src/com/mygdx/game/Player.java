@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -21,6 +20,7 @@ public class Player extends ApplicationAdapter {
 	private int health = 100;
 	private int killCount = 0;
 	private boolean shoot;
+	private boolean facingLeft = true;
 	private SpriteBatch batch;
 	private Texture img;
 	private InputReciever controller = new InputReciever();
@@ -40,7 +40,7 @@ public class Player extends ApplicationAdapter {
 
 	public Player(SpriteBatch batch) {
 		this.batch = batch;
-		cellTexture = new Texture("textures/cell1.png");
+		cellTexture = new Texture("textures/cell.png");
 
 		screenBounds = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		spriteBounds = new Rectangle(x, y, cellTexture.getWidth(), cellTexture.getHeight());
@@ -48,7 +48,7 @@ public class Player extends ApplicationAdapter {
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 
-		cell = new Sprite(cellTexture, 0, 0, 32, 32);
+		cell = new Sprite(cellTexture, 0,0, cellTexture.getWidth(), cellTexture.getHeight());
 		cell.scale(2.0f);
 		cell.setOriginCenter();
 		cell.setPosition(w / 2 - cell.getWidth() / 2, h / 2 - cell.getHeight() / 2);
@@ -63,6 +63,15 @@ public class Player extends ApplicationAdapter {
 		doorLayout = new DoorLayout(Floor.getRoom(), batch);
 
 	}
+
+	public boolean getFacingLeft(){
+		return facingLeft;
+	}
+
+	public void setFacingLeft(boolean facingLeft) {
+		this.facingLeft = facingLeft;
+	}
+
 
 
 	public void shoot() {
@@ -88,6 +97,13 @@ public class Player extends ApplicationAdapter {
 	}
 
 	public void update() {
+
+		if (!this.isFacingLeft()) {
+			cell.setTexture( new Texture("textures/cellL.png"));
+		}
+		if(this.isFacingLeft()){
+			cell.setTexture( new Texture("textures/cellR.png"));
+		}
 		shoot = controller.isShoot();
 		if (shoot) {
 			shoot();
@@ -125,7 +141,7 @@ public class Player extends ApplicationAdapter {
 		if (y < 0) {
 			y = 0;
 		}
-		// TODO un hard code later
+
 		if (x > Floor.getRoom().getRoomXSize()) {
 			x = Floor.getRoom().getRoomXSize();
 		}
@@ -133,19 +149,17 @@ public class Player extends ApplicationAdapter {
 			y = Floor.getRoom().getRoomYSize();
 		}
 
-
-		int xBoundOffset = (int) (0.5 * cell.getWidth() * cell.getScaleX());
-		int yBoundOffset = (int) (0.5 * cell.getHeight() * cell.getScaleY());
-		//if (x+ > ) {
-
-		//}
-		//x = Math.min(roomRight, Math.max(x-xBoundOffset,roomLeft)
-		//		+2*xBoundOffset)-xBoundOffset;
-
-		//y = Math.min(roomBottom, Math.max(y-yBoundOffset,roomTop)
-		//		+2*yBoundOffset)-yBoundOffset;
 	}
-
+	public boolean isFacingLeft(){
+		if (controller.resultingMovementX() == 1){
+			return true;
+		}
+		else if (controller.resultingMovementX()== -1){
+			return false;
+		}
+		else
+			return true;
+	}
 	@Override
 	public void render() {
 		for (int i = 0; i < NewProjectileArrayList.size(); i++) {
@@ -181,21 +195,19 @@ public class Player extends ApplicationAdapter {
 		batch.dispose();
 		img.dispose();
 	}
+	public boolean isShoot() {
+		return shoot;
+	}
 
 	public int getX() {
 		return x;
 	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
+	public int getY(){
 		return y;
 	}
 
-	public void setY(int y) {
-		this.y = y;
+	public void setKillCount(int killCount) {
+		this.killCount = killCount;
 	}
 
 	public int getKillCount() {
@@ -213,19 +225,19 @@ public class Player extends ApplicationAdapter {
 	public void setHealth(int health) {
 		this.health = health;
 	}
-
+	
 	private void drawDoors() {
 		if (Floor.getRoom().bottomDoor()) {
-			doorLayout.draw(doorLayout.getBottom(), false);
+			doorLayout.draw(doorLayout.getBottom(),false);
 		}
 		if (Floor.getRoom().topDoor()) {
-			doorLayout.draw(doorLayout.getTop(), false);
+		doorLayout.draw(doorLayout.getTop(),false);
 		}
 		if (Floor.getRoom().leftDoor()) {
-			doorLayout.draw(doorLayout.getLeft(), true);
+		doorLayout.draw(doorLayout.getLeft(),true);
 		}
 		if (Floor.getRoom().rightDoor()) {
-			doorLayout.draw(doorLayout.getRight(), true);
+			doorLayout.draw(doorLayout.getRight(),true);
 		}
 	}
 
@@ -253,7 +265,7 @@ public class Player extends ApplicationAdapter {
 
 
 	}
-
+	
 	public void setXY(int x, int y) {
 		setX(x);
 		setY(y);

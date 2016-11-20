@@ -25,12 +25,12 @@ public class Enemy extends ApplicationAdapter{
 	
 	public Enemy (int x, int y, Player player, SpriteBatch batch) {
 		//Randomly selects file from array.
-		int texChance = (int)(Math.random());
+		int texChance = (int)Math.round((Math.random()));
 		String[] texArray = {"textures/enemy.png", "textures/enemy2.png"};
 		String texCurrent = texArray[texChance];
 
 		enemyTexture = new Texture(Gdx.files.internal(texCurrent));
-		mafia = new Sprite(enemyTexture, 0,0, 32, 32);
+		mafia = new Sprite(enemyTexture, 0,0, enemyTexture.getWidth(), enemyTexture.getHeight());
 		mafia.scale(2);
 		this.x = x;
 		this.y = y;
@@ -74,22 +74,22 @@ public class Enemy extends ApplicationAdapter{
 		//System.out.println(player.getX());
 		//System.out.println(player.getY());
 		if (player.getX() > mafia.getX()) {
-			mafia.translateX(1);
+			mafia.translateX(0.5f);
 			//Gdx.app.log("Enemy", "RIGHT");
 		}
 
 		else {
-			mafia.translateX(-1);
+			mafia.translateX(-0.5f);
 			//Gdx.app.log("Enemy", "LEFT");
 
 		}
 
 		if (player.getY() > mafia.getY()) {
-			mafia.translateY(1);
+			mafia.translateY(0.5f);
 			//Gdx.app.log("Enemy", "UP");
 		}
 		else {
-			mafia.translateY(-1);
+			mafia.translateY(-0.5f);
 			//Gdx.app.log("Enemy", "DOWN");
 		}}
 

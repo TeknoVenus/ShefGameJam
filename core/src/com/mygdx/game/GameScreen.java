@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -55,8 +56,11 @@ public class GameScreen implements Screen {
         game.batch.draw(backTexture,Floor.getRoom().getPadding() + roomLeft,
                 Floor.getRoom().getPadding() + roomTop,
                 roomRight - roomLeft, roomBottom - roomTop);
+        new BitmapFont().draw(game.batch, Floor.getActiveRoomX() + " | " +
+                Floor.getActiveRoomY() ,100, 100);
         game.batch.end();
         player.render();
+
         for (Enemy enemy : EnemiesManager.getEnemies()) {
         	enemy.render();	
         }
