@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
@@ -22,9 +23,13 @@ public class Player extends ApplicationAdapter {
 	private Sprite cell;
 	private Texture cellTexture;
 	private Array<Projectile> projectiles;
+
+
+	private DoorLayout doorLayout;
+
 	// debug only
 	private ShapeRenderer box = new ShapeRenderer();
-	
+
 	public Player(SpriteBatch batch) {
 		this.batch = batch;
 		cellTexture = new Texture("textures/cell1.png");
@@ -33,12 +38,14 @@ public class Player extends ApplicationAdapter {
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 
-		cell = new Sprite(cellTexture, 0,0, 32, 32);
+		cell = new Sprite(cellTexture, 0, 0, 32, 32);
 		cell.scale(5.0f);
 		cell.setOriginCenter();
-		cell.setPosition(w/2 -cell.getWidth()/2, h/2 - cell.getHeight()/2);
+		cell.setPosition(w / 2 - cell.getWidth() / 2, h / 2 - cell.getHeight() / 2);
+
+		doorLayout = new DoorLayout(Floor.getRoom());
 	}
-	
+
 	@Override
 	public void create() {
 
@@ -47,7 +54,7 @@ public class Player extends ApplicationAdapter {
 	public void update() {
 		shoot = controller.isShoot();
 		//manageProjectiles();
-		
+
 		final Rectangle bounds = cell.getBoundingRectangle();
 		//TODO:: Viewport if using camera? Check for screen resizing issues?
 
@@ -55,7 +62,7 @@ public class Player extends ApplicationAdapter {
 		float bottom = bounds.getY();
 		float top = bottom + bounds.getHeight();
 		float right = left + bounds.getWidth();
-		
+
 		// Screen
 		float screenLeft = screenBounds.getX();
 		float screenBottom = screenBounds.getY();
@@ -84,68 +91,73 @@ public class Player extends ApplicationAdapter {
 		if (y > Floor.getRoom().getRoomYSize()) {
 			y = Floor.getRoom().getRoomYSize();
 		}
-		
-		
-		int xBoundOffset = (int) (0.5*cell.getWidth()*cell.getScaleX());
-		int yBoundOffset = (int) (0.5*cell.getHeight()*cell.getScaleY());
+
+
+		int xBoundOffset = (int) (0.5 * cell.getWidth() * cell.getScaleX());
+		int yBoundOffset = (int) (0.5 * cell.getHeight() * cell.getScaleY());
 		//if (x+ > ) {
-			
+
 		//}
 		//x = Math.min(roomRight, Math.max(x-xBoundOffset,roomLeft)
 		//		+2*xBoundOffset)-xBoundOffset;
-		
+
 		//y = Math.min(roomBottom, Math.max(y-yBoundOffset,roomTop)
 		//		+2*yBoundOffset)-yBoundOffset;
-	
+
 		// debug only
 		box.begin(ShapeType.Filled);
 		box.setColor(1, 1, 0, 1);
-		System.out.print(roomRight);
-		box.rect(Floor.getRoom().getPadding() + roomLeft, 
-				Floor.getRoom().getPadding() + roomTop, 
-				 roomRight-roomLeft, roomBottom-roomTop);
+		//System.out.print(roomRight);
+		box.rect(Floor.getRoom().getPadding() + roomLeft,
+				Floor.getRoom().getPadding() + roomTop,
+				roomRight - roomLeft, roomBottom - roomTop);
 		box.end();
 	}
-	
+
 	@Override
 	public void render() {
-		
+
 		update();
-		cell.setX(this.x+(Floor.getRoom().getPadding()));
-		cell.setY(this.y+(Floor.getRoom().getPadding()));
+		drawDoors();
+		cell.setX(this.x + (Floor.getRoom().getPadding()));
+		cell.setY(this.y + (Floor.getRoom().getPadding()));
 		batch.begin();
 		cell.draw(batch);
-		
-		 
+
+
 		batch.end();
 		// debug only
 		box.begin(ShapeType.Filled);
 		box.setColor(1, 0, 1, 1);
 		box.rect(0, 0, 4, 4);
 		box.end();
+
+		doorLayout.checkCollision(cell);
 	}
-	
+
 	@Override
 	public void dispose() {
 		batch.dispose();
 		img.dispose();
 	}
+
 	public boolean isShoot() {
 		return shoot;
 	}
 
-	public int getX(){
+	public int getX() {
 		return x;
 	}
-	public int getY(){
+
+	public int getY() {
 		return y;
 	}
 
-	public void setKillCount(int killCount) {
+	void setKillCount(int killCount) {
 		this.killCount = killCount;
 	}
 
-	public int getKillCount() {
+	int getKillCount() {
 		return killCount;
 	}
 
@@ -160,4 +172,14 @@ public class Player extends ApplicationAdapter {
 			}
 		}
 	}*/
+
+	private void drawDoors() {
+		doorLayout.draw(doorLayout.getBottom());
+		doorLayout.draw(doorLayout.getTop());
+		doorLayout.draw(doorLayout.getLeft());
+		doorLayout.draw(doorLayout.getRight());
+	}
+
+
 }
+
