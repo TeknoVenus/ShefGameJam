@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ public class Player extends ApplicationAdapter {
 	private Sprite projectileSprite;
 	private Texture projectileTexture;
 	private ArrayList<Rectangle> projectiles = new ArrayList<Rectangle>();
+	private OrthographicCamera camera;
 	// debug only
 	private ShapeRenderer box = new ShapeRenderer();
 	
@@ -49,6 +52,11 @@ public class Player extends ApplicationAdapter {
 		projectileSprite = new Sprite(projectileTexture,0,0, 8,8);
 		projectileSprite.scale(0f);
 		projectileSprite.setOriginCenter();
+
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, RoomRepresentation.getWindowSize(),
+				RoomRepresentation.getWindowSize());
+		
 	}
 	
 	@Override
@@ -198,7 +206,8 @@ public class Player extends ApplicationAdapter {
 	}
 	private Vector2 getNewProjectilePos(float positionX, float positionY){
 		Vector2 position = new Vector2(positionX,positionY);
-		Vector2 mousePos = new Vector2(Gdx.input.getX(),Gdx.input.getY());
+		Vector3 mousePos = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
+		camera.unproject(mousePos);
 		float angle = position.angle(mousePos);
 		float delta = Gdx.graphics.getDeltaTime();
 		float newX = positionX + (float)(Math.sin(angle)* 5f);
