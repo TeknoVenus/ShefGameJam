@@ -216,10 +216,10 @@ public class Player extends ApplicationAdapter {
 		this.health = health;
 	}
 	private void drawDoors() {
-		doorLayout.draw(doorLayout.getBottom());
-		doorLayout.draw(doorLayout.getTop());
-		doorLayout.draw(doorLayout.getLeft());
-		doorLayout.draw(doorLayout.getRight());
+		doorLayout.draw(doorLayout.getBottom(),false);
+		doorLayout.draw(doorLayout.getTop(),false);
+		doorLayout.draw(doorLayout.getLeft(),true);
+		doorLayout.draw(doorLayout.getRight(),true);
 	}
 	private Vector2 getNewProjectilePos(float positionX, float positionY){
 		Vector2 position = new Vector2(positionX,positionY);
