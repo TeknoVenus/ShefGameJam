@@ -15,7 +15,7 @@ public class DoorLayout {
     private final int DOOR_HEIGHT = 50;
     private final int DOOR_WIDTH = 100;
 
-    private final int DOOR_VER_HEIGHT = 32 *2;
+    private final static int DOOR_VER_HEIGHT = 32 *2;
     private final int DOOR_VER_WIDTH = 28*2;
 
     private final int DOOR_SIDE_HEIGHT = 32 *3;
@@ -59,10 +59,24 @@ public class DoorLayout {
     }
 
     public Rectangle getLeft() {
-        this.Left = new Rectangle(Floor.getRoom().getPadding(),  Floor.getRoom().getRoomYSize() /2 + Floor.getRoom().getPadding() - DOOR_SIDE_WIDTH/2, DOOR_SIDE_WIDTH,DOOR_SIDE_HEIGHT);
+        this.Left = new Rectangle(Floor.getRoom().getPadding(),  
+        		(Floor.getRoom().getRoomYSize() /2 + 
+                		Floor.getRoom().getPadding() - DOOR_SIDE_WIDTH/2), 
+        		DOOR_SIDE_WIDTH,DOOR_SIDE_HEIGHT);
         return Left;
     }
-
+    
+    
+    // for screen height of 480 and some value, say 200 for max y
+    // maps 0-480 > 0-200
+    public static int mapYToVisualScreen(int fractionOfTotalRoomY) {
+    	return (fractionOfTotalRoomY/Floor.getRoom().getRoomYSize()
+    			*(Floor.getRoom().getRoomYSize() 
+    					- 156 - Floor.getRoom().getPadding() 
+    					+ DOOR_VER_HEIGHT));
+    }
+    
+    
     public void draw(Rectangle door, boolean side) {
         batch.begin();
         if (!side)
@@ -74,15 +88,18 @@ public class DoorLayout {
 
     public void checkCollision(Sprite sprite) {
         Rectangle boundingRect = sprite.getBoundingRectangle();
+        
         if (Top.overlaps(boundingRect)) {
         	if (Floor.getRoom().topDoor()) {
         	int newRoomType = Floor.moveRoomUp();
         	if (newRoomType != -1) {
         		Floor.setRoom(new RoomRepresentation(newRoomType,
         				Transition.UP));
+        		Gdx.app.log("Player", "*****OPEN TOP DOOR******");
         	}
-            Gdx.app.log("Player", "*****OVERLAP TOP DOOR******");
+            
         	}
+        	Gdx.app.log("Player", "*****OVERLAP TOP DOOR******");
         } else if (Right.overlaps(boundingRect)) {
         	if (Floor.getRoom().rightDoor()) {
         	int newRoomType = Floor.moveRoomRight();
