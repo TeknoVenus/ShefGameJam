@@ -120,6 +120,7 @@ public class Player extends ApplicationAdapter {
 			for (Enemy enemy : EnemiesManager.getEnemies()) {
 				if (projectileSprite.getBoundingRectangle().overlaps(enemy.getBounds())) {
 					Gdx.app.log("SUCCESS", "YOU HAVE SHOT " + enemy.toString());
+					killCount ++;
 				}
 			}
 		}
@@ -177,6 +178,10 @@ public class Player extends ApplicationAdapter {
 		}
 		if (y > Floor.getRoom().getRoomYSize()) {
 			y = Floor.getRoom().getRoomYSize();
+		}
+
+		if (killCount >= 10){
+			System.out.println("You win.");
 		}
 
 	}
