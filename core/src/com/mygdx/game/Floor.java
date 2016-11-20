@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+
 public class Floor {
 	private static final int FLOOR_SIZE_X = 20;
 	private static final int FLOOR_SIZE_Y = 15;
@@ -9,6 +10,7 @@ public class Floor {
 	// location in the array the active room is in
 	private static int activeX;
 	private static int activeY;
+
 	
 	public static void setRoom(RoomRepresentation newRoom) {
 		activeRoom = newRoom;
@@ -216,7 +218,7 @@ public class Floor {
 				} 
 			}
 		}
-		for (int[] row : floorArray) {
+		/*for (int[] row : floorArray) {
 			for (int individualFloor : row) {
 				String s = "";
 				switch (individualFloor) {
@@ -272,7 +274,7 @@ public class Floor {
 				System.out.print(s);
 			}
 			System.out.println();
-		}
+		}*/
 	}
 
 	public static void main(String[] args) {

@@ -4,7 +4,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 
 /**
@@ -16,6 +15,8 @@ public class Projectile extends ApplicationAdapter {
     private Vector3 target;
     Texture img;
     SpriteBatch batch;
+    private int dx = 0;
+    private int dy = 0;
 
 
     //Constructor: needs the position of the player, a target, & projectile speed
@@ -38,7 +39,9 @@ public class Projectile extends ApplicationAdapter {
     }
 
     public void update() {
-        position = position.interpolate(target, speed, Interpolation.linear);
+    	position.x += dx;
+    	position.y += dy;
+        //position = position.interpolate(target, speed, Interpolation.linear);
     }
 
     public void setPosition(Vector3 pos) {

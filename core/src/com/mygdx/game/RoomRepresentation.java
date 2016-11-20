@@ -14,6 +14,7 @@ public class RoomRepresentation {
 	private static final int WINDOW_SIZING = DEFAULT_ROOM_SIZE+PADDING_WINDOW_EDGE*2;
 	private Integer[][] roomRepresentation;
 	private int id;
+	private int population;
 	public int getID() {
 		return this.id;
 	}
@@ -112,8 +113,11 @@ public class RoomRepresentation {
 		}
 		this.id = id;
 		EnemiesManager.clearEnemies();
-		EnemiesManager.addEnemy(240, 240);
-		EnemiesManager.addEnemy(400, 400);
+		population = (int)(Math.random()*20.0);
+		for (int i=0; i<population;i++){
+			EnemiesManager.addEnemy((int)(Math.random()*250.0),(int)(Math.random()*134.0));
+		}
+
 		if (prevRoom != null) {
 			switch (prevRoom) {
 			case UP:
