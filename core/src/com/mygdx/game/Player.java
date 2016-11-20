@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -34,13 +35,17 @@ public class Player extends ApplicationAdapter {
 	private OrthographicCamera camera;
 	private DoorLayout doorLayout;
 	private Rectangle spriteBounds;
-	private Rectangle projectileBounds;private int evolveStage = 0;
+	private Rectangle projectileBounds;
+	private ArrayList<NewProjectile> NewProjectileArrayList = new ArrayList<NewProjectile>();
+	private int evolveStage = 0;
 	private int evolveCounter = 0;
 	private Sound evolveSound;
 	private Sound shotSound;
 	private Sound introSound;
+	private Music bgMusic;
 
-	private ArrayList<NewProjectile> newProjectileArrayList = new ArrayList<NewProjectile>();
+
+
 
 	// debug only
 	private ShapeRenderer shapeRenderer = new ShapeRenderer();
@@ -50,7 +55,11 @@ public class Player extends ApplicationAdapter {
 		shotSound = Gdx.audio.newSound(Gdx.files.internal("sound/gunshot.wav"));
 		evolveSound = Gdx.audio.newSound((Gdx.files.internal("sound/evolve.wav")));
 		introSound = Gdx.audio.newSound(Gdx.files.internal("sound/introscale.wav"));
-		introSound.play();
+		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("music/gameChipTune.mp3"));
+
+		bgMusic.setLooping(true);
+		bgMusic.play();
+
 		this.batch = batch;
 		cellTexture = new Texture("textures/cell.png");
 		projectileTexture = new Texture("textures/bullet.png");
@@ -97,7 +106,7 @@ public class Player extends ApplicationAdapter {
 		proj.setDY((float)(dY*0.1));
 		proj.create();
 		newProjectileArrayList.add(proj);
-		
+
 	}
 
 	public void bulletUpdate() {
@@ -112,7 +121,7 @@ public class Player extends ApplicationAdapter {
 				projectileSprite.setPosition(p.getPosition().x, p.getPosition().y);
 				projectileSprite.draw(batch);
 				batch.end();
-				
+
 				for (Enemy enemy : EnemiesManager.getEnemies()) {
 					if (projectileSprite.getBoundingRectangle().overlaps(enemy.getBounds())) {
 						Gdx.app.log("SUCCESS", "YOU HAVE SHOT " + enemy.toString());
@@ -123,7 +132,7 @@ public class Player extends ApplicationAdapter {
 			}
 		}
 	}
-	
+
 	@Override
 	public void create() {
 	}
@@ -146,12 +155,12 @@ public class Player extends ApplicationAdapter {
 
 	public void update() {
 
-		if (!this.isFacingLeft()) {
+		/*if (!this.isFacingLeft()) {
 			cell.setTexture( new Texture("textures/cellL.png"));
 		}
 		if(this.isFacingLeft()){
 			cell.setTexture( new Texture("textures/cellR.png"));
-		}
+		}*/
 		shoot = controller.isShoot();
 		if (shoot) {
 			shoot();
@@ -192,9 +201,7 @@ public class Player extends ApplicationAdapter {
 			y = Floor.getRoom().getRoomYSize();
 		}
 
-		if (evolveCounter >= 10){
-			System.out.println("You win.");
-			evolveCounter = 0;
+		if (evolveCounter == 10){
 			evolve();
 		}
 
@@ -223,9 +230,19 @@ public class Player extends ApplicationAdapter {
 
 	public void evolve() {
 		evolveStage++;
+		evolveCounter = 0;
 		evolveSound.play();
-	}
-	
+		switch(evolveStage){
+			case 1:
+				cell.setTexture(new Texture("textures/microbe.png"));
+				break;
+			case 2:
+				cell.setTexture(new Texture("textures/fish.png"));
+				break;
+
+	}}
+
+
 	public void checkCollision(Sprite sprite) {
 		if (spriteBounds.overlaps(projectileBounds)) {
 			Gdx.app.log("Player", "COLLISION");
