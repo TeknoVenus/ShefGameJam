@@ -14,6 +14,10 @@ import com.badlogic.gdx.utils.Array;
 public class Player extends ApplicationAdapter {
 	private int x = 50;
 	private int y = 50;
+
+
+
+	private int health = 100;
 	private int killCount = 0;
 	private boolean shoot;
 	private SpriteBatch batch;
@@ -172,7 +176,13 @@ public class Player extends ApplicationAdapter {
 			}
 		}
 	}*/
+	public int getHealth() {
+		return health;
+	}
 
+	public void setHealth(int health) {
+		this.health = health;
+	}
 	private void drawDoors() {
 		doorLayout.draw(doorLayout.getBottom());
 		doorLayout.draw(doorLayout.getTop());
