@@ -111,6 +111,8 @@ public class RoomRepresentation {
 			break;
 		}
 		this.id = id;
+		EnemiesManager.addEnemy(240, 240);
+		EnemiesManager.addEnemy(400, 400);
 	}
 	public String toString() {
 		String s = "";

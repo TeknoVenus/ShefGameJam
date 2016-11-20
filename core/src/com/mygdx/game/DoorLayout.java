@@ -56,6 +56,10 @@ public class DoorLayout {
         Rectangle boundingRect = sprite.getBoundingRectangle();
 
         if (Top.overlaps(boundingRect)) {
+        	int newRoomType = Floor.moveRoomUp();
+        	if (newRoomType != -1) {
+        		Floor.setRoom(new RoomRepresentation(newRoomType));
+        	}
             Gdx.app.log("Player", "*****OVERLAP TOP DOOR******");
         } else if (Right.overlaps(boundingRect)) {
             Gdx.app.log("Player", "*****OVERLAP RIGHT DOOR******");
