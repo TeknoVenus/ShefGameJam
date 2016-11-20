@@ -62,7 +62,7 @@ public class Player extends ApplicationAdapter {
 		float h = Gdx.graphics.getHeight();
 
 		cell = new Sprite(cellTexture, 0,0, cellTexture.getWidth(), cellTexture.getHeight());
-		cell.scale(2.0f);
+		cell.scale(1);
 		cell.setOriginCenter();
 		cell.setPosition(w / 2 - cell.getWidth() / 2, h / 2 - cell.getHeight() / 2);
 

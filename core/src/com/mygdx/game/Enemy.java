@@ -31,7 +31,7 @@ public class Enemy extends ApplicationAdapter{
 
 		enemyTexture = new Texture(Gdx.files.internal(texCurrent));
 		mafia = new Sprite(enemyTexture, 0,0, enemyTexture.getWidth(), enemyTexture.getHeight());
-		mafia.scale(2);
+		mafia.scale(1);
 		this.x = x;
 		this.y = y;
 		bounds = new Rectangle(x, y, enemyTexture.getWidth(),enemyTexture.getHeight());
