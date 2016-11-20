@@ -1,5 +1,7 @@
 package com.mygdx.game;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -10,8 +12,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-
-import java.util.ArrayList;
 
 public class Player extends ApplicationAdapter {
 	private final int BULLET_WIDTH = 8;
@@ -278,9 +278,9 @@ public class Player extends ApplicationAdapter {
 					Floor.getRoom().getID(),
 					Floor.getFloor()[Floor.getActiveRoomX()+1][Floor.getActiveRoomY()]
 					)) {
-				doorLayout.draw(doorLayout.getLeft(),true,false); 
+				doorLayout.draw(doorLayout.getRight(),true,false); 
 			} else {
-				doorLayout.draw(doorLayout.getLeft(),true,true);	
+				doorLayout.draw(doorLayout.getRight(),true,true);	
 			}
 		}
 	}
