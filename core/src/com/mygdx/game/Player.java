@@ -23,6 +23,7 @@ public class Player extends ApplicationAdapter {
 	private int health = 100;
 	private int killCount = 0;
 	private boolean shoot;
+	private boolean facingLeft = true;
 	private SpriteBatch batch;
 	private Texture img;
 	private InputReciever controller = new InputReciever();
@@ -41,7 +42,7 @@ public class Player extends ApplicationAdapter {
 	private final int BULLET_WIDTH = 8;
 	public Player(SpriteBatch batch) {
 		this.batch = batch;
-		cellTexture = new Texture("textures/cell1.png");
+		cellTexture = new Texture("textures/cell.png");
 
 		screenBounds = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		spriteBounds = new Rectangle(x,y, cellTexture.getWidth(),cellTexture.getHeight());
@@ -49,7 +50,7 @@ public class Player extends ApplicationAdapter {
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 
-		cell = new Sprite(cellTexture, 0,0, 32, 32);
+		cell = new Sprite(cellTexture, 0,0, cellTexture.getWidth(), cellTexture.getHeight());
 		cell.scale(2.0f);
 		cell.setOriginCenter();
 		cell.setPosition(w/2 -cell.getWidth()/2, h/2 - cell.getHeight()/2);
@@ -64,12 +65,27 @@ public class Player extends ApplicationAdapter {
 		doorLayout = new DoorLayout(Floor.getRoom(), batch);
 		
 	}
-	
+
+	public boolean getFacingLeft(){
+		return facingLeft;
+	}
+
+	public void setFacingLeft(boolean facingLeft) {
+		this.facingLeft = facingLeft;
+	}
+
 	@Override
 	public void create() {
 	}
 
 	public void update() {
+
+		if (!this.isFacingLeft()) {
+			cell.setTexture( new Texture("textures/cell1.png"));
+		}
+		if(this.isFacingLeft()){
+			cell.setTexture( new Texture("textures/cell.png"));
+		}
 		shoot = controller.isShoot();
 		if(shoot)spawnProjectile();
 		Iterator<Rectangle> iter = projectiles.iterator();
@@ -133,7 +149,16 @@ public class Player extends ApplicationAdapter {
 		//y = Math.min(roomBottom, Math.max(y-yBoundOffset,roomTop)
 		//		+2*yBoundOffset)-yBoundOffset;
 	}
-	
+	public boolean isFacingLeft(){
+		if (controller.resultingMovementX() == 1){
+			return true;
+		}
+		else if (controller.resultingMovementX()== -1){
+			return false;
+		}
+		else
+			return true;
+	}
 	@Override
 	public void render() {
 		update();
