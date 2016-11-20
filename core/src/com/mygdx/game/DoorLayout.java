@@ -74,15 +74,42 @@ public class DoorLayout {
 
     public void checkCollision(Sprite sprite) {
         Rectangle boundingRect = sprite.getBoundingRectangle();
-
         if (Top.overlaps(boundingRect)) {
+        	if (Floor.getRoom().topDoor()) {
+        	int newRoomType = Floor.moveRoomUp();
+        	if (newRoomType != -1) {
+        		Floor.setRoom(new RoomRepresentation(newRoomType,
+        				Transition.UP));
+        	}
             Gdx.app.log("Player", "*****OVERLAP TOP DOOR******");
+        	}
         } else if (Right.overlaps(boundingRect)) {
+        	if (Floor.getRoom().rightDoor()) {
+        	int newRoomType = Floor.moveRoomRight();
+        	if (newRoomType != -1) {
+        		Floor.setRoom(new RoomRepresentation(newRoomType,
+        				Transition.RIGHT));
+        	}
             Gdx.app.log("Player", "*****OVERLAP RIGHT DOOR******");
+        	}
         } else if (Bottom.overlaps(boundingRect)) {
+        	if (Floor.getRoom().bottomDoor()) {
+        	int newRoomType = Floor.moveRoomDown();
+        	if (newRoomType != -1) {
+        		Floor.setRoom(new RoomRepresentation(newRoomType,
+        				Transition.DOWN));
+        	}
             Gdx.app.log("Player", "*****OVERLAP BOTTOM DOOR******");
+        	}
         } else if (Left.overlaps(boundingRect)) {
+        	if (Floor.getRoom().leftDoor()) {
+        	int newRoomType = Floor.moveRoomLeft();
+        	if (newRoomType != -1) {
+        		Floor.setRoom(new RoomRepresentation(newRoomType,
+        				Transition.LEFT));
+        	}
             Gdx.app.log("Player", "*****OVERLAP LEFT DOOR******");
+        	}
         }
     }
 }

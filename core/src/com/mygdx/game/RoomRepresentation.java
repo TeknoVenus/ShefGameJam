@@ -56,7 +56,7 @@ public class RoomRepresentation {
 			
 		}
 	}
-	public RoomRepresentation(int id) {
+	public RoomRepresentation(int id, Transition prevRoom) {
 		blankRoom();
 		switch (id) {
 		case 1:
@@ -111,9 +111,40 @@ public class RoomRepresentation {
 			break;
 		}
 		this.id = id;
+		EnemiesManager.clearEnemies();
 		EnemiesManager.addEnemy(240, 240);
 		EnemiesManager.addEnemy(400, 400);
+		if (prevRoom != null) {
+			switch (prevRoom) {
+			case UP:
+				// player has moved up so place them
+				// at bottom of screen
+				EnemiesManager.getPlayer().setXY(bottomDoorLocation,
+						yRoomSize-50);
+			case DOWN:
+				// player has moved down so place them
+				// at top of screen
+				EnemiesManager.getPlayer().setXY(topDoorLocation,
+						50);
+			case LEFT:
+				// player has moved left so place them
+				// at right of screen
+				EnemiesManager.getPlayer().setXY(xRoomSize-50,
+						rightDoorLocation);
+			case RIGHT:
+				// player has moved right so place them
+				// at right of screen
+				EnemiesManager.getPlayer().setXY(50,
+						leftDoorLocation);			
+			}
+			
+		}
 	}
+	
+	public RoomRepresentation(int id) {
+		this(id, null);
+	}
+	
 	public String toString() {
 		String s = "";
 		for (int i = 0; i<xRoomSize; i++) {

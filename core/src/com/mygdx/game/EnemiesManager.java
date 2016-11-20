@@ -23,4 +23,12 @@ public class EnemiesManager {
     public static void setGame(RogueLite _game) {
     	game = _game;
     }
+
+	public static void clearEnemies() {
+		enemies.clear();
+	}
+	
+	public static Player getPlayer() {
+		return player;
+	}
 }
