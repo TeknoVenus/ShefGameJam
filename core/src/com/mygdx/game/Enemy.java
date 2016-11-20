@@ -66,26 +66,26 @@ public class Enemy extends ApplicationAdapter{
 	}
 	
 	public void update() {
-		System.out.println(player.getX());
-		System.out.println(player.getY());
+		//System.out.println(player.getX());
+		//System.out.println(player.getY());
 		if (player.getX() > mafia.getX()) {
 			mafia.translateX(1);
-			Gdx.app.log("Enemy", "RIGHT");
+			//Gdx.app.log("Enemy", "RIGHT");
 		}
 
 		else {
 			mafia.translateX(-1);
-			Gdx.app.log("Enemy", "LEFT");
+			//Gdx.app.log("Enemy", "LEFT");
 
 		}
 
 		if (player.getY() > mafia.getY()) {
 			mafia.translateY(1);
-			Gdx.app.log("Enemy", "UP");
+			//Gdx.app.log("Enemy", "UP");
 		}
 		else {
 			mafia.translateY(-1);
-			Gdx.app.log("Enemy", "DOWN");
+			//Gdx.app.log("Enemy", "DOWN");
 		}}
 
 

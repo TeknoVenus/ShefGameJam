@@ -26,7 +26,7 @@ public class RogueLite extends Game {
 	@Override
 	public void dispose() {
 		batch.dispose();
-		img.dispose();
+
 	}
 
 

@@ -121,7 +121,7 @@ public class Player extends ApplicationAdapter {
 		// debug only
 		box.begin(ShapeType.Filled);
 		box.setColor(1, 1, 0, 1);
-		System.out.print(roomRight);
+		//System.out.print(roomRight);
 		box.rect(Floor.getRoom().getPadding() + roomLeft, 
 				Floor.getRoom().getPadding() + roomTop, 
 				 roomRight-roomLeft, roomBottom-roomTop);
@@ -201,8 +201,8 @@ public class Player extends ApplicationAdapter {
 		Vector2 mousePos = new Vector2(Gdx.input.getX(),Gdx.input.getY());
 		float angle = position.angle(mousePos);
 		float delta = Gdx.graphics.getDeltaTime();
-		float newX = (float) (Math.sin(angle) * delta * 5.0f);
-		float newY = (float) (Math.cos(angle) * delta * 5.0f);
+		float newX = positionX + (float)(Math.sin(angle)* 5f);
+		float newY = positionY + (float)(Math.cos(angle)* 5f);
 		Vector2 output = new Vector2(newX, newY);
 		return output;
 	}
