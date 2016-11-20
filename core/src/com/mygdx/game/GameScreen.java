@@ -25,10 +25,15 @@ public class GameScreen implements Screen {
     Viewport viewport;
     public Texture img;
 
+    private Texture backTexture;
+    private Sprite backSprite;
+
     private Player player;
     
     public GameScreen(RogueLite game) {
         this.game = game;
+        backTexture = new Texture(Gdx.files.internal("textures/bg.png"));
+        backSprite = new Sprite(backTexture);
         this.player = new Player(game.batch);
         EnemiesManager.setPlayer(this.player);
         Floor.generate();
@@ -41,6 +46,16 @@ public class GameScreen implements Screen {
     public void render(float deltaTime) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        //Draw background
+        int roomLeft = 0;
+        int roomRight = Floor.getRoom().getRoomXSize();
+        int roomTop = 0;
+        int roomBottom = Floor.getRoom().getRoomYSize();
+        game.batch.begin();
+        game.batch.draw(backTexture,Floor.getRoom().getPadding() + roomLeft,
+                Floor.getRoom().getPadding() + roomTop,
+                roomRight - roomLeft, roomBottom - roomTop);
+        game.batch.end();
         player.render();
         for (Enemy enemy : EnemiesManager.getEnemies()) {
         	enemy.render();	

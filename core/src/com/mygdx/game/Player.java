@@ -41,7 +41,7 @@ public class Player extends ApplicationAdapter {
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 
-		doorLayout = new DoorLayout(Floor.getRoom());
+		doorLayout = new DoorLayout(Floor.getRoom(), batch);
 
 		cell = new Sprite(cellTexture, 0,0, 32, 32);
 		cell.scale(2.0f);
@@ -105,16 +105,7 @@ public class Player extends ApplicationAdapter {
 		//		+2*xBoundOffset)-xBoundOffset;
 
 		//y = Math.min(roomBottom, Math.max(y-yBoundOffset,roomTop)
-		//		+2*yBoundOffset)-yBoundOffset;
-
-		// debug only
-		box.begin(ShapeType.Filled);
-		box.setColor(1, 1, 0, 1);
-		//System.out.print(roomRight);
-		box.rect(Floor.getRoom().getPadding() + roomLeft,
-				Floor.getRoom().getPadding() + roomTop,
-				roomRight - roomLeft, roomBottom - roomTop);
-		box.end();
+		//		+2*yBoundOffset)-yBoundOffset
 	}
 
 	@Override
@@ -183,10 +174,10 @@ public class Player extends ApplicationAdapter {
 		this.health = health;
 	}
 	private void drawDoors() {
-		doorLayout.draw(doorLayout.getBottom());
-		doorLayout.draw(doorLayout.getTop());
-		doorLayout.draw(doorLayout.getLeft());
-		doorLayout.draw(doorLayout.getRight());
+		doorLayout.draw(doorLayout.getBottom(), false);
+		doorLayout.draw(doorLayout.getTop(), false);
+		doorLayout.draw(doorLayout.getLeft(), false);
+		doorLayout.draw(doorLayout.getRight(), false);
 	}
 
 

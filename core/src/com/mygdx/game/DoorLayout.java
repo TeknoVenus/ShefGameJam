@@ -1,7 +1,9 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -13,53 +15,67 @@ public class DoorLayout {
     private final int DOOR_HEIGHT = 50;
     private final int DOOR_WIDTH = 100;
 
+    private final int DOOR_VER_HEIGHT = 32 *2;
+    private final int DOOR_VER_WIDTH = 28*2;
+
+    private final int DOOR_SIDE_HEIGHT = 32 *3;
+    private final int DOOR_SIDE_WIDTH = 8*3;
+
+
     private Rectangle Top;
     private Rectangle Right;
     private Rectangle Bottom;
     private Rectangle Left;
     private ShapeRenderer box = new ShapeRenderer();
-    private RoomRepresentation floor;
+    private SpriteBatch batch;
+    private Texture doorTexture;
+    private Sprite doorSprite;
 
-    public DoorLayout(RoomRepresentation floor) {
-        this.floor = floor;
+    private Texture doorSideTexture;
+    private Sprite doorSideSprite;
+
+    public DoorLayout(RoomRepresentation room, SpriteBatch batch) {
+        this.batch = batch;
+        doorTexture = new Texture(Gdx.files.internal("textures/door.png"));
+        doorSprite = new Sprite(doorTexture);
+
+        doorSideTexture = new Texture(Gdx.files.internal("textures/doorSide.png"));
+        doorSideSprite = new Sprite(doorTexture);
     }
 
     public Rectangle getTop() {
-        this.Top = new Rectangle((floor.getRoomXSize()) / 2 + floor.getPadding() - DOOR_WIDTH / 2, floor.getRoomYSize() + floor.getPadding(), DOOR_WIDTH, DOOR_HEIGHT);
+        this.Top = new Rectangle((Floor.getRoom().getRoomXSize()) / 2 + Floor.getRoom().getPadding() - DOOR_VER_WIDTH / 2, Floor.getRoom().getRoomYSize() - 156 - Floor.getRoom().getPadding() + DOOR_VER_HEIGHT, DOOR_VER_WIDTH, DOOR_VER_HEIGHT);
         return Top;
     }
 
     public Rectangle getRight() {
-        this.Right = new Rectangle(floor.getRoomXSize() + DOOR_HEIGHT, floor.getRoomYSize() /2 + floor.getPadding() - DOOR_WIDTH/2 ,DOOR_HEIGHT, DOOR_WIDTH);
+        this.Right = new Rectangle(Floor.getRoom().getRoomXSize() + DOOR_SIDE_WIDTH,  Floor.getRoom().getRoomYSize() /2 + Floor.getRoom().getPadding() - DOOR_SIDE_WIDTH/2, DOOR_SIDE_WIDTH,DOOR_SIDE_HEIGHT);
         return Right;
     }
 
     public Rectangle getBottom() {
-        this.Bottom = new Rectangle((floor.getRoomXSize()) / 2  + floor.getPadding() - DOOR_WIDTH/2, 0,DOOR_WIDTH,DOOR_HEIGHT);
+        this.Bottom = new Rectangle((Floor.getRoom().getRoomXSize()) / 2  + Floor.getRoom().getPadding() - DOOR_WIDTH/2, 0,DOOR_WIDTH,DOOR_HEIGHT);
         return Bottom;
     }
 
     public Rectangle getLeft() {
-        this.Left = new Rectangle(0,  floor.getRoomYSize() /2 + floor.getPadding() - DOOR_WIDTH/2, DOOR_HEIGHT,DOOR_WIDTH);
+        this.Left = new Rectangle(Floor.getRoom().getPadding(),  Floor.getRoom().getRoomYSize() /2 + Floor.getRoom().getPadding() - DOOR_SIDE_WIDTH/2, DOOR_SIDE_WIDTH,DOOR_SIDE_HEIGHT);
         return Left;
     }
 
-    public void draw(Rectangle door) {
-        box.begin(ShapeRenderer.ShapeType.Filled);
-        box.setColor(0, 1, 0, 1);
-
-        box.rect(door.getX(), door.getY(), door.getWidth(), door.getHeight());
-        box.end();
+    public void draw(Rectangle door, boolean side) {
+        batch.begin();
+        if (!side)
+            batch.draw(doorSprite, door.getX(), door.getY(), door.getWidth(), door.getHeight());
+        else
+            batch.draw(doorSideTexture, door.getX(), door.getY(), door.getWidth(), door.getHeight());
+        batch.end();
     }
 
     public void checkCollision(Sprite sprite) {
         Rectangle boundingRect = sprite.getBoundingRectangle();
 
         if (Top.overlaps(boundingRect)) {
-        	int newRoomType = Floor.moveRoomUp();
-        	if (newRoomType != -1) {
-        		Floor.setRoom(new RoomRepresentation(newRoomType));
-        	}
             Gdx.app.log("Player", "*****OVERLAP TOP DOOR******");
         } else if (Right.overlaps(boundingRect)) {
             Gdx.app.log("Player", "*****OVERLAP RIGHT DOOR******");
