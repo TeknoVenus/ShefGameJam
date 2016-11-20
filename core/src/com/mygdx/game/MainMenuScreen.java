@@ -139,6 +139,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
+        music.dispose();
         playButton.removeListener(quitListener);
         playButton.removeListener(playListener);
     }
