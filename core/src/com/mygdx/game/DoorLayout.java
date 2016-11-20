@@ -99,15 +99,15 @@ public class DoorLayout {
         	}
             
         	}
-        	Gdx.app.log("Player", "*****OVERLAP TOP DOOR******");
         } else if (Right.overlaps(boundingRect)) {
         	if (Floor.getRoom().rightDoor()) {
         	int newRoomType = Floor.moveRoomRight();
         	if (newRoomType != -1) {
         		Floor.setRoom(new RoomRepresentation(newRoomType,
         				Transition.RIGHT));
+        		Gdx.app.log("Player", "*****OPEN RIGHT DOOR******");
         	}
-            Gdx.app.log("Player", "*****OVERLAP RIGHT DOOR******");
+            
         	}
         } else if (Bottom.overlaps(boundingRect)) {
         	if (Floor.getRoom().bottomDoor()) {
@@ -115,8 +115,8 @@ public class DoorLayout {
         	if (newRoomType != -1) {
         		Floor.setRoom(new RoomRepresentation(newRoomType,
         				Transition.DOWN));
+        		Gdx.app.log("Player", "*****OPEN BOTTOM DOOR******");
         	}
-            Gdx.app.log("Player", "*****OVERLAP BOTTOM DOOR******");
         	}
         } else if (Left.overlaps(boundingRect)) {
         	if (Floor.getRoom().leftDoor()) {
@@ -124,8 +124,8 @@ public class DoorLayout {
         	if (newRoomType != -1) {
         		Floor.setRoom(new RoomRepresentation(newRoomType,
         				Transition.LEFT));
+        		Gdx.app.log("Player", "*****OPEN LEFT DOOR******");
         	}
-            Gdx.app.log("Player", "*****OVERLAP LEFT DOOR******");
         	}
         }
     }

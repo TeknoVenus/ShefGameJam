@@ -25,43 +25,48 @@ public class Floor {
 		return activeY;
 	}
 	
-	//TODO Make RoomRepresentation use these
-	// methods to move between rooms and then
-	// use the returned int to create a new Room,
-	// update this Floor's active room and
-	// essentially over write itself
+	// this actually does move along if it can so
+	// do not use for just queries
 	public static int moveRoomRight() {
 		if (activeX < FLOOR_SIZE-1) {
 			if (isValidLeftRight(activeRoom.getID(),
 					floorArray[activeX+1][activeY])) {
-				return floorArray[activeX+1][activeY];
+				int newX = activeX+1;
+				activeX = newX;
+				return floorArray[newX][activeY];
 			}
 		}
 		return -1;
 	}
 	public static int moveRoomLeft() {
 		if (activeX > 0) {
-			if (isValidLeftRight(floorArray[activeX+1][activeY],
+			if (isValidLeftRight(floorArray[activeX-1][activeY],
 					activeRoom.getID())) {
-				return floorArray[activeX+1][activeY];
+				int newX = activeX-1;
+				activeX = newX;
+				return floorArray[newX][activeY];
 			}
 		}
 		return -1;
 	}	
 	public static int moveRoomUp() {
-		if (activeY < FLOOR_SIZE-1) {
+		if (activeY > 0) {
 			if (isValidBelowUp(activeRoom.getID(),
-					floorArray[activeX][activeY+1])) {
-				return floorArray[activeX][activeY+1];
+					floorArray[activeX][activeY-1])) {
+				int newY = activeY-1;
+				activeY = newY;
+				return floorArray[activeX][newY];
 			}
 		}
 		return -1;
 	}
 	public static int moveRoomDown() {
-		if (activeY > 0) {
-			if (isValidBelowUp(floorArray[activeX][activeY-1],
+		if (activeY < FLOOR_SIZE-1) {
+			if (isValidBelowUp(floorArray[activeX][activeY+1],
 					activeRoom.getID())) {
-				return floorArray[activeX][activeY-1];
+				int newY = activeY+1;
+				activeY = newY;
+				return floorArray[activeX][newY];
 			}
 		}
 		return -1;
@@ -210,7 +215,7 @@ public class Floor {
 				} 
 			}
 		}
-		/*for (int[] row : floorArray) {
+		for (int[] row : floorArray) {
 			for (int individualFloor : row) {
 				String s = "";
 				switch (individualFloor) {
@@ -227,13 +232,13 @@ public class Floor {
 					s = "  [^]--";
 					break;
 				case 4:
-					s = "  [˅]  ";
+					s = "  [/]  ";
 					break;
 				case 5:
 					s = "  [|]  ";
 					break;
 				case 6:
-					s = "  [˅]--";
+					s = "  [/]--";
 					break;
 				case 7:
 					s = "  [|]--";
@@ -251,13 +256,13 @@ public class Floor {
 					s = "--[^]--";
 					break;
 				case 12:
-					s = "--[˅]  ";
+					s = "--[/]  ";
 					break;
 				case 13:
 					s = "--[|]  ";
 					break;
 				case 14:
-					s = "--[˅]--";
+					s = "--[/]--";
 					break;
 				case 15:
 					s = "--[|]--";
@@ -266,7 +271,7 @@ public class Floor {
 				System.out.print(s);
 			}
 			System.out.println();
-		}*/
+		}
 	}
 
 	public static void main(String[] args) {

@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -129,7 +128,7 @@ public class Player extends ApplicationAdapter {
 		if (y < 0) {
 			y = 0;
 		}
-		// TODO un hard code later
+
 		if (x > Floor.getRoom().getRoomXSize()) {
 			x = Floor.getRoom().getRoomXSize();
 		}
@@ -137,17 +136,6 @@ public class Player extends ApplicationAdapter {
 			y = Floor.getRoom().getRoomYSize();
 		}
 
-		
-		int xBoundOffset = (int) (0.5*cell.getWidth()*cell.getScaleX());
-		int yBoundOffset = (int) (0.5*cell.getHeight()*cell.getScaleY());
-		//if (x+ > ) {
-			
-		//}
-		//x = Math.min(roomRight, Math.max(x-xBoundOffset,roomLeft)
-		//		+2*xBoundOffset)-xBoundOffset;
-		
-		//y = Math.min(roomBottom, Math.max(y-yBoundOffset,roomTop)
-		//		+2*yBoundOffset)-yBoundOffset;
 	}
 	public boolean isFacingLeft(){
 		if (controller.resultingMovementX() == 1){

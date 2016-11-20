@@ -120,22 +120,22 @@ public class RoomRepresentation {
 				// player has moved up so place them
 				// at bottom of screen
 				EnemiesManager.getPlayer().setXY(bottomDoorLocation,
-						(DoorLayout.mapYToVisualScreen(yRoomSize)-150));
+						100);
 			case DOWN:
 				// player has moved down so place them
 				// at top of screen
 				EnemiesManager.getPlayer().setXY(topDoorLocation,
-						150);
+						(DoorLayout.mapYToVisualScreen(yRoomSize)-100));
 			case LEFT:
 				// player has moved left so place them
 				// at right of screen
-				EnemiesManager.getPlayer().setXY(xRoomSize-150,
-						rightDoorLocation);
+				EnemiesManager.getPlayer().setXY(xRoomSize-100,
+						DoorLayout.mapYToVisualScreen(rightDoorLocation));
 			case RIGHT:
 				// player has moved right so place them
 				// at right of screen
-				EnemiesManager.getPlayer().setXY(150,
-						leftDoorLocation);			
+				EnemiesManager.getPlayer().setXY(100,
+						DoorLayout.mapYToVisualScreen(leftDoorLocation));
 			}
 			
 		}
