@@ -139,12 +139,13 @@ public class Player extends ApplicationAdapter {
 	
 	@Override
 	public void render() {
-		
 		update();
 		cell.setX(this.x+(Floor.getRoom().getPadding()));
 		cell.setY(this.y+(Floor.getRoom().getPadding()));
 		batch.begin();
 		cell.draw(batch);
+
+		camera.update();
 		if (projectiles != null) {
 			for (Rectangle projectile : projectiles) {
 				batch.draw(projectileTexture, projectile.x, projectile.y);
