@@ -50,6 +50,7 @@ public class Player extends ApplicationAdapter {
 		shotSound = Gdx.audio.newSound(Gdx.files.internal("sound/gunshot.wav"));
 		evolveSound = Gdx.audio.newSound((Gdx.files.internal("sound/evolve.wav")));
 		introSound = Gdx.audio.newSound(Gdx.files.internal("sound/introscale.wav"));
+		introSound.play();
 		this.batch = batch;
 		cellTexture = new Texture("textures/cell.png");
 		projectileTexture = new Texture("textures/bullet.png");

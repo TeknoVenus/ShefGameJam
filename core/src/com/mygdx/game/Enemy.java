@@ -34,7 +34,7 @@ public class Enemy extends ApplicationAdapter{
 		mafia.scale(2);
 		this.x = x;
 		this.y = y;
-		bounds = new Rectangle(x, y, 25,25);
+		bounds = new Rectangle(x, y, enemyTexture.getWidth(),enemyTexture.getHeight());
 		this.player = player;
 		this.batch = batch;
 	}
@@ -74,24 +74,29 @@ public class Enemy extends ApplicationAdapter{
 		//System.out.println(player.getX());
 		//System.out.println(player.getY());
 		if (player.getX() > mafia.getX()) {
-			mafia.translateX(0.5f);
+			this.x += 1;
 			//Gdx.app.log("Enemy", "RIGHT");
 		}
 
 		else {
-			mafia.translateX(-0.5f);
+            this.x -= 1;
 			//Gdx.app.log("Enemy", "LEFT");
 
 		}
 
 		if (player.getY() > mafia.getY()) {
-			mafia.translateY(0.5f);
+			this.y += 1;
 			//Gdx.app.log("Enemy", "UP");
 		}
 		else {
-			mafia.translateY(-0.5f);
+			this.y -= 1;
 			//Gdx.app.log("Enemy", "DOWN");
-		}}
+		}
+	    bounds.set(this.x, this.y, mafia.getWidth(), mafia.getHeight());
+        mafia.setPosition(this.x, this.y);
+        System.out.println(bounds.x +" , "+ bounds.y);
+
+	}
 
 @Override
 	public void dispose(){
