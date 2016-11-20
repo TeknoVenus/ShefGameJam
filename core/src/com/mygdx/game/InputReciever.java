@@ -5,9 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class InputReciever {
-	
-	private float shotSecondsAgo = 0f;
-	private float shootDelay = 5f;
 
 	private long lastShotTimeNano = 0;
 	private long bulletDelay = 0;

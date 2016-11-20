@@ -280,7 +280,7 @@ public class Player extends ApplicationAdapter {
 		float tX = input.x - 110;
 		float tY = input.y - 110;
 		//float mag = (float) java.lang.Math.hypot( tX, tY);
-		float mag = 20;
+		float mag = 5;
 		tX/=mag;
 		tY/=mag;
 		return new Vector2(tX, tY);

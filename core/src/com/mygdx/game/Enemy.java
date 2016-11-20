@@ -93,7 +93,7 @@ public class Enemy extends ApplicationAdapter{
 			//Gdx.app.log("Enemy", "DOWN");
 		}}
 
-
+@Override
 	public void dispose(){
 		player.setKillCount(player.getKillCount() + 1);
 	}
