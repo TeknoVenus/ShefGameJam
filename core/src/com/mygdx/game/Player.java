@@ -34,14 +34,18 @@ public class Player extends ApplicationAdapter {
 	private ArrayList<Rectangle> projectiles = new ArrayList<Rectangle>();
 	private OrthographicCamera camera;
 	private DoorLayout doorLayout;
+	private Rectangle spriteBounds;
+	private Rectangle projectileBounds;
 	// debug only
 	private ShapeRenderer box = new ShapeRenderer();
-	
+	private final int BULLET_WIDTH = 8;
 	public Player(SpriteBatch batch) {
 		this.batch = batch;
 		cellTexture = new Texture("textures/cell1.png");
 
 		screenBounds = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		spriteBounds = new Rectangle(x,y, cellTexture.getWidth(),cellTexture.getHeight());
+
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 
@@ -82,6 +86,7 @@ public class Player extends ApplicationAdapter {
 		final Rectangle bounds = cell.getBoundingRectangle();
 		//TODO:: Viewport if using camera? Check for screen resizing issues?
 
+
 		float left = bounds.getX();
 		float bottom = bounds.getY();
 		float top = bottom + bounds.getHeight();
@@ -101,8 +106,6 @@ public class Player extends ApplicationAdapter {
 
 		x += 2*controller.resultingMovementX();
 		y += 2*controller.resultingMovementY();
-		System.out.println(x);
-		System.out.println(y);
 
 		if (x < 0) {
 			x = 0;
@@ -117,7 +120,7 @@ public class Player extends ApplicationAdapter {
 		if (y > Floor.getRoom().getRoomYSize()) {
 			y = Floor.getRoom().getRoomYSize();
 		}
-		
+
 		
 		int xBoundOffset = (int) (0.5*cell.getWidth()*cell.getScaleX());
 		int yBoundOffset = (int) (0.5*cell.getHeight()*cell.getScaleY());
@@ -144,13 +147,19 @@ public class Player extends ApplicationAdapter {
 		if (projectiles != null) {
 			for (Rectangle projectile : projectiles) {
 				batch.draw(projectileTexture, projectile.x, projectile.y);
+				Rectangle projectileBounds = new Rectangle(projectile.x,projectile.y,BULLET_WIDTH,BULLET_WIDTH);
 			}
 		}
-		 
 		batch.end();
 		doorLayout.checkCollision(cell);
 	}
-	
+
+	public void checkCollision(Sprite sprite) {
+
+		if (spriteBounds.overlaps(projectileBounds)) {
+			Gdx.app.log("Player", "COLLISION");
+
+	}}
 	@Override
 	public void dispose() {
 		batch.dispose();
