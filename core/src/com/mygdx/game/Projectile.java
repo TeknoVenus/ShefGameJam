@@ -35,6 +35,7 @@ public class Projectile extends ApplicationAdapter {
     public void render() {
         batch.begin();
         batch.draw(img, position.x, position.y);
+        batch.end();
     }
 
     public void update() {

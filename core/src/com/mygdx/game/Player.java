@@ -7,8 +7,12 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+
+import java.util.Iterator;
 
 public class Player extends ApplicationAdapter {
 	private int x = 50;
@@ -21,7 +25,8 @@ public class Player extends ApplicationAdapter {
 	private Rectangle screenBounds;
 	private Sprite cell;
 	private Texture cellTexture;
-	private Array<Projectile> projectiles;
+	private Texture projectileTexture;
+	private Array<Rectangle> projectiles;
 	// debug only
 	private ShapeRenderer box = new ShapeRenderer();
 	
@@ -41,13 +46,25 @@ public class Player extends ApplicationAdapter {
 	
 	@Override
 	public void create() {
-
+		projectileTexture = new Texture("textures/bullet.png");
+		projectiles = new Array<Rectangle>();
+		spawnProjectile();
 	}
 
 	public void update() {
 		shoot = controller.isShoot();
-		//manageProjectiles();
-		
+		spawnProjectile();
+		Iterator<Rectangle> iter = projectiles.iterator();
+		while(iter.hasNext()){
+			Rectangle p = iter.next();
+			p.x = getNewProjectilePos(p.x,p.y).x;
+			p.y = getNewProjectilePos(p.x,p.y).y;
+			if (p.y > Gdx.graphics.getHeight() || p.x > Gdx.graphics.getWidth()
+					|| p.x < 0 || p.y < 0){
+				iter.remove();
+			}
+		}
+
 		final Rectangle bounds = cell.getBoundingRectangle();
 		//TODO:: Viewport if using camera? Check for screen resizing issues?
 
@@ -99,7 +116,9 @@ public class Player extends ApplicationAdapter {
 		cell.setY(this.y);
 		batch.begin();
 		cell.draw(batch);
-		
+		for(Rectangle projectile: projectiles){
+			batch.draw(projectileTexture, projectile.x, projectile.y);
+		}
 		 
 		batch.end();
 		// debug only
@@ -133,15 +152,31 @@ public class Player extends ApplicationAdapter {
 		return killCount;
 	}
 
-	/*private void manageProjectiles(){
-		Iterator<Projectile> itr = projectiles.iterator();
-		while(itr.hasNext()){
-			Projectile p = itr.next();
-			p.update();
-			if (p.getPosition().y > Gdx.graphics.getHeight() || p.getPosition().x > Gdx.graphics.getWidth()
-					|| p.getPosition().x < 0 || p.getPosition().y < 0){
-				itr.remove();
+
+	private void spawnProjectile(){
+		Rectangle projectile = new Rectangle();
+		projectile.x = 100;
+		projectile.y = 100;
+		projectile.width = 8;
+		projectile.height = 8;
+		projectiles.add(projectile);
+	}
+	private void manageProjectiles(){
+
+		Iterator<Rectangle> iter = projectiles.iterator();
+		while(iter.hasNext()){
+			Rectangle p = iter.next();
+			p.setPosition(getNewProjectilePos(p.x,p.y));
+			if (p.y > Gdx.graphics.getHeight() || p.x > Gdx.graphics.getWidth()
+					|| p.x < 0 || p.y < 0){
+				iter.remove();
 			}
 		}
-	}*/
+	}
+	private Vector2 getNewProjectilePos(float positionX, float positionY){
+		Vector2 position = new Vector2(positionX,positionY);
+		Vector2 mousePos = new Vector2(Gdx.input.getX(),Gdx.input.getY());
+		Vector2 output = position.interpolate(mousePos,0.1f, Interpolation.linear);
+		return output;
+	}
 }
