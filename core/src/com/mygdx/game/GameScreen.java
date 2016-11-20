@@ -1,5 +1,8 @@
 package com.mygdx.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -7,7 +10,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
@@ -24,21 +26,21 @@ public class GameScreen implements Screen {
 
     OrthographicCamera camera;
     Viewport viewport;
-    Enemy enemy;
     public Texture img;
 
     private Player player;
 
+    private List<Enemy> enemies = new ArrayList<Enemy>(5);
+    
     public GameScreen(RogueLite game) {
         this.game = game;
         Floor.generate();
         Floor.setRoom(new 
         		RoomRepresentation(Floor.getStartFloorInt()));
         this.player = new Player(game.batch);
-        this.enemy = new Enemy(20, 20, player, game.batch);
-
+        enemies.add(new Enemy(400, 20, player, game.batch));
+        enemies.add(new Enemy(400, 400, player, game.batch));
         img = new Texture("badlogic.jpg");
-        //this.enemy = new Enemy(2, player);
     }
 
 
@@ -46,8 +48,9 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         player.render();
-        enemy.render();
-
+        for (Enemy enemy : enemies) {
+        	enemy.render();	
+        }
     }
 
     @Override
