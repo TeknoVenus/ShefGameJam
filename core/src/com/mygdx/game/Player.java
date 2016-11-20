@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -201,6 +202,7 @@ public class Player extends ApplicationAdapter {
 			if (p.y > Gdx.graphics.getHeight() || p.x > Gdx.graphics.getWidth()
 					|| p.x < 0 || p.y < 0){
 				iter.remove();
+				System.out.println("Removed Projectile");
 			}
 		}
 	}
@@ -208,7 +210,8 @@ public class Player extends ApplicationAdapter {
 		Vector2 position = new Vector2(positionX,positionY);
 		Vector3 mousePos = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
 		camera.unproject(mousePos);
-		float angle = position.angle(mousePos);
+		Vector2 mousePos2 = new Vector2(mousePos.x,mousePos.y);
+		float angle = position.angle();
 		float delta = Gdx.graphics.getDeltaTime();
 		float newX = positionX + (float)(Math.sin(angle)* 5f);
 		float newY = positionY + (float)(Math.cos(angle)* 5f);

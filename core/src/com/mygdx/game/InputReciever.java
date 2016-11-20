@@ -22,7 +22,6 @@ public class InputReciever {
 	}
 
 	public boolean isMoveRight() {
-		return Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.R);
 		return Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D);
 	}
 
