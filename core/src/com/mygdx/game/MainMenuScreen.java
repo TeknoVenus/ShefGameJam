@@ -36,8 +36,10 @@ public class MainMenuScreen implements Screen {
         //backgroundTexture = new TextureRegion(new Texture("back.jpg"), 0, 0, 1920, 1080);
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 400);
-        viewport = new FitViewport(800, 400, camera);
+        camera.setToOrtho(false, RoomRepresentation.getWindowSize(), 
+        		RoomRepresentation.getWindowSize());
+        viewport = new FitViewport(RoomRepresentation.getWindowSize(), 
+        		RoomRepresentation.getWindowSize(), camera);
         viewport.apply();
         stage = new Stage(viewport, game.batch);
     }
@@ -95,7 +97,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height);
+    	
     }
 
     @Override

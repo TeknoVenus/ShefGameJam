@@ -92,23 +92,39 @@ public class Player extends ApplicationAdapter {
 		x += controller.resultingMovementX();
 		y += controller.resultingMovementY();
 
-		int xBoundOffset = (int) (cell.getWidth()*cell.getScaleX());
-		x = Math.min(roomRight, Math.max(x-xBoundOffset,roomLeft)
-				+2*xBoundOffset)-xBoundOffset;
-		int yBoundOffset = (int) (cell.getHeight()*cell.getScaleY());
-		y = Math.min(roomBottom, Math.max(y-yBoundOffset,roomTop)
-				+2*yBoundOffset)-yBoundOffset;
+		if (x < 0) {
+			x = 0;
+		}
+		if (y < 0) {
+			y = 0;
+		}
+		// TODO un hard code later
+		if (x > Floor.getRoom().getRoomXSize()) {
+			x = Floor.getRoom().getRoomXSize();
+		}
+		if (y > Floor.getRoom().getRoomYSize()) {
+			y = Floor.getRoom().getRoomYSize();
+		}
+		
+		
+		int xBoundOffset = (int) (0.5*cell.getWidth()*cell.getScaleX());
+		int yBoundOffset = (int) (0.5*cell.getHeight()*cell.getScaleY());
+		//if (x+ > ) {
+			
+		//}
+		//x = Math.min(roomRight, Math.max(x-xBoundOffset,roomLeft)
+		//		+2*xBoundOffset)-xBoundOffset;
+		
+		//y = Math.min(roomBottom, Math.max(y-yBoundOffset,roomTop)
+		//		+2*yBoundOffset)-yBoundOffset;
 	
 		// debug only
 		box.begin(ShapeType.Filled);
 		box.setColor(1, 1, 0, 1);
-		box.rect(roomLeft, roomTop, 
+		System.out.print(roomRight);
+		box.rect(Floor.getRoom().getPadding() + roomLeft, 
+				Floor.getRoom().getPadding() + roomTop, 
 				 roomRight-roomLeft, roomBottom-roomTop);
-		box.end();
-		box.begin(ShapeType.Filled);
-		box.setColor(1, 0, 0, 1);
-		box.rect(x, y, 
-				 60, 60);
 		box.end();
 	}
 	
@@ -116,8 +132,8 @@ public class Player extends ApplicationAdapter {
 	public void render() {
 		
 		update();
-		cell.setX(this.x);
-		cell.setY(this.y);
+		cell.setX(this.x+(Floor.getRoom().getPadding()));
+		cell.setY(this.y+(Floor.getRoom().getPadding()));
 		batch.begin();
 		cell.draw(batch);
 		if (projectiles != null) {
