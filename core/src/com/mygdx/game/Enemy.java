@@ -128,7 +128,7 @@ public class Enemy extends ApplicationAdapter{
 
 		Random random = new Random();
 
-		if (Math.random() > 0.5 && count > random.nextInt((500 - 100) + 1) + 100) {
+		if (Math.random() > 0.5 && count > random.nextInt((1000 - 100) + 1) + 100) {
 			shoot();
 			count = 0;
 		}

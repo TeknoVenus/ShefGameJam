@@ -23,12 +23,14 @@ public class Health {
 	}
 
 	public void draw(float percentage) {
-		if (percentage <= 1) {
+		if (percentage <= 1 && percentage >= 0) {
 			sprite = new Sprite(texture, 0, 0, (int) (texture.getWidth() * percentage), texture.getHeight());
 			sprite.scale(5);
 			batch.begin();
 			sprite.draw(batch);
 			batch.end();
+		} else if (percentage <= 0) {
+			Gdx.app.log("Health", "GAME OVER - " + percentage);
 		} else {
 			Gdx.app.log("Health", "ERROR: percentage invald - " + percentage);
 		}
