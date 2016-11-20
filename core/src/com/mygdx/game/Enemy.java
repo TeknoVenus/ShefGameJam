@@ -7,10 +7,15 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
+import java.util.ArrayList;
+import java.util.Random;
+import static com.badlogic.gdx.scenes.scene2d.ui.Table.Debug.cell;
 
 public class Enemy extends ApplicationAdapter{
 	private int x =20;
@@ -21,8 +26,13 @@ public class Enemy extends ApplicationAdapter{
 	private Rectangle screenBounds;
 	private SpriteBatch batch;
 	private Sprite mafia;
-	
-	
+	private OrthographicCamera camera;
+	private ArrayList<NewProjectile> newProjectileArrayList;
+	private Sprite projectileSprite;
+	private Texture projectileTexture;
+
+	private int count;
+
 	public Enemy (int x, int y, Player player, SpriteBatch batch) {
 		//Randomly selects file from array.
 		int texChance = (int)Math.round((Math.random()));
@@ -37,6 +47,11 @@ public class Enemy extends ApplicationAdapter{
 		bounds = new Rectangle(x, y, enemyTexture.getWidth(),enemyTexture.getHeight());
 		this.player = player;
 		this.batch = batch;
+		newProjectileArrayList = new ArrayList<NewProjectile>();
+		count = 0;
+
+		projectileTexture = new Texture("textures/bullet.png");
+		projectileTexture = new Texture(Gdx.files.internal("textures/bullet.png"));
 	}
 
 	@Override
@@ -95,6 +110,55 @@ public class Enemy extends ApplicationAdapter{
 	    bounds.set(this.x, this.y, mafia.getWidth(), mafia.getHeight());
         mafia.setPosition(this.x, this.y);
         System.out.println(bounds.x +" , "+ bounds.y);
+
+		Random random = new Random();
+
+		if (Math.random() > 0.5 && count > random.nextInt((500 - 100) + 1) + 100) {
+			shoot();
+			count = 0;
+		}
+		count += 1;
+		bulletUpdate();
+
+	}
+
+	public void bulletUpdate() {
+		for (int i = 0; i < newProjectileArrayList.size(); i++) {
+			NewProjectile p = newProjectileArrayList.get(i);
+			if (p.getPosition().x > 0 && p.getPosition().x < Floor.getRoom().getRoomXSize()
+					&& p.getPosition().y > 0 && p.getPosition().y < Floor.getRoom().getRoomYSize()) {
+				p.update();
+				batch.begin();
+				projectileSprite = new Sprite(projectileTexture, 0, 0, projectileTexture.getWidth(), projectileTexture.getHeight());
+				projectileSprite.setOriginCenter();
+				projectileSprite.setPosition(p.getPosition().x, p.getPosition().y);
+				projectileSprite.draw(batch);
+				batch.end();
+
+				if (projectileSprite.getBoundingRectangle().overlaps(player.getBoundingBox())) {
+					Gdx.app.log("SAD TIMES", "YOU GOT SHOT BY THE ENEMY");
+					player.setHealth(player.getHealth() - 0.05f);
+				}
+
+
+			} else {
+				newProjectileArrayList.remove(i);
+			}
+		}
+	}
+
+	public void shoot() {
+		Random random = new Random();
+		NewProjectile proj = new NewProjectile(Math.round(mafia.getX()) + 10, Math.round(mafia.getY() + 10));
+		int x1 = player.getX() + random.nextInt(200 + 1 + 200) - 200;
+		int y1 = player.getY() + random.nextInt(200 + 1 + 200) - 200;;
+
+		float dX = x1 - x;
+		float dY = y1 - y;
+		proj.setDX((float)(dX*0.1));
+		proj.setDY((float)(dY*0.1));
+		proj.create();
+		newProjectileArrayList.add(proj);
 
 	}
 

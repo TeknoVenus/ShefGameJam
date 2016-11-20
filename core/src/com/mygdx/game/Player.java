@@ -17,7 +17,7 @@ public class Player extends ApplicationAdapter {
 	private final int BULLET_WIDTH = 8;
 	private int x = 50;
 	private int y = 50;
-	private int health = 1;
+	private float health = 1;
 	private int killCount = 0;
 	private boolean shoot;
 	private boolean facingLeft = true;
@@ -256,11 +256,11 @@ public class Player extends ApplicationAdapter {
 		return killCount;
 	}
 
-	public int getHealth() {
+	public float getHealth() {
 		return health;
 	}
 
-	public void setHealth(int health) {
+	public void setHealth(float health) {
 		this.health = health;
 	}
 	
@@ -314,5 +314,9 @@ public class Player extends ApplicationAdapter {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	public Rectangle getBoundingBox() {
+		return cell.getBoundingRectangle();
 	}
 }
