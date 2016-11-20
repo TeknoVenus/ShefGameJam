@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Player extends ApplicationAdapter {
@@ -26,7 +27,7 @@ public class Player extends ApplicationAdapter {
 	private Sprite cell;
 	private Texture cellTexture;
 	private Texture projectileTexture;
-	private Array<Rectangle> projectiles;
+	private ArrayList<Rectangle> projectiles;
 	// debug only
 	private ShapeRenderer box = new ShapeRenderer();
 	
@@ -47,7 +48,7 @@ public class Player extends ApplicationAdapter {
 	@Override
 	public void create() {
 		projectileTexture = new Texture("textures/bullet.png");
-		projectiles = new Array<Rectangle>();
+		projectiles = new ArrayList<Rectangle>();
 		spawnProjectile();
 	}
 
