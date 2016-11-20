@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -41,6 +42,7 @@ public class Player extends ApplicationAdapter {
 	private Sound evolveSound;
 	private Sound shotSound;
 	private Sound introSound;
+	private Music bgMusic;
 
 
 
@@ -53,7 +55,11 @@ public class Player extends ApplicationAdapter {
 		shotSound = Gdx.audio.newSound(Gdx.files.internal("sound/gunshot.wav"));
 		evolveSound = Gdx.audio.newSound((Gdx.files.internal("sound/evolve.wav")));
 		introSound = Gdx.audio.newSound(Gdx.files.internal("sound/introscale.wav"));
-		introSound.play();
+		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("music/gameChipTune.mp3"));
+
+		bgMusic.setLooping(true);
+		bgMusic.play();
+
 		this.batch = batch;
 		cellTexture = new Texture("textures/cell.png");
 		projectileTexture = new Texture("textures/bullet.png");
