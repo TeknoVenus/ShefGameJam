@@ -149,7 +149,7 @@ public class RoomRepresentation {
 		String s = "";
 		for (int i = 0; i<xRoomSize; i++) {
 			for (int j = 0; j<yRoomSize; j++) {
-				s = s + roomRepresentation[i][j];
+				s = s + roomRepresentation[j][i];
 			}
 			s = s + "\n";
 		}

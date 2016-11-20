@@ -248,17 +248,17 @@ public class Player extends ApplicationAdapter {
 	
 	private void drawDoors() {
 		if (Floor.getRoom().bottomDoor()) {
-			if (Floor.getActiveRoomY() < Floor.getRoom().getRoomYSize()-1 && Floor.isValidBelowUp(Floor.getRoom().getID()
-					,Floor.getFloor()[Floor.getActiveRoomX()][Floor.getActiveRoomY()-1])) {
+			if (Floor.getActiveRoomY() > 0 && Floor.isValidBelowUp(
+					Floor.getFloor()[Floor.getActiveRoomY()+1][Floor.getActiveRoomX()],
+					Floor.getRoom().getID())) {
 				doorLayout.draw(doorLayout.getBottom(),false,false); 
 			} else {
 				doorLayout.draw(doorLayout.getBottom(),false,true);	
 			}
 		}
 		if (Floor.getRoom().topDoor()) {
-			if (Floor.getActiveRoomY() > 0 && Floor.isValidBelowUp(
-					Floor.getFloor()[Floor.getActiveRoomX()][Floor.getActiveRoomY()+1],
-					Floor.getRoom().getID())) {
+			if (Floor.getActiveRoomY() < Floor.getRoom().getRoomYSize()-1 && Floor.isValidBelowUp(Floor.getRoom().getID()
+					,Floor.getFloor()[Floor.getActiveRoomY()-1][Floor.getActiveRoomX()])) {
 				doorLayout.draw(doorLayout.getTop(),false,false); 
 			} else {
 				doorLayout.draw(doorLayout.getTop(),false,true);	
@@ -266,7 +266,7 @@ public class Player extends ApplicationAdapter {
 		}
 		if (Floor.getRoom().leftDoor()) {
 			if (Floor.getActiveRoomX() > 0 && Floor.isValidLeftRight(
-					Floor.getFloor()[Floor.getActiveRoomX()-1][Floor.getActiveRoomY()],
+					Floor.getFloor()[Floor.getActiveRoomY()][Floor.getActiveRoomX()-1],
 					Floor.getRoom().getID())) {
 				doorLayout.draw(doorLayout.getLeft(),true,false); 
 			} else {
@@ -276,7 +276,7 @@ public class Player extends ApplicationAdapter {
 		if (Floor.getRoom().rightDoor()) {
 			if (Floor.getActiveRoomX() > 0 && Floor.isValidLeftRight(
 					Floor.getRoom().getID(),
-					Floor.getFloor()[Floor.getActiveRoomX()+1][Floor.getActiveRoomY()]
+					Floor.getFloor()[Floor.getActiveRoomY()][Floor.getActiveRoomX()+1]
 					)) {
 				doorLayout.draw(doorLayout.getRight(),true,false); 
 			} else {

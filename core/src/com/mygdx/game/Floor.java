@@ -1,9 +1,10 @@
 package com.mygdx.game;
 
 public class Floor {
-	private static final int FLOOR_SIZE = 7;
-	private static int[][] floorArray = new int[FLOOR_SIZE][FLOOR_SIZE];
-	public static final int ENTIRE_FLOOR_GEN_ATTEMPTS = 5;
+	private static final int FLOOR_SIZE_X = 20;
+	private static final int FLOOR_SIZE_Y = 15;
+	private static int[][] floorArray = new int[FLOOR_SIZE_Y][FLOOR_SIZE_X];
+	public static final int ENTIRE_FLOOR_GEN_ATTEMPTS = 50;
 	public static RoomRepresentation activeRoom;
 	// location in the array the active room is in
 	private static int activeX;
@@ -28,23 +29,23 @@ public class Floor {
 	// this actually does move along if it can so
 	// do not use for just queries
 	public static int moveRoomRight() {
-		if (activeX < FLOOR_SIZE-1) {
+		if (activeX < FLOOR_SIZE_X-1) {
 			if (isValidLeftRight(activeRoom.getID(),
-					floorArray[activeX+1][activeY])) {
+					floorArray[activeY][activeX+1])) {
 				int newX = activeX+1;
 				activeX = newX;
-				return floorArray[newX][activeY];
+				return floorArray[activeY][activeX];
 			}
 		}
 		return -1;
 	}
 	public static int moveRoomLeft() {
 		if (activeX > 0) {
-			if (isValidLeftRight(floorArray[activeX-1][activeY],
+			if (isValidLeftRight(floorArray[activeY][activeX-1],
 					activeRoom.getID())) {
 				int newX = activeX-1;
 				activeX = newX;
-				return floorArray[newX][activeY];
+				return floorArray[activeY][newX];
 			}
 		}
 		return -1;
@@ -52,21 +53,21 @@ public class Floor {
 	public static int moveRoomUp() {
 		if (activeY > 0) {
 			if (isValidBelowUp(activeRoom.getID(),
-					floorArray[activeX][activeY-1])) {
+					floorArray[activeY-1][activeX])) {
 				int newY = activeY-1;
 				activeY = newY;
-				return floorArray[activeX][newY];
+				return floorArray[newY][activeX];
 			}
 		}
 		return -1;
 	}
 	public static int moveRoomDown() {
-		if (activeY < FLOOR_SIZE-1) {
-			if (isValidBelowUp(floorArray[activeX][activeY+1],
+		if (activeY < FLOOR_SIZE_Y-1) {
+			if (isValidBelowUp(floorArray[activeY+1][activeX],
 					activeRoom.getID())) {
 				int newY = activeY+1;
 				activeY = newY;
-				return floorArray[activeX][newY];
+				return floorArray[newY][activeX];
 			}
 		}
 		return -1;
@@ -80,9 +81,9 @@ public class Floor {
 	}
 
 	public static int getStartFloorInt() {
-		activeX = FLOOR_SIZE/2;
-		activeY = FLOOR_SIZE/2;
-		return floorArray[FLOOR_SIZE/2][FLOOR_SIZE/2];
+		activeX = FLOOR_SIZE_X/2;
+		activeY = FLOOR_SIZE_Y/2;
+		return floorArray[activeY][activeX];
 	}
 	
 	public static int[][] getFloor() {
@@ -136,21 +137,21 @@ public class Floor {
 	}
 
 	public static void generate(){
-		floorArray = new int[FLOOR_SIZE][FLOOR_SIZE];
-		int centre = FLOOR_SIZE/2;
-		System.out.println(centre);
-		int targetX = centre;
-		int targetY = centre;
+		floorArray = new int[FLOOR_SIZE_Y][FLOOR_SIZE_X];
+		getStartFloorInt();
+		int targetX = activeX;
+		int targetY = activeY;
 		// look at the centre of the floors
 		for (int i = 0; 
-				i<FLOOR_SIZE*FLOOR_SIZE*ENTIRE_FLOOR_GEN_ATTEMPTS; i++) {
+				i<FLOOR_SIZE_Y*FLOOR_SIZE_X*ENTIRE_FLOOR_GEN_ATTEMPTS; 
+				i++) {
 			int possibleFloor = (int)(random(14)+1);
 			if (i==0) {
 				possibleFloor = 15;
 				setFloorInt(targetX,targetY,possibleFloor);
 			} else {
-				targetX = (int)random(FLOOR_SIZE-1);
-				targetY = (int)random(FLOOR_SIZE-1);
+				targetX = (int)random(FLOOR_SIZE_X-1);
+				targetY = (int)random(FLOOR_SIZE_Y-1);
 				if (getFloorInt(targetX,targetY)==0) {
 					int upDownLeftRight = (int)random(4);
 					switch (upDownLeftRight) {
@@ -171,7 +172,7 @@ public class Floor {
 					case 1:
 						targetConnectX = targetX;
 						targetConnectY = targetY+1;
-						if (targetConnectY < FLOOR_SIZE) {
+						if (targetConnectY < FLOOR_SIZE_Y) {
 							// if target is in the array
 							if (isValidBelowUp(getFloorInt(targetConnectX,
 									targetConnectY),
@@ -200,7 +201,7 @@ public class Floor {
 					default:
 						targetConnectX = targetX+1;
 						targetConnectY = targetY;
-						if (targetConnectX < FLOOR_SIZE) {
+						if (targetConnectX < FLOOR_SIZE_X) {
 							// if target is in the array
 							if (isValidLeftRight(possibleFloor,
 									getFloorInt(targetConnectX,
