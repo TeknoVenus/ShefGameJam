@@ -35,7 +35,7 @@ public class Player extends ApplicationAdapter {
 	private Texture projectileTexture;
 	private ArrayList<Rectangle> projectiles = new ArrayList<Rectangle>();
 	private OrthographicCamera camera;
-	private Door doorLayout;
+	private DoorLayout doorLayout;
 	// debug only
 	private ShapeRenderer box = new ShapeRenderer();
 	
