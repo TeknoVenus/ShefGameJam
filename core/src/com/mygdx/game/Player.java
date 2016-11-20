@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -56,7 +57,7 @@ public class Player extends ApplicationAdapter {
 
 	public void update() {
 		shoot = controller.isShoot();
-		spawnProjectile();
+		if(shoot)spawnProjectile();
 		Iterator<Rectangle> iter = projectiles.iterator();
 		while(iter.hasNext()){
 			Rectangle p = iter.next();
@@ -165,9 +166,10 @@ public class Player extends ApplicationAdapter {
 		projectile.width = 8;
 		projectile.height = 8;
 		projectiles.add(projectile);
+		controller.setLastShotTime(TimeUtils.nanoTime());
+		System.out.println("Spawned Projectile");
 	}
 	private void manageProjectiles(){
-
 		Iterator<Rectangle> iter = projectiles.iterator();
 		while(iter.hasNext()){
 			Rectangle p = iter.next();
@@ -181,7 +183,11 @@ public class Player extends ApplicationAdapter {
 	private Vector2 getNewProjectilePos(float positionX, float positionY){
 		Vector2 position = new Vector2(positionX,positionY);
 		Vector2 mousePos = new Vector2(Gdx.input.getX(),Gdx.input.getY());
-		Vector2 output = position.interpolate(mousePos,0.1f, Interpolation.linear);
+		float angle = position.angle(mousePos);
+		float delta = Gdx.graphics.getDeltaTime();
+		float newX = (float) (Math.sin(angle) * delta * 5.0f);
+		float newY = (float) (Math.cos(angle) * delta * 5.0f);
+		Vector2 output = new Vector2(newX, newY);
 		return output;
 	}
 }

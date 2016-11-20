@@ -2,12 +2,15 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class InputReciever {
 	
-	private float shotSecondsAgo = 0L;
-	private float shootDelay = 5L;
-	
+	private float shotSecondsAgo = 0f;
+	private float shootDelay = 5f;
+
+	private long lastShotTimeNano = 0;
+	private long bulletDelay = 0;
 	public boolean isMoveUp() {
 		return Gdx.input.isKeyPressed(Input.Keys.UP) || 
 				Gdx.input.isKeyPressed(Input.Keys.W);
@@ -52,10 +55,10 @@ public class InputReciever {
 	
 	// triggers on frames when player can re/shoot
 	public boolean isShoot() {
-		shotSecondsAgo += Gdx.graphics.getDeltaTime();
+		/*shotSecondsAgo += Gdx.graphics.getDeltaTime();
 		if (Gdx.input.isKeyPressed(Input.Buttons.LEFT)) {
 			if (shotSecondsAgo >= shootDelay) {
-				shotSecondsAgo = 0L;
+				shotSecondsAgo = 0f;
 				return true;
 			}
 		}
@@ -63,5 +66,16 @@ public class InputReciever {
 			shotSecondsAgo = shootDelay;
 		}
 		return false;
+		*/
+		if (TimeUtils.nanoTime() - lastShotTimeNano > bulletDelay){
+			if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void setLastShotTime(long time){
+		lastShotTimeNano = time;
 	}
 }
