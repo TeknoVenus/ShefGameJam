@@ -37,9 +37,6 @@ public class Enemy extends ApplicationAdapter{
 		bounds = new Rectangle(x, y, 25,25);
 		this.player = player;
 		this.batch = batch;
-		mafia.setOriginCenter();
-		mafia.setX(x);
-		mafia.setY(y);
 	}
 
 	@Override
@@ -62,35 +59,38 @@ public class Enemy extends ApplicationAdapter{
 		}
 */
 
-		mafia.setX(x+Floor.getRoom().getPadding());
-		mafia.setY(y+Floor.getRoom().getPadding());
-		
+		mafia.translate(Floor.getRoom().getPadding(), 
+				Floor.getRoom().getPadding());
+
 		batch.begin();
 		mafia.draw(batch);
 		batch.end();
+		
+		mafia.translate(-Floor.getRoom().getPadding(), 
+				-Floor.getRoom().getPadding());
 	}
 	
 	public void update() {
-		System.out.println(player.getX());
-		System.out.println(player.getY());
+		//System.out.println(player.getX());
+		//System.out.println(player.getY());
 		if (player.getX() > mafia.getX()) {
-			x += 1;;
-			Gdx.app.log("Enemy", "RIGHT");
+			mafia.translateX(1);
+			//Gdx.app.log("Enemy", "RIGHT");
 		}
 
 		else {
-			x -= 1;
-			Gdx.app.log("Enemy", "LEFT");
+			mafia.translateX(-1);
+			//Gdx.app.log("Enemy", "LEFT");
 
 		}
 
 		if (player.getY() > mafia.getY()) {
-			y += 1;
-			Gdx.app.log("Enemy", "UP");
+			mafia.translateY(1);
+			//Gdx.app.log("Enemy", "UP");
 		}
 		else {
-			y -= 1;
-			Gdx.app.log("Enemy", "DOWN");
+			mafia.translateY(-1);
+			//Gdx.app.log("Enemy", "DOWN");
 		}}
 
 
