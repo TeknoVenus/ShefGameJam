@@ -88,7 +88,7 @@ public class Player extends ApplicationAdapter {
 	private void spawnProjectile() {
 		for (NewProjectile aNewProjectileArrayList : NewProjectileArrayList) {
 			NewProjectile p = (NewProjectile) aNewProjectileArrayList;
-			shapeRenderer.begin(ShapeType.Filled);
+			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 			shapeRenderer.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 			shapeRenderer.circle(p.getPosition().x, p.getPosition().y, 10, 5);
 			shapeRenderer.end();
@@ -214,9 +214,6 @@ public class Player extends ApplicationAdapter {
 		return killCount;
 	}
 
-	public void setKillCount(int killCount) {
-		this.killCount = killCount;
-	}
 
 	public int getHealth() {
 		return health;
@@ -265,9 +262,17 @@ public class Player extends ApplicationAdapter {
 
 
 	}
-	
+
 	public void setXY(int x, int y) {
 		setX(x);
 		setY(y);
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 }
