@@ -213,7 +213,6 @@ public class Player extends ApplicationAdapter {
 		}
 
 		if (evolveCounter >= 10){
-			System.out.println("You win.");
 			evolveCounter = 0;
 			evolve();
 		}
@@ -246,10 +245,17 @@ public class Player extends ApplicationAdapter {
 
 	public void evolve() {
 		evolveStage++;
+		evolveCounter = 0;
 		evolveSound.play();
+		switch(evolveCounter){
+			case 1:
+				cellTexture = new Texture("microbe.png");
+				break;
+			case 2:
+				cellTexture = new Texture("fish.png");
+				break;
 
-
-	}
+	}}
 
 
 	public void checkCollision(Sprite sprite) {
