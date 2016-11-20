@@ -29,18 +29,28 @@ public class Player extends ApplicationAdapter {
 	private Texture cellTexture;
 	private Sprite projectileSprite;
 	private Texture projectileTexture;
+	private Sprite ProjectileSprite;
 	private ArrayList<Rectangle> projectiles = new ArrayList<Rectangle>();
 	private OrthographicCamera camera;
 	private DoorLayout doorLayout;
 	private Rectangle spriteBounds;
 	private Rectangle projectileBounds;
 	private ArrayList<NewProjectile> NewProjectileArrayList = new ArrayList<NewProjectile>();
+
+
+
+
 	// debug only
 	private ShapeRenderer shapeRenderer = new ShapeRenderer();
+
+
+
+
 
 	public Player(SpriteBatch batch) {
 		this.batch = batch;
 		cellTexture = new Texture("textures/cell.png");
+		projectileTexture = new Texture("textures/bullet.png");
 
 		screenBounds = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		spriteBounds = new Rectangle(x, y, cellTexture.getWidth(), cellTexture.getHeight());
@@ -75,6 +85,14 @@ public class Player extends ApplicationAdapter {
 
 
 	public void shoot() {
+		for (int i = 0; i < NewProjectileArrayList.size(); i++) {
+			NewProjectile p = (NewProjectile) NewProjectileArrayList.get(i);
+			if (p.isVisible()) {
+				p.update(getNewProjectilePos(p.getPosition().x, p.getPosition().y));
+			} else {
+				NewProjectileArrayList.remove(i);
+			}
+		}
 		NewProjectile proj = new NewProjectile(Math.round(cell.getX()) + 10, Math.round(cell.getY() + 10));
 		NewProjectileArrayList.add(proj);
 	}
@@ -88,10 +106,22 @@ public class Player extends ApplicationAdapter {
 	private void spawnProjectile() {
 		for (NewProjectile aNewProjectileArrayList : NewProjectileArrayList) {
 			NewProjectile p = (NewProjectile) aNewProjectileArrayList;
-			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+			/*shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 			shapeRenderer.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 			shapeRenderer.circle(p.getPosition().x, p.getPosition().y, 10, 5);
-			shapeRenderer.end();
+			shapeRenderer.end();*/
+			batch.begin();
+			projectileSprite = new Sprite(projectileTexture, 0,0, projectileTexture.getWidth(), projectileTexture.getHeight());
+			projectileSprite.setOriginCenter();
+			projectileSprite.setPosition(p.getPosition().x, p.getPosition().y);
+			projectileSprite.draw(batch);
+			batch.end();
+
+			for (Enemy enemy : EnemiesManager.getEnemies()) {
+				if (projectileSprite.getBoundingRectangle().overlaps(enemy.getBounds())) {
+					Gdx.app.log("SUCCESS", "YOU HAVE SHOT " + enemy.toString());
+				}
+			}
 		}
 
 	}
@@ -162,14 +192,7 @@ public class Player extends ApplicationAdapter {
 	}
 	@Override
 	public void render() {
-		for (int i = 0; i < NewProjectileArrayList.size(); i++) {
-			NewProjectile p = (NewProjectile) NewProjectileArrayList.get(i);
-			if (p.isVisible()) {
-				p.update(getNewProjectilePos(p.getPosition().x, p.getPosition().y));
-			} else {
-				NewProjectileArrayList.remove(i);
-			}
-		}
+
 		update();
 		drawDoors();
 		cell.setX(this.x + (Floor.getRoom().getPadding()));
@@ -249,13 +272,15 @@ public class Player extends ApplicationAdapter {
 		Vector2 output = new Vector2(newX, newY);
 		return output;*/
 
-		Vector3 mousePos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-		camera.unproject(mousePos);
-		Vector2 currentPosition = new Vector2(positionX, positionY);
-		float tX = Gdx.input.getX();
-		float tY = Gdx.input.getY();
-		//float mag = (float) java.lang.Math.hypot(tX, tY);
-		float mag = 50;
+		int x1 = Gdx.input.getX();
+		int y1 = Gdx.input.getY();
+		Vector3 input = new Vector3(x1, y1, 0);
+		camera.unproject(input);
+
+		float tX = input.x - 110;
+		float tY = input.y - 110;
+		//float mag = (float) java.lang.Math.hypot( tX, tY);
+		float mag = 20;
 		tX/=mag;
 		tY/=mag;
 		return new Vector2(tX, tY);
