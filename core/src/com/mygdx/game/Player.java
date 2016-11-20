@@ -110,21 +110,24 @@ public class Player extends ApplicationAdapter {
 	}
 
 	public void bulletUpdate() {
+		projectileSprite = new Sprite(projectileTexture, 0,0, projectileTexture.getWidth()*2, 2*projectileTexture.getHeight());
+		projectileSprite.setOriginCenter();
+		System.out.println(projectileSprite);
 		for (int i = 0; i < newProjectileArrayList.size(); i++) {
 			NewProjectile p = newProjectileArrayList.get(i);
 			if (p.getPosition().x > 0 && p.getPosition().x < Floor.getRoom().getRoomXSize()
 					&& p.getPosition().y > 0 && p.getPosition().y < Floor.getRoom().getRoomYSize()) {
 				p.update();
 				batch.begin();
-				projectileSprite = new Sprite(projectileTexture, 0,0, projectileTexture.getWidth(), projectileTexture.getHeight());
-				projectileSprite.setOriginCenter();
 				projectileSprite.setPosition(p.getPosition().x, p.getPosition().y);
 				projectileSprite.draw(batch);
 				batch.end();
-
-				for (Enemy enemy : EnemiesManager.getEnemies()) {
+				System.out.println(projectileSprite.getBoundingRectangle().x);
+				for (int e = 0; e < EnemiesManager.getEnemies().size(); e++) {
+					Enemy enemy = EnemiesManager.getEnemies().get(e);
 					if (projectileSprite.getBoundingRectangle().overlaps(enemy.getBounds())) {
 						Gdx.app.log("SUCCESS", "YOU HAVE SHOT " + enemy.toString());
+						EnemiesManager.removeEnemy(e);
 					}
 				}
 			} else {
