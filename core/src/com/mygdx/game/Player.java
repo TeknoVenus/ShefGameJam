@@ -78,11 +78,11 @@ public class Player extends ApplicationAdapter {
 			y = 0;
 		}
 		// TODO un hard code later
-		if (x > 480) {
-			x = 480;
+		if (x > Floor.getRoom().getRoomXSize()) {
+			x = Floor.getRoom().getRoomXSize();
 		}
-		if (y > 480) {
-			y = 480;
+		if (y > Floor.getRoom().getRoomYSize()) {
+			y = Floor.getRoom().getRoomYSize();
 		}
 		
 		
@@ -101,7 +101,8 @@ public class Player extends ApplicationAdapter {
 		box.begin(ShapeType.Filled);
 		box.setColor(1, 1, 0, 1);
 		System.out.print(roomRight);
-		box.rect(10 + roomLeft, 10 + roomTop, 
+		box.rect(Floor.getRoom().getPadding() + roomLeft, 
+				Floor.getRoom().getPadding() + roomTop, 
 				 roomRight-roomLeft, roomBottom-roomTop);
 		box.end();
 	}
@@ -110,8 +111,8 @@ public class Player extends ApplicationAdapter {
 	public void render() {
 		
 		update();
-		cell.setX(this.x);
-		cell.setY(this.y);
+		cell.setX(this.x+(Floor.getRoom().getPadding()));
+		cell.setY(this.y+(Floor.getRoom().getPadding()));
 		batch.begin();
 		cell.draw(batch);
 		

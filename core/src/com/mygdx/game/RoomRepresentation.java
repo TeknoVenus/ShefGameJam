@@ -10,12 +10,20 @@ public class RoomRepresentation {
 	private int bottomDoorLocation; // ^
 	public static final int TILE_SIZE = 1;
 	private static final int DEFAULT_ROOM_SIZE = 480;
+	private static final int PADDING_WINDOW_EDGE = 50;
+	private static final int WINDOW_SIZING = DEFAULT_ROOM_SIZE+PADDING_WINDOW_EDGE*2;
 	private Integer[][] roomRepresentation;
+	public static int getWindowSize() {
+		return WINDOW_SIZING;
+	}
 	public int getRoomXSize() {
 		return xRoomSize;
 	}
 	public int getRoomYSize() {
 		return yRoomSize;
+	}
+	public int getPadding() {
+		return this.PADDING_WINDOW_EDGE;
 	}
 	public boolean leftDoor() {
 		return leftDoorLocation==-1 ? false : true;

@@ -36,8 +36,10 @@ public class MainMenuScreen implements Screen {
         //backgroundTexture = new TextureRegion(new Texture("back.jpg"), 0, 0, 1920, 1080);
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 500, 500);
-        viewport = new FitViewport(500, 500, camera);
+        camera.setToOrtho(false, RoomRepresentation.getWindowSize(), 
+        		RoomRepresentation.getWindowSize());
+        viewport = new FitViewport(RoomRepresentation.getWindowSize(), 
+        		RoomRepresentation.getWindowSize(), camera);
         viewport.apply();
         stage = new Stage(viewport, game.batch);
     }

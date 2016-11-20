@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 
 public class Enemy extends ApplicationAdapter{
 	private int x =20;
@@ -48,7 +47,6 @@ public class Enemy extends ApplicationAdapter{
 /*
 		int xMove = controller.resultingMovementX();
 		int yMove = controller.resultingMovementY();
-
 		if (xMove != 0) {
 			mafia.translateX(xMove);
 		} else if (yMove != 0) {
@@ -56,11 +54,15 @@ public class Enemy extends ApplicationAdapter{
 		}
 */
 
-
+		mafia.translate(Floor.getRoom().getPadding(), 
+				Floor.getRoom().getPadding());
 
 		batch.begin();
 		mafia.draw(batch);
 		batch.end();
+		
+		mafia.translate(-Floor.getRoom().getPadding(), 
+				-Floor.getRoom().getPadding());
 	}
 	
 	public void update() {
