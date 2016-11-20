@@ -117,10 +117,14 @@ public class Player extends ApplicationAdapter {
 			projectileSprite.draw(batch);
 			batch.end();
 
-			for (Enemy enemy : EnemiesManager.getEnemies()) {
+			for (int i=0; i<EnemiesManager.getEnemies().size(); i++) {
+				Enemy enemy = EnemiesManager.getEnemies().get(i);
 				if (projectileSprite.getBoundingRectangle().overlaps(enemy.getBounds())) {
 					Gdx.app.log("SUCCESS", "YOU HAVE SHOT " + enemy.toString());
+					enemy.dispose();
+					EnemiesManager.getEnemies().remove(i);
 				}
+
 			}
 		}
 
