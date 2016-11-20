@@ -131,7 +131,6 @@ public class Player extends ApplicationAdapter {
 			for (int i=0; i<EnemiesManager.getEnemies().size(); i++) {
 				Enemy enemy = EnemiesManager.getEnemies().get(i);
 				if (projectileSprite.getBoundingRectangle().overlaps(enemy.getBounds())) {
-					Gdx.app.log("SUCCESS", "YOU HAVE SHOT " + enemy.toString());
 					enemy.dispose();
 					EnemiesManager.getEnemies().remove(i);
 					System.out.println(killCount);
@@ -161,12 +160,12 @@ public class Player extends ApplicationAdapter {
 
 	public void update() {
 
-		if (!this.isFacingLeft()) {
+		/*if (!this.isFacingLeft()) {
 			cell.setTexture( new Texture("textures/cellL.png"));
 		}
 		if(this.isFacingLeft()){
 			cell.setTexture( new Texture("textures/cellR.png"));
-		}
+		}*/
 		shoot = controller.isShoot();
 		if (shoot) {
 			shoot();
@@ -212,8 +211,7 @@ public class Player extends ApplicationAdapter {
 			y = Floor.getRoom().getRoomYSize();
 		}
 
-		if (evolveCounter >= 10){
-			evolveCounter = 0;
+		if (evolveCounter == 10){
 			evolve();
 		}
 
@@ -247,12 +245,12 @@ public class Player extends ApplicationAdapter {
 		evolveStage++;
 		evolveCounter = 0;
 		evolveSound.play();
-		switch(evolveCounter){
+		switch(evolveStage){
 			case 1:
-				cellTexture = new Texture("microbe.png");
+				cell.setTexture(new Texture("textures/microbe.png"));
 				break;
 			case 2:
-				cellTexture = new Texture("fish.png");
+				cell.setTexture(new Texture("textures/fish.png"));
 				break;
 
 	}}
