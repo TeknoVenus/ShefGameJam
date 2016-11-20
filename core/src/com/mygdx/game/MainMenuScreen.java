@@ -70,6 +70,7 @@ public class MainMenuScreen implements Screen {
     public void show() {
         music = Gdx.audio.newMusic(Gdx.files.internal("music/gamemusic.mp3"));
         music.play();
+        music.setLooping(true);
         //Create Table
         mainTable = new Table();
         //Set table to fill stage
