@@ -1,22 +1,20 @@
 package com.mygdx.game;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Player extends ApplicationAdapter {
 	private int x = 50;
@@ -52,7 +50,7 @@ public class Player extends ApplicationAdapter {
 		float h = Gdx.graphics.getHeight();
 
 		cell = new Sprite(cellTexture, 0,0, 32, 32);
-		cell.scale(5.0f);
+		cell.scale(2.0f);
 		cell.setOriginCenter();
 		cell.setPosition(w/2 -cell.getWidth()/2, h/2 - cell.getHeight()/2);
 
@@ -62,6 +60,8 @@ public class Player extends ApplicationAdapter {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, RoomRepresentation.getWindowSize(),
 				RoomRepresentation.getWindowSize());
+
+		doorLayout = new DoorLayout(Floor.getRoom(), batch);
 		
 	}
 	
@@ -132,20 +132,12 @@ public class Player extends ApplicationAdapter {
 		
 		//y = Math.min(roomBottom, Math.max(y-yBoundOffset,roomTop)
 		//		+2*yBoundOffset)-yBoundOffset;
-	
-		// debug only
-		box.begin(ShapeType.Filled);
-		box.setColor(1, 1, 0, 1);
-		//System.out.print(roomRight);
-		box.rect(Floor.getRoom().getPadding() + roomLeft, 
-				Floor.getRoom().getPadding() + roomTop, 
-				 roomRight-roomLeft, roomBottom-roomTop);
-		box.end();
 	}
 	
 	@Override
 	public void render() {
 		update();
+		drawDoors();
 		cell.setX(this.x+(Floor.getRoom().getPadding()));
 		cell.setY(this.y+(Floor.getRoom().getPadding()));
 		batch.begin();
@@ -159,11 +151,7 @@ public class Player extends ApplicationAdapter {
 			}
 		}
 		batch.end();
-		// debug only
-		box.begin(ShapeType.Filled);
-		box.setColor(1, 0, 1, 1);
-		box.rect(0, 0, 4, 4);
-		box.end();
+		doorLayout.checkCollision(cell);
 	}
 
 	public void checkCollision(Sprite sprite) {
@@ -226,12 +214,22 @@ public class Player extends ApplicationAdapter {
 	public void setHealth(int health) {
 		this.health = health;
 	}
+	
 	private void drawDoors() {
-		doorLayout.draw(doorLayout.getBottom(),false);
+		if (Floor.getRoom().bottomDoor()) {
+			doorLayout.draw(doorLayout.getBottom(),false);
+		}
+		if (Floor.getRoom().topDoor()) {
 		doorLayout.draw(doorLayout.getTop(),false);
+		}
+		if (Floor.getRoom().leftDoor()) {
 		doorLayout.draw(doorLayout.getLeft(),true);
-		doorLayout.draw(doorLayout.getRight(),true);
+		}
+		if (Floor.getRoom().rightDoor()) {
+			doorLayout.draw(doorLayout.getRight(),true);
+		}
 	}
+	
 	private Vector2 getNewProjectilePos(float positionX, float positionY){
 		Vector2 position = new Vector2(positionX,positionY);
 		Vector3 mousePos = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
@@ -242,5 +240,18 @@ public class Player extends ApplicationAdapter {
 		float newY = positionY + (float)(Math.cos(angle)* 5f);
 		Vector2 output = new Vector2(newX, newY);
 		return output;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+	
+	public void setY(int y) {
+		this.y = y;
+	}
+	
+	public void setXY(int x, int y) {
+		setX(x);
+		setY(y);
 	}
 }
