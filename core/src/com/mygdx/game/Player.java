@@ -1,5 +1,7 @@
 package com.mygdx.game;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -10,8 +12,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-
-import java.util.ArrayList;
 
 public class Player extends ApplicationAdapter {
 	private final int BULLET_WIDTH = 8;
@@ -183,6 +183,10 @@ public class Player extends ApplicationAdapter {
 			y = Floor.getRoom().getRoomYSize();
 		}
 
+		if (killCount >= 10){
+			System.out.println("You win.");
+		}
+
 	}
 	public boolean isFacingLeft(){
 		if (controller.resultingMovementX() == 1){
@@ -252,16 +256,40 @@ public class Player extends ApplicationAdapter {
 	
 	private void drawDoors() {
 		if (Floor.getRoom().bottomDoor()) {
-			doorLayout.draw(doorLayout.getBottom(),false);
+			if (Floor.getActiveRoomY() > 0 && Floor.isValidBelowUp(
+					Floor.getFloor()[Floor.getActiveRoomY()+1][Floor.getActiveRoomX()],
+					Floor.getRoom().getID())) {
+				doorLayout.draw(doorLayout.getBottom(),false,false);
+			} else {
+				doorLayout.draw(doorLayout.getBottom(),false,true);
+			}
 		}
 		if (Floor.getRoom().topDoor()) {
-		doorLayout.draw(doorLayout.getTop(),false);
+			if (Floor.getActiveRoomY() < Floor.getRoom().getRoomYSize()-1 && Floor.isValidBelowUp(Floor.getRoom().getID()
+					,Floor.getFloor()[Floor.getActiveRoomY()-1][Floor.getActiveRoomX()])) {
+				doorLayout.draw(doorLayout.getTop(),false,false);
+			} else {
+				doorLayout.draw(doorLayout.getTop(),false,true);
+			}
 		}
 		if (Floor.getRoom().leftDoor()) {
-		doorLayout.draw(doorLayout.getLeft(),true);
+			if (Floor.getActiveRoomX() > 0 && Floor.isValidLeftRight(
+					Floor.getFloor()[Floor.getActiveRoomY()][Floor.getActiveRoomX()-1],
+					Floor.getRoom().getID())) {
+				doorLayout.draw(doorLayout.getLeft(),true,false);
+			} else {
+				doorLayout.draw(doorLayout.getLeft(),true,true);
+			}
 		}
 		if (Floor.getRoom().rightDoor()) {
-			doorLayout.draw(doorLayout.getRight(),true);
+			if (Floor.getActiveRoomX() > 0 && Floor.isValidLeftRight(
+					Floor.getRoom().getID(),
+					Floor.getFloor()[Floor.getActiveRoomY()][Floor.getActiveRoomX()+1]
+					)) {
+				doorLayout.draw(doorLayout.getRight(),true,false);
+			} else {
+				doorLayout.draw(doorLayout.getRight(),true,true);
+			}
 		}
 	}
 
