@@ -26,6 +26,12 @@ public class MainMenuScreen implements Screen {
     private TextureAtlas atlas;
     private Viewport viewport;
     private TextureRegion backgroundTexture;
+    private boolean isRunning = true;
+    private TextButton playButton;
+    private TextButton exitButton;
+    private ClickListener playListener;
+    private ClickListener quitListener;
+    private Table mainTable;
 
     OrthographicCamera camera;
 
@@ -46,44 +52,52 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-        //Create Table
-        Table mainTable = new Table();
-        //Set table to fill stage
-        mainTable.setFillParent(true);
-        //Set alignment of contents in the table.
-        mainTable.center();
+            //Create Table
+            mainTable = new Table();
+            //Set table to fill stage
+            mainTable.setFillParent(true);
+            //Set alignment of contents in the table.
+            mainTable.center();
 
-        //Create buttons
-        TextButton playButton = new TextButton("Play", skin);
-        TextButton exitButton = new TextButton("Exit", skin);
+            //Create buttons
+            playButton = new TextButton("Play", skin);
+            exitButton = new TextButton("Exit", skin);
 
-        //Add listeners to buttons
-        playButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-               game.setScreen(new GameScreen(game));
-               dispose();
-            }
-        });
-        exitButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
-            }
-        });
+            playListener = new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    game.setScreen(new GameScreen(game));
+                    dispose();
+                    hide();
+                    mainTable.remove();
+                }};
+            quitListener = new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Gdx.app.exit();
+                    dispose();
+                    hide();
+                    mainTable.remove();
+                }};
 
-        playButton.getLabel().setFontScale(1.3f, 1.3f);
-        exitButton.getLabel().setFontScale(1.3f, 1.3f);
+            //Add listeners to buttons
+            playButton.addListener(playListener);
 
-        //Add buttons to table
-        mainTable.add(playButton).size((Gdx.graphics.getWidth()) - (Gdx.graphics.getWidth() / 4), Gdx.graphics.getHeight() / 6).pad(40).row();
+            exitButton.addListener(quitListener);
 
-        mainTable.row();
-        mainTable.add(exitButton).size((Gdx.graphics.getWidth()) - (Gdx.graphics.getWidth() / 4), Gdx.graphics.getHeight() / 6).pad(40).row();
+            playButton.getLabel().setFontScale(1.3f, 1.3f);
+            exitButton.getLabel().setFontScale(1.3f, 1.3f);
 
-        //Add table to stage
-        stage.addActor(mainTable);
-    }
+            //Add buttons to table
+            mainTable.add(playButton).size((Gdx.graphics.getWidth()) - (Gdx.graphics.getWidth() / 4), Gdx.graphics.getHeight() / 6).pad(40).row();
+
+            mainTable.row();
+            mainTable.add(exitButton).size((Gdx.graphics.getWidth()) - (Gdx.graphics.getWidth() / 4), Gdx.graphics.getHeight() / 6).pad(40).row();
+
+            //Add table to stage
+            stage.addActor(mainTable);
+        }
+
 
     @Override
     public void render(float delta) {
@@ -102,6 +116,8 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void hide() {
+        playButton.removeListener(quitListener);
+        playButton.removeListener(playListener);
     }
 
     @Override
@@ -114,5 +130,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
+        playButton.removeListener(quitListener);
+        playButton.removeListener(playListener);
     }
 }
