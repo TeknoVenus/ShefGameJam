@@ -40,6 +40,8 @@ public class Player extends ApplicationAdapter {
 	private int evolveStage = 0;
 	private int evolveCounter = 0;
 	private Sound evolveSound;
+	private Sound shotSound;
+	private Sound introSound;
 
 
 
@@ -52,7 +54,9 @@ public class Player extends ApplicationAdapter {
 
 
 	public Player(SpriteBatch batch) {
+		shotSound = Gdx.audio.newSound(Gdx.files.internal("sound/gunshot.wav"));
 		evolveSound = Gdx.audio.newSound((Gdx.files.internal("sound/evolve.wav")));
+		introSound = Gdx.audio.newSound(Gdx.files.internal("sound/introscale.wav"));
 		this.batch = batch;
 		cellTexture = new Texture("textures/cell.png");
 		projectileTexture = new Texture("textures/bullet.png");
@@ -110,6 +114,7 @@ public class Player extends ApplicationAdapter {
 
 	private void spawnProjectile() {
 		for (NewProjectile aNewProjectileArrayList : NewProjectileArrayList) {
+			shotSound.play();
 			NewProjectile p = (NewProjectile) aNewProjectileArrayList;
 			/*shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 			shapeRenderer.setColor(1.0f, 1.0f, 1.0f, 1.0f);
