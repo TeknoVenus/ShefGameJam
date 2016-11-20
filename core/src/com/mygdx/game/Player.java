@@ -71,23 +71,38 @@ public class Player extends ApplicationAdapter {
 		x += controller.resultingMovementX();
 		y += controller.resultingMovementY();
 
-		int xBoundOffset = (int) (cell.getWidth()*cell.getScaleX());
-		x = Math.min(roomRight, Math.max(x-xBoundOffset,roomLeft)
-				+2*xBoundOffset)-xBoundOffset;
-		int yBoundOffset = (int) (cell.getHeight()*cell.getScaleY());
-		y = Math.min(roomBottom, Math.max(y-yBoundOffset,roomTop)
-				+2*yBoundOffset)-yBoundOffset;
+		if (x < 0) {
+			x = 0;
+		}
+		if (y < 0) {
+			y = 0;
+		}
+		// TODO un hard code later
+		if (x > 480) {
+			x = 480;
+		}
+		if (y > 480) {
+			y = 480;
+		}
+		
+		
+		int xBoundOffset = (int) (0.5*cell.getWidth()*cell.getScaleX());
+		int yBoundOffset = (int) (0.5*cell.getHeight()*cell.getScaleY());
+		//if (x+ > ) {
+			
+		//}
+		//x = Math.min(roomRight, Math.max(x-xBoundOffset,roomLeft)
+		//		+2*xBoundOffset)-xBoundOffset;
+		
+		//y = Math.min(roomBottom, Math.max(y-yBoundOffset,roomTop)
+		//		+2*yBoundOffset)-yBoundOffset;
 	
 		// debug only
 		box.begin(ShapeType.Filled);
 		box.setColor(1, 1, 0, 1);
-		box.rect(roomLeft, roomTop, 
+		System.out.print(roomRight);
+		box.rect(10 + roomLeft, 10 + roomTop, 
 				 roomRight-roomLeft, roomBottom-roomTop);
-		box.end();
-		box.begin(ShapeType.Filled);
-		box.setColor(1, 0, 0, 1);
-		box.rect(x, y, 
-				 60, 60);
 		box.end();
 	}
 	
