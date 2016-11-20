@@ -128,8 +128,8 @@ public class Enemy extends ApplicationAdapter{
 
 		Random random = new Random();
 
-		int max = 1500;
-		int min = 200;
+		int max = 1300;
+		int min = 150;
 
 		if (Math.random() > 0.5 && count > random.nextInt((max - min) + 1) + min) {
 			shoot();
@@ -171,8 +171,8 @@ public class Enemy extends ApplicationAdapter{
 		int x1 = player.getX() + random.nextInt(100 + 1 + 100) - 100;
 		int y1 = player.getY() + random.nextInt(100 + 1 + 100) - 100;
 
-		float dX = x1 - x;
-		float dY = y1 - y;
+		float dX = (x1 - x) * 0.8f;
+		float dY = (y1 - y) * 0.8f;
 		proj.setDX((float)(dX*0.1));
 		proj.setDY((float)(dY*0.1));
 		proj.create();

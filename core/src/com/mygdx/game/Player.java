@@ -226,6 +226,8 @@ public class Player extends ApplicationAdapter {
 		cell.draw(batch);
 		batch.end();
 		doorLayout.checkCollision(cell);
+		if (health > 0 && health < 1 )
+			health += 0.0001f;
 	}
 
 	public void evolve() {
