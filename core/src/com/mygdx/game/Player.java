@@ -81,10 +81,10 @@ public class Player extends ApplicationAdapter {
 	public void update() {
 
 		if (!this.isFacingLeft()) {
-			cell.setTexture( new Texture("textures/cell1.png"));
+			cell.setTexture( new Texture("textures/cellL.png"));
 		}
 		if(this.isFacingLeft()){
-			cell.setTexture( new Texture("textures/cell.png"));
+			cell.setTexture( new Texture("textures/cellR.png"));
 		}
 		shoot = controller.isShoot();
 		if(shoot)spawnProjectile();
