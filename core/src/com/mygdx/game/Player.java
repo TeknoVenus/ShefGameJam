@@ -99,8 +99,10 @@ public class Player extends ApplicationAdapter {
 		int roomTop = 0;
 		int roomBottom = Floor.getRoom().getRoomYSize();
 
-		x += controller.resultingMovementX();
-		y += controller.resultingMovementY();
+		x += 2*controller.resultingMovementX();
+		y += 2*controller.resultingMovementY();
+		System.out.println(x);
+		System.out.println(y)
 
 		if (x < 0) {
 			x = 0;
