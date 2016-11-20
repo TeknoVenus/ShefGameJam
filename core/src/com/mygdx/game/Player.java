@@ -128,6 +128,8 @@ public class Player extends ApplicationAdapter {
 					if (projectileSprite.getBoundingRectangle().overlaps(enemy.getBounds())) {
 						Gdx.app.log("SUCCESS", "YOU HAVE SHOT " + enemy.toString());
 						EnemiesManager.removeEnemy(e);
+                        EnemiesManager.getPlayer().setKillCount(EnemiesManager.getPlayer().getKillCount() + 1);
+                        EnemiesManager.getPlayer().setEvolveCounter(EnemiesManager.getPlayer().getEvolveCounter() + 1);
 					}
 				}
 			} else {
@@ -204,7 +206,7 @@ public class Player extends ApplicationAdapter {
 			y = Floor.getRoom().getRoomYSize();
 		}
 
-		if (evolveCounter == 10){
+		if ((evolveCounter == 10 )|| (evolveCounter == 20)){
 			evolve();
 		}
 
@@ -236,7 +238,6 @@ public class Player extends ApplicationAdapter {
 	public void evolve() {
 		health = 1;
 		evolveStage++;
-		evolveCounter = 0;
 		evolveSound.play();
 		switch(evolveStage){
 			case 1:
