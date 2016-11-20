@@ -1,9 +1,9 @@
 package com.mygdx.game;
 
 public class Floor {
-	private static final int FLOOR_SIZE = 20;
+	private static final int FLOOR_SIZE = 7;
 	private static int[][] floorArray = new int[FLOOR_SIZE][FLOOR_SIZE];
-	public static final int ENTIRE_FLOOR_GEN_ATTEMPTS = 250;
+	public static final int ENTIRE_FLOOR_GEN_ATTEMPTS = 5;
 	public static RoomRepresentation activeRoom;
 	// location in the array the active room is in
 	private static int activeX;

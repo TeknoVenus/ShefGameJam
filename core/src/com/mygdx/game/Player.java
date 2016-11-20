@@ -248,16 +248,40 @@ public class Player extends ApplicationAdapter {
 	
 	private void drawDoors() {
 		if (Floor.getRoom().bottomDoor()) {
-			doorLayout.draw(doorLayout.getBottom(),false);
+			if (Floor.getActiveRoomY() < Floor.getRoom().getRoomYSize()-1 && Floor.isValidBelowUp(Floor.getRoom().getID()
+					,Floor.getFloor()[Floor.getActiveRoomX()][Floor.getActiveRoomY()-1])) {
+				doorLayout.draw(doorLayout.getBottom(),false,false); 
+			} else {
+				doorLayout.draw(doorLayout.getBottom(),false,true);	
+			}
 		}
 		if (Floor.getRoom().topDoor()) {
-		doorLayout.draw(doorLayout.getTop(),false);
+			if (Floor.getActiveRoomY() > 0 && Floor.isValidBelowUp(
+					Floor.getFloor()[Floor.getActiveRoomX()][Floor.getActiveRoomY()+1],
+					Floor.getRoom().getID())) {
+				doorLayout.draw(doorLayout.getTop(),false,false); 
+			} else {
+				doorLayout.draw(doorLayout.getTop(),false,true);	
+			}
 		}
 		if (Floor.getRoom().leftDoor()) {
-		doorLayout.draw(doorLayout.getLeft(),true);
+			if (Floor.getActiveRoomX() > 0 && Floor.isValidLeftRight(
+					Floor.getFloor()[Floor.getActiveRoomX()-1][Floor.getActiveRoomY()],
+					Floor.getRoom().getID())) {
+				doorLayout.draw(doorLayout.getLeft(),true,false); 
+			} else {
+				doorLayout.draw(doorLayout.getLeft(),true,true);	
+			}
 		}
 		if (Floor.getRoom().rightDoor()) {
-			doorLayout.draw(doorLayout.getRight(),true);
+			if (Floor.getActiveRoomX() > 0 && Floor.isValidLeftRight(
+					Floor.getRoom().getID(),
+					Floor.getFloor()[Floor.getActiveRoomX()+1][Floor.getActiveRoomY()]
+					)) {
+				doorLayout.draw(doorLayout.getLeft(),true,false); 
+			} else {
+				doorLayout.draw(doorLayout.getLeft(),true,true);	
+			}
 		}
 	}
 
