@@ -72,9 +72,6 @@ public class Player extends ApplicationAdapter {
 
 		cell = new Sprite(cellTexture, 0,0, cellTexture.getWidth(), cellTexture.getHeight());
 		cell.scale(1);
-		cell.setOriginCenter();
-		cell.setPosition(w / 2 - cell.getWidth() / 2, h / 2 - cell.getHeight() / 2);
-
 		projectileTexture = new Texture(Gdx.files.internal("textures/bullet.png"));
 
 
