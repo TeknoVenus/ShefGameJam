@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,8 +25,9 @@ public class Player extends ApplicationAdapter {
 	private Rectangle screenBounds;
 	private Sprite cell;
 	private Texture cellTexture;
+	private Sprite projectileSprite;
 	private Texture projectileTexture;
-	private ArrayList<Rectangle> projectiles;
+	private ArrayList<Rectangle> projectiles = new ArrayList<Rectangle>();
 	// debug only
 	private ShapeRenderer box = new ShapeRenderer();
 	
@@ -43,13 +43,15 @@ public class Player extends ApplicationAdapter {
 		cell.scale(5.0f);
 		cell.setOriginCenter();
 		cell.setPosition(w/2 -cell.getWidth()/2, h/2 - cell.getHeight()/2);
+
+		projectileTexture = new Texture(Gdx.files.internal("textures/bullet.png"));
+		projectileSprite = new Sprite(projectileTexture,0,0, 8,8);
+		projectileSprite.scale(0f);
+		projectileSprite.setOriginCenter();
 	}
 	
 	@Override
 	public void create() {
-		projectileTexture = new Texture("textures/bullet.png");
-		projectiles = new ArrayList<Rectangle>();
-		spawnProjectile();
 	}
 
 	public void update() {
@@ -117,8 +119,10 @@ public class Player extends ApplicationAdapter {
 		cell.setY(this.y);
 		batch.begin();
 		cell.draw(batch);
-		for(Rectangle projectile: projectiles){
-			batch.draw(projectileTexture, projectile.x, projectile.y);
+		if (projectiles != null) {
+			for (Rectangle projectile : projectiles) {
+				batch.draw(projectileTexture, projectile.x, projectile.y);
+			}
 		}
 		 
 		batch.end();
