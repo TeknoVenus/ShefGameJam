@@ -68,8 +68,9 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-        music = Gdx.audio.newMusic(Gdx.files.internal("music/mainmenumusic.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("music/gamemusic.mp3"));
         music.play();
+        music.setLooping(true);
         //Create Table
         mainTable = new Table();
         //Set table to fill stage
@@ -138,7 +139,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        music.dispose();
         playButton.removeListener(quitListener);
         playButton.removeListener(playListener);
     }

@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class Player extends ApplicationAdapter {
@@ -35,28 +34,23 @@ public class Player extends ApplicationAdapter {
 	private OrthographicCamera camera;
 	private DoorLayout doorLayout;
 	private Rectangle spriteBounds;
-	private Rectangle projectileBounds;
-	private ArrayList<NewProjectile> NewProjectileArrayList = new ArrayList<NewProjectile>();
-	private int evolveStage = 0;
+	private Rectangle projectileBounds;private int evolveStage = 0;
 	private int evolveCounter = 0;
 	private Sound evolveSound;
 	private Sound shotSound;
 	private Sound introSound;
 
-
-
+	private ArrayList<NewProjectile> newProjectileArrayList = new ArrayList<NewProjectile>();
 
 	// debug only
 	private ShapeRenderer shapeRenderer = new ShapeRenderer();
-
-
-
 
 
 	public Player(SpriteBatch batch) {
 		shotSound = Gdx.audio.newSound(Gdx.files.internal("sound/gunshot.wav"));
 		evolveSound = Gdx.audio.newSound((Gdx.files.internal("sound/evolve.wav")));
 		introSound = Gdx.audio.newSound(Gdx.files.internal("sound/introscale.wav"));
+		introSound.play();
 		this.batch = batch;
 		cellTexture = new Texture("textures/cell.png");
 		projectileTexture = new Texture("textures/bullet.png");
@@ -68,7 +62,7 @@ public class Player extends ApplicationAdapter {
 		float h = Gdx.graphics.getHeight();
 
 		cell = new Sprite(cellTexture, 0,0, cellTexture.getWidth(), cellTexture.getHeight());
-		cell.scale(2.0f);
+		cell.scale(1);
 		cell.setOriginCenter();
 		cell.setPosition(w / 2 - cell.getWidth() / 2, h / 2 - cell.getHeight() / 2);
 
@@ -80,7 +74,6 @@ public class Player extends ApplicationAdapter {
 				RoomRepresentation.getWindowSize());
 
 		doorLayout = new DoorLayout(Floor.getRoom(), batch);
-
 	}
 
 	public boolean getFacingLeft(){
@@ -91,55 +84,48 @@ public class Player extends ApplicationAdapter {
 		this.facingLeft = facingLeft;
 	}
 
-
-
 	public void shoot() {
-		for (int i = 0; i < NewProjectileArrayList.size(); i++) {
-			NewProjectile p = (NewProjectile) NewProjectileArrayList.get(i);
-			if (p.isVisible()) {
-				p.update(getNewProjectilePos(p.getPosition().x, p.getPosition().y));
-			} else {
-				NewProjectileArrayList.remove(i);
-			}
-		}
 		NewProjectile proj = new NewProjectile(Math.round(cell.getX()) + 10, Math.round(cell.getY() + 10));
-		NewProjectileArrayList.add(proj);
+		int x1 = Gdx.input.getX();
+		int y1 = Gdx.input.getY();
+		Vector3 input = new Vector3(x1, y1, 0);
+		camera.unproject(input);
+
+		float dX = input.x - x;
+		float dY = input.y - y;
+		proj.setDX((float)(dX*0.1));
+		proj.setDY((float)(dY*0.1));
+		proj.create();
+		newProjectileArrayList.add(proj);
+		
 	}
 
-
+	public void bulletUpdate() {
+		for (int i = 0; i < newProjectileArrayList.size(); i++) {
+			NewProjectile p = newProjectileArrayList.get(i);
+			if (p.getPosition().x > 0 && p.getPosition().x < Floor.getRoom().getRoomXSize()
+					&& p.getPosition().y > 0 && p.getPosition().y < Floor.getRoom().getRoomYSize()) {
+				p.update();
+				batch.begin();
+				projectileSprite = new Sprite(projectileTexture, 0,0, projectileTexture.getWidth(), projectileTexture.getHeight());
+				projectileSprite.setOriginCenter();
+				projectileSprite.setPosition(p.getPosition().x, p.getPosition().y);
+				projectileSprite.draw(batch);
+				batch.end();
+				
+				for (Enemy enemy : EnemiesManager.getEnemies()) {
+					if (projectileSprite.getBoundingRectangle().overlaps(enemy.getBounds())) {
+						Gdx.app.log("SUCCESS", "YOU HAVE SHOT " + enemy.toString());
+					}
+				}
+			} else {
+				newProjectileArrayList.remove(i);
+			}
+		}
+	}
+	
 	@Override
 	public void create() {
-	}
-
-
-	private void spawnProjectile() {
-		for (NewProjectile aNewProjectileArrayList : NewProjectileArrayList) {
-			shotSound.play();
-			NewProjectile p = (NewProjectile) aNewProjectileArrayList;
-			/*shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-			shapeRenderer.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-			shapeRenderer.circle(p.getPosition().x, p.getPosition().y, 10, 5);
-			shapeRenderer.end();*/
-			batch.begin();
-			projectileSprite = new Sprite(projectileTexture, 0,0, projectileTexture.getWidth(), projectileTexture.getHeight());
-			projectileSprite.setOriginCenter();
-			projectileSprite.setPosition(p.getPosition().x, p.getPosition().y);
-			projectileSprite.draw(batch);
-			batch.end();
-
-			for (int i=0; i<EnemiesManager.getEnemies().size(); i++) {
-				Enemy enemy = EnemiesManager.getEnemies().get(i);
-				if (projectileSprite.getBoundingRectangle().overlaps(enemy.getBounds())) {
-					Gdx.app.log("SUCCESS", "YOU HAVE SHOT " + enemy.toString());
-					enemy.dispose();
-					EnemiesManager.getEnemies().remove(i);
-					System.out.println(killCount);
-					System.out.println(evolveCounter);
-				}
-
-			}
-		}
-
 	}
 
 	public int getEvolveStage() {
@@ -169,9 +155,9 @@ public class Player extends ApplicationAdapter {
 		shoot = controller.isShoot();
 		if (shoot) {
 			shoot();
-			spawnProjectile();
+			//spawnProjectile();
 		}
-
+		bulletUpdate();
 
 		final Rectangle bounds = cell.getBoundingRectangle();
 		//TODO:: Viewport if using camera? Check for screen resizing issues?
@@ -188,11 +174,6 @@ public class Player extends ApplicationAdapter {
 		float screenTop = screenBottom + screenBounds.getHeight();
 		float screenRight = screenLeft + screenBounds.getWidth();
 
-		// Room
-		int roomLeft = 0;
-		int roomRight = Floor.getRoom().getRoomXSize();
-		int roomTop = 0;
-		int roomBottom = Floor.getRoom().getRoomYSize();
 
 		x += 2 * controller.resultingMovementX();
 		y += 2 * controller.resultingMovementY();
@@ -230,15 +211,12 @@ public class Player extends ApplicationAdapter {
 	}
 	@Override
 	public void render() {
-
 		update();
 		drawDoors();
 		cell.setX(this.x + (Floor.getRoom().getPadding()));
 		cell.setY(this.y + (Floor.getRoom().getPadding()));
 		batch.begin();
 		cell.draw(batch);
-
-
 		batch.end();
 		doorLayout.checkCollision(cell);
 	}
@@ -246,17 +224,11 @@ public class Player extends ApplicationAdapter {
 	public void evolve() {
 		evolveStage++;
 		evolveSound.play();
-
-
 	}
-
-
+	
 	public void checkCollision(Sprite sprite) {
-
 		if (spriteBounds.overlaps(projectileBounds)) {
 			Gdx.app.log("Player", "COLLISION");
-
-
 		}
 	}
 
@@ -283,7 +255,6 @@ public class Player extends ApplicationAdapter {
 	public int getKillCount() {
 		return killCount;
 	}
-
 
 	public int getHealth() {
 		return health;
@@ -330,33 +301,6 @@ public class Player extends ApplicationAdapter {
 				doorLayout.draw(doorLayout.getRight(),true,true);
 			}
 		}
-	}
-
-	private Vector2 getNewProjectilePos(float positionX, float positionY) {
-		/*Vector2 position = new Vector2(positionX, positionY);
-		Vector3 mousePos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-		camera.unproject(mousePos);
-		Vector2 mousePos2 = new Vector2(mousePos.x, mousePos.y);
-		float angle = position.angle();
-		float newX = positionX + (float) (Math.sin(angle) * 5f);
-		float newY = positionY + (float) (Math.cos(angle) * 5f);
-		Vector2 output = new Vector2(newX, newY);
-		return output;*/
-
-		int x1 = Gdx.input.getX();
-		int y1 = Gdx.input.getY();
-		Vector3 input = new Vector3(x1, y1, 0);
-		camera.unproject(input);
-
-		float tX = input.x - 110;
-		float tY = input.y - 110;
-		//float mag = (float) java.lang.Math.hypot( tX, tY);
-		float mag = 5;
-		tX/=mag;
-		tY/=mag;
-		return new Vector2(tX, tY);
-
-
 	}
 
 	public void setXY(int x, int y) {
