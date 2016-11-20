@@ -127,6 +127,7 @@ public class Player extends ApplicationAdapter {
 						EnemiesManager.removeEnemy(e);
                         EnemiesManager.getPlayer().setKillCount(EnemiesManager.getPlayer().getKillCount() + 1);
                         EnemiesManager.getPlayer().setEvolveCounter(EnemiesManager.getPlayer().getEvolveCounter() + 1);
+                		Floor.dropPop();
 					}
 				}
 			} else {

@@ -5,6 +5,23 @@ public class Floor {
 	private static final int FLOOR_SIZE_X = 20;
 	private static final int FLOOR_SIZE_Y = 15;
 	private static int[][] floorArray = new int[FLOOR_SIZE_Y][FLOOR_SIZE_X];
+	private static int[][] floorArrayVisited = new 
+			int[FLOOR_SIZE_Y][FLOOR_SIZE_X];
+	public static int getVisited() {
+		return floorArrayVisited[activeY][activeX];
+	}
+	public static void dropPop() {
+		floorArrayVisited[activeY][activeX] = 
+				floorArrayVisited[activeY][activeX] - 1;
+		if (floorArrayVisited[activeY][activeX] == 0) {
+			floorArrayVisited[activeY][activeX] = -1;
+		}
+	}
+	
+	public static void populateActiveRoom(int n) {
+		floorArrayVisited[activeY][activeX] =  n;
+	}
+	
 	public static final int ENTIRE_FLOOR_GEN_ATTEMPTS = 50;
 	public static RoomRepresentation activeRoom;
 	// location in the array the active room is in

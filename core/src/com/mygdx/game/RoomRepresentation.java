@@ -113,11 +113,21 @@ public class RoomRepresentation {
 		}
 		this.id = id;
 		EnemiesManager.clearEnemies();
-		population = (int)(Math.random()*20.0);
-		for (int i=0; i<population;i++){
-			EnemiesManager.addEnemy((int)(Math.random()*250.0),(int)(Math.random()*134.0));
+		if (Floor.getVisited() > -1) {
+			if (Floor.getVisited() == 0) {
+				population = (int)(Math.random()*20.0);
+				if (population == 0) {
+					Floor.dropPop();
+				}
+			} else {
+				population = Floor.getVisited();
+			}
+			for (int i=0; i<population;i++){
+				EnemiesManager.addEnemy((int)(Math.random()*250.0),
+						(int)(Math.random()*134.0));
+			}
 		}
-
+		Floor.populateActiveRoom(population);
 		if (prevRoom != null) {
 			switch (prevRoom) {
 			case UP:
