@@ -48,7 +48,7 @@ public class Player extends ApplicationAdapter {
 		float h = Gdx.graphics.getHeight();
 
 		cell = new Sprite(cellTexture, 0,0, 32, 32);
-		cell.scale(5.0f);
+		cell.scale(2.0f);
 		cell.setOriginCenter();
 		cell.setPosition(w/2 -cell.getWidth()/2, h/2 - cell.getHeight()/2);
 
@@ -58,6 +58,8 @@ public class Player extends ApplicationAdapter {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, RoomRepresentation.getWindowSize(),
 				RoomRepresentation.getWindowSize());
+
+		doorLayout = new DoorLayout(Floor.getRoom(), batch);
 		
 	}
 	
@@ -102,7 +104,7 @@ public class Player extends ApplicationAdapter {
 		x += 2*controller.resultingMovementX();
 		y += 2*controller.resultingMovementY();
 		System.out.println(x);
-		System.out.println(y)
+		System.out.println(y);
 
 		if (x < 0) {
 			x = 0;
@@ -129,20 +131,12 @@ public class Player extends ApplicationAdapter {
 		
 		//y = Math.min(roomBottom, Math.max(y-yBoundOffset,roomTop)
 		//		+2*yBoundOffset)-yBoundOffset;
-	
-		// debug only
-		box.begin(ShapeType.Filled);
-		box.setColor(1, 1, 0, 1);
-		//System.out.print(roomRight);
-		box.rect(Floor.getRoom().getPadding() + roomLeft, 
-				Floor.getRoom().getPadding() + roomTop, 
-				 roomRight-roomLeft, roomBottom-roomTop);
-		box.end();
 	}
 	
 	@Override
 	public void render() {
 		update();
+		drawDoors();
 		cell.setX(this.x+(Floor.getRoom().getPadding()));
 		cell.setY(this.y+(Floor.getRoom().getPadding()));
 		batch.begin();
@@ -156,11 +150,7 @@ public class Player extends ApplicationAdapter {
 		}
 		 
 		batch.end();
-		// debug only
-		box.begin(ShapeType.Filled);
-		box.setColor(1, 0, 1, 1);
-		box.rect(0, 0, 4, 4);
-		box.end();
+		doorLayout.checkCollision(cell);
 	}
 	
 	@Override
