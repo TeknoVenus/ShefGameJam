@@ -14,4 +14,4 @@ Use WASD or arrow keys to move around and between rooms. The map is procedually 
 ## Build Instructions
 Libgdx projects use Gradle to manage dependencies, the build process, and IDE integration. To open RogueCell in your IDE of choice, simply clone this repo and follow the detailed instructions over on the [Libgdx Wiki](https://github.com/libgdx/libgdx/wiki/Setting-up-your-Development-Environment-%28Eclipse%2C-Intellij-IDEA%2C-NetBeans%29). 
 
-To build a distributable .jar file, simply run `gradlew desktop:dist`. This will produce the file in the `\desktop\build\libs` directory.
+To build a distributable .jar file, simply run `gradlew desktop:dist`. Gradlew is included in the root of the project. This will produce the file in the `\desktop\build\libs` directory.
